@@ -2595,7 +2595,8 @@ function coletarCaixas() {
         const afetacao = afetacaoCheckbox ? afetacaoCheckbox.checked : false;
         const afetacaoQtd = document.getElementById(`${id}-afetacao-qtd-${num}`)?.value || '';
         
-        if (cod || desc) r[id].push({ codigo: cod, desc: desc, status: status, equipe: equipe, afetacao: afetacao, afetacaoQtd: afetacaoQtd });
+        // Salva sempre — mesmo vazio, para restaurar caixas abertas sem preenchimento
+        r[id].push({ codigo: cod, desc: desc, status: status, equipe: equipe, afetacao: afetacao, afetacaoQtd: afetacaoQtd });
       });
     }
   });
