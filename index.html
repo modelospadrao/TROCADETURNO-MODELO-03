@@ -1073,7 +1073,7 @@ function tentarLogin() {
 
 function iniciarSistemaAposLogin() {
   carregarConfiguracoes();
-  const sessaoSalva = localStorage.getItem('troca_turno_sessao');
+  const sessaoSalva = localStorage.getItem(KEY_SESSAO);
   if (sessaoSalva) {
     document.getElementById('restore-popup').style.display = 'block';
   } else {
@@ -1113,6 +1113,11 @@ async function carregarDadosExternos() {
 // VARIÁVEIS GLOBAIS
 // ============================================
 let globalTimerStart = null, globalTimerInterval = null, autoSaveInterval = null;
+// Chaves únicas por repositório — usa o pathname da URL para diferenciar instâncias no mesmo domínio
+const _sfx = location.pathname.replace(/\//g,'_').replace(/\.html$/,'').replace(/^_/,'') || 'default';
+const KEY_SESSAO    = 'troca_turno_sessao_'    + _sfx;
+const KEY_CORES     = 'troca_turno_cores_'     + _sfx;
+const KEY_NAVEGACAO = 'troca_turno_navegacao_' + _sfx;
 let equipeCount = 0, operadorAnterior = null;
 let estados = {}, modoNoturno = false, sessaoImportada = false, dadosImportados = null;
 let detalhesPendentes = {}, itemAtualDetalhe = null, configCores = {};
@@ -1193,7 +1198,7 @@ function restaurarSessaoCache() {
   document.getElementById('clickOverlay').style.display = 'none';
   enableAllInteractive();
   
-  const sessao = JSON.parse(localStorage.getItem('troca_turno_sessao'));
+  const sessao = JSON.parse(localStorage.getItem(KEY_SESSAO));
   if (sessao) {
     carregarDadosCompletos(sessao);
     globalTimerStart = sessao.timerStart || Date.now();
@@ -1209,7 +1214,7 @@ function restaurarSessaoCache() {
 }
 
 function iniciarDoZeroNovo() {
-  localStorage.removeItem('troca_turno_sessao');
+  localStorage.removeItem(KEY_SESSAO);
   document.getElementById('restore-popup').style.display = 'none';
   iniciarDoZero();
 }
@@ -1282,7 +1287,7 @@ function abrirImportacao() {
 
 function voltarInicio() {
   document.getElementById('import-popup').style.display = 'none';
-  const sessaoSalva = localStorage.getItem('troca_turno_sessao');
+  const sessaoSalva = localStorage.getItem(KEY_SESSAO);
   if (sessaoSalva) {
     document.getElementById('restore-popup').style.display = 'block';
   } else {
@@ -1411,23 +1416,23 @@ function carregarDadosImportados(d) {
 
 // Restaura estados na IMPORTAÇÃO - apenas SIM são restaurados, NÃO volta para SIM/NÃO
 function restaurarEstadosBotoesImportacao() {
-  for (let id in estados) {
+  const todosItens = ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','poste-mt','poste-bt','trafo-queimado','sobreaviso'];
+  todosItens.forEach(id => {
     const v = estados[id];
-    if (v !== 'sim') continue; // Só processa SIM
-    
     const bc = document.getElementById('btns-' + id);
-    const c = document.getElementById('campos-' + id);
-    
-    if (!bc) continue;
-    
-    // Oculta botões SIM/NÃO
-    bc.querySelectorAll('.btn-resposta').forEach(b => {
-      b.style.display = 'none';
-    });
-    
-    // Mostra campos (REMOVER TODAS, +ADD, contador)
-    if (c) c.classList.add('visible');
-  }
+    const c  = document.getElementById('campos-' + id);
+    if (!bc) return;
+
+    if (v === 'sim') {
+      // SIM: oculta botões, mostra campos
+      bc.querySelectorAll('.btn-resposta').forEach(b => { b.style.display = 'none'; b.classList.remove('selecionado'); });
+      if (c) c.classList.add('visible');
+    } else {
+      // NÃO ou sem estado: restaura SIM/NÃO limpos, sem seleção
+      bc.querySelectorAll('.btn-resposta').forEach(b => { b.style.display = ''; b.classList.remove('selecionado'); });
+      if (c) c.classList.remove('visible');
+    }
+  });
 }
 
 // Restaura caixas na IMPORTAÇÃO - sempre marca como NÃO REVISADO (só para itens SIM)
@@ -1674,16 +1679,16 @@ function aplicarTodasCores() {
 }
 
 function salvarConfiguracoes() { 
-  localStorage.setItem('troca_turno_cores', JSON.stringify(configCores)); 
-  localStorage.setItem('troca_turno_navegacao', navegacaoAtiva ? '1' : '0');
+  localStorage.setItem(KEY_CORES, JSON.stringify(configCores)); 
+  localStorage.setItem(KEY_NAVEGACAO, navegacaoAtiva ? '1' : '0');
   mostrarNotificacao('✅ Configurações salvas!'); 
   fecharPopup('config-popup'); 
 }
 
 function carregarConfiguracoes() { 
-  const s = localStorage.getItem('troca_turno_cores'); 
+  const s = localStorage.getItem(KEY_CORES); 
   if (s) { configCores = JSON.parse(s); aplicarTodasCores(); }
-  const nav = localStorage.getItem('troca_turno_navegacao');
+  const nav = localStorage.getItem(KEY_NAVEGACAO);
   navegacaoAtiva = nav !== '0';
 }
 
@@ -1691,7 +1696,7 @@ function resetarCores() {
   configCores = {};
   const c = { dados: '#1a73e8', contagem: '#009688', equipes: '#4caf50', pendencias: '#ff9800', servicos: '#9c27b0', ocorrencias: '#e91e63', preview: '#607d8b' };
   for (let t in c) { document.getElementById('cor-' + t).value = c[t]; aplicarCor(t, c[t]); }
-  localStorage.removeItem('troca_turno_cores');
+  localStorage.removeItem(KEY_CORES);
   mostrarNotificacao('🔄 Cores resetadas!');
 }
 
@@ -2205,10 +2210,18 @@ function restaurarEstadosBotoes() {
     const v = estados[id], bc = document.getElementById('btns-' + id), c = document.getElementById('campos-' + id), d = document.getElementById('desfazer-' + id);
     if (!bc) continue;
     bc.querySelectorAll('.btn-resposta').forEach(b => {
-      if ((b.classList.contains('btn-sim') && v === 'sim') || (b.classList.contains('btn-nao') && v === 'nao')) b.classList.add('selecionado');
-      b.style.display = 'none'; // Oculta todos os botões
+      if (b.classList.contains('btn-sim') && v === 'sim') {
+        b.classList.add('selecionado');
+        b.style.display = 'none';
+      } else if (b.classList.contains('btn-nao') && v === 'nao') {
+        b.classList.add('selecionado');
+        b.style.display = ''; // mantém NÃO visível na sessão própria
+      } else if (b.classList.contains('btn-sim') && v === 'nao') {
+        b.style.display = 'none'; // oculta SIM quando estado é NÃO
+      } else {
+        b.style.display = 'none';
+      }
     });
-    // Só mostra desfazer se for NÃO
     if (d && v === 'nao') d.classList.add('visible');
     if (c && v === 'sim') c.classList.add('visible');
   }
@@ -2484,7 +2497,7 @@ function salvarSessaoAuto() {
   d.operadorAnterior = operadorAnterior;
   d.estados = JSON.parse(JSON.stringify(estados));
   d.detalhesPendentes = JSON.parse(JSON.stringify(detalhesPendentes));
-  localStorage.setItem('troca_turno_sessao', JSON.stringify(d));
+  localStorage.setItem(KEY_SESSAO, JSON.stringify(d));
   
   const o = document.getElementById('operador').value.trim();
   if (o) {
@@ -3236,7 +3249,7 @@ function resetarTurno() {
 }
 
 function confirmarReset() {
-  localStorage.removeItem('troca_turno_sessao');
+  localStorage.removeItem(KEY_SESSAO);
   location.reload();
 }
 
