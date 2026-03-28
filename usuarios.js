@@ -44,7 +44,6 @@ const USUARIOS_SISTEMA = [
   { usuario: '2044', senha: '2044', nome: 'Jose' },
   { usuario: '9001', senha: '9001', nome: 'Kellyo' },
   { usuario: '0457', senha: '0457', nome: 'Lucas' },
-  { usuario: '4059', senha: '4059', nome: 'Letycia' },
   { usuario: '0214', senha: '0214', nome: 'Matheus' },
   { usuario: '9020', senha: '9020', nome: 'Medeiros' },
   { usuario: '7019', senha: '7019', nome: 'Muniz' },
@@ -61,8 +60,8 @@ const USUARIOS_SISTEMA = [
   { usuario: '9344', senha: '9344', nome: 'Thais' },
   { usuario: '8342', senha: '8342', nome: 'Valter' },
   { usuario: '9131', senha: '9131', nome: 'Viana' },
-  { usuario: '1888', senha: '1888', nome: 'Vinicius' },
-  { usuario: '6713', senha: '6713', nome: 'Vitorino' },
+  { usuario: '9356', senha: '9356', nome: 'Vanessa' },
+  { usuario: '9356', senha: '6357', nome: 'Vaneska' },
   { usuario: '3991', senha: '3991', nome: 'Willian' },
   { usuario: '9354', senha: '9354', nome: 'Yasmin' },
   { usuario: '0515', senha: '0515', nome: 'Zildência'}
