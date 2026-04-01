@@ -124,8 +124,11 @@
     #global-clock { position: fixed; top: 8px; left: 8px; font-size: 15px; font-family: 'Courier New', monospace; color: #fff; background: #000; padding: 5px 10px; border-radius: 8px; z-index: 1001; display: none; }
     #auto-save-indicator { position: fixed; top: 40px; left: 8px; font-size: 10px; color: #4caf50; background: rgba(0,0,0,0.8); padding: 3px 8px; border-radius: 4px; z-index: 1001; display: none; }
     
-    #btn-config { position: fixed; top: 8px; right: 8px; background: #333; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; z-index: 1001; }
+    #btn-config { background: #333; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
     #btn-config:hover { background: #555; }
+    #btn-reiniciar-topo { background: #c62828; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+    #btn-reiniciar-topo:hover { background: #e53935; }
+    #barra-topo-botoes { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 5px; }
     
     input[type="text"], input[type="date"], input[type="number"], input[type="tel"], select {
       padding: 8px; margin: 3px 0; font-size: 13px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; text-transform: uppercase; box-sizing: border-box;
@@ -311,17 +314,16 @@
     .area-dropdown .dropdown-item:hover { background: #e3f2fd; color: #1565c0; }
     
     .btn-acao { border: none; padding: 10px 18px; margin: 3px; font-size: 12px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: all 0.2s; }
-    .btn-finalizar { background: linear-gradient(135deg, #1a73e8, #0d47a1); color: #fff; padding: 12px 30px; font-size: 14px; }
-    .btn-finalizar:hover { transform: scale(1.02); }
-    .btn-whatsapp { background: #25D366; color: #fff; }
-    .btn-limpar { background: #f44336; color: #fff; }
+    .btn-finalizar { background: linear-gradient(135deg, #4CAF50, #2E7D32); color: #fff; padding: 15px 35px; font-size: 16px; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); }
+    .btn-finalizar:hover { transform: scale(1.03); box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5); }
     .btn-adicionar { background: #4caf50; color: #fff; }
     .btn-modo { background: #333; color: #fff; font-size: 11px; padding: 6px 12px; }
-    .btn-copiar { background: #2196F3; color: #fff; font-size: 11px; padding: 6px 12px; }
+    .btn-copiar { background: #2196F3; color: #fff; font-size: 12px; padding: 8px 14px; }
+    .btn-copiar:disabled { background: #888; cursor: not-allowed; opacity: 0.5; }
     
     #reset-button { background: #000; color: #fff; border: none; padding: 10px 25px; font-size: 14px; border-radius: 20px; cursor: pointer; display: block; margin: 15px auto; font-family: 'Courier New', monospace; font-style: italic; }
     
-    .preview-box { background: #fff; color: #000; border: 1px solid #ccc; padding: 12px; border-radius: 6px; white-space: pre-wrap; font-family: monospace; font-size: 11px; min-height: 120px; cursor: default; }
+    .preview-box { background: #fff; color: #000; border: 1px solid #ccc; padding: 12px; border-radius: 6px; white-space: pre-wrap; font-family: monospace; font-size: 11px; min-height: 120px; cursor: default; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
     .preview-box.modo-noturno { background: #000; color: #fff; border: none; }
     .preview-box.navegavel { cursor: pointer; }
     .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 5px; }
@@ -330,6 +332,27 @@
     .popup-buttons { display: flex; justify-content: center; gap: 12px; margin-top: 15px; flex-wrap: wrap; }
     .popup-buttons button { padding: 10px 25px; font-size: 13px; border-radius: 6px; cursor: pointer; border: none; font-weight: bold; }
     .popup .yes-button { background: #4CAF50; color: #fff; }
+    
+    /* Botões de opção do início */
+    .btn-opcao-inicio { 
+      background: #555 !important; 
+      color: #fff !important; 
+      padding: 15px 20px !important; 
+      display: flex !important; 
+      flex-direction: column !important; 
+      align-items: center !important; 
+      gap: 5px !important;
+      width: 100% !important;
+      transition: background 0.3s, transform 0.1s !important;
+    }
+    .btn-opcao-inicio:hover { background: #666 !important; }
+    .btn-opcao-inicio:active { background: #444 !important; transform: scale(0.98); }
+    .btn-descricao { 
+      font-size: 10px; 
+      font-weight: normal; 
+      opacity: 0.8; 
+      margin-top: 3px;
+    }
     .popup .no-button { background: #f44336; color: #fff; }
     .popup .import-button { background: #9C27B0; color: #fff; }
     .popup .restore-button { background: #2196F3; color: #fff; }
@@ -437,13 +460,40 @@
     </div>
   </div>
 
+  <div id="confirmar-iniciar-popup" class="popup">
+    <p style="font-size: 18px;">⚠️ <strong>INICIAR NOVO PREENCHIMENTO?</strong></p>
+    <p>Tem certeza que deseja iniciar do zero?<br><span style="color: #ff6b6b; font-size: 12px;">Todos os dados anteriores serão apagados!</span></p>
+    <div class="popup-buttons">
+      <button class="yes-button" onclick="executarIniciarNovo()">✓ SIM, INICIAR NOVO</button>
+      <button class="no-button" onclick="cancelarIniciarNovo()">✕ CANCELAR</button>
+    </div>
+  </div>
+
+  <div id="confirmar-finalizar-popup" class="popup">
+    <p style="font-size: 18px;">📤 <strong>FINALIZAR E EXPORTAR TURNO?</strong></p>
+    <p>Será gerado o PDF e o arquivo para o próximo operador.<br><span style="color: #4CAF50; font-size: 12px;">Certifique-se de que todos os dados estão corretos!</span></p>
+    <div class="popup-buttons">
+      <button class="yes-button" onclick="executarFinalizarTurno()">✓ SIM, FINALIZAR</button>
+      <button class="no-button" onclick="fecharPopup('confirmar-finalizar-popup')">✕ CANCELAR</button>
+    </div>
+  </div>
+
   <div id="restore-popup" class="popup">
     <p style="font-size: 18px;">💾 <strong>SESSÃO ENCONTRADA!</strong></p>
     <p>Existe uma sessão salva. O que deseja fazer?</p>
-    <div class="popup-buttons">
-      <button class="restore-button" onclick="restaurarSessaoCache()">🔄 CONTINUAR SESSÃO</button>
-      <button class="yes-button" onclick="iniciarDoZeroNovo()">🆕 INICIAR NOVA</button>
-      <button class="import-button" onclick="abrirImportacaoRestore()">📥 IMPORTAR</button>
+    <div class="popup-buttons" style="flex-direction: column; gap: 10px;">
+      <button class="btn-opcao-inicio" onclick="restaurarSessaoCache()">
+        <span style="font-size: 24px;">🔄</span> CONTINUAR SESSÃO (RECUPERAR PREENCHIMENTO)
+        <span class="btn-descricao">Retoma o preenchimento salvo neste computador</span>
+      </button>
+      <button class="btn-opcao-inicio" onclick="confirmarIniciarNovo('restore')">
+        <span style="font-size: 24px;">🆕</span> INICIAR PREENCHIMENTO (NOVO)
+        <span class="btn-descricao">Inicia do zero, apagando dados anteriores</span>
+      </button>
+      <button class="btn-opcao-inicio" onclick="abrirImportacaoRestore()">
+        <span style="font-size: 24px;">📥</span> ASSUMIR TURNO (IMPORTAR)
+        <span class="btn-descricao">Importa a sessão do operador que passou o turno</span>
+      </button>
     </div>
   </div>
 
@@ -451,14 +501,19 @@
   <div id="body-popup" onclick="this.style.display='none';">⚠️ Campos bloqueados! Use "REINICIAR TURNO".</div>
   <div id="global-clock">00:00</div>
   <div id="auto-save-indicator">💾 Salvo</div>
-  <button id="btn-config" onclick="abrirConfiguracoes()" data-tooltip="Configurações">⚙️ TEMA</button>
   
   <div id="inicio-popup" class="popup">
     <p style="font-size: 20px;">🔄 <strong>TROCA DE TURNO</strong></p>
     <p>O que deseja fazer?</p>
-    <div class="popup-buttons">
-      <button class="yes-button" onclick="iniciarDoZero()">🆕 INICIAR DO ZERO</button>
-      <button class="import-button" onclick="abrirImportacao()">📥 IMPORTAR SESSÃO</button>
+    <div class="popup-buttons" style="flex-direction: column; gap: 10px;">
+      <button class="btn-opcao-inicio" onclick="confirmarIniciarNovo('inicio')">
+        <span style="font-size: 24px;">🆕</span> INICIAR PREENCHIMENTO (NOVO)
+        <span class="btn-descricao">Inicia do zero uma nova sessão</span>
+      </button>
+      <button class="btn-opcao-inicio" onclick="abrirImportacao()">
+        <span style="font-size: 24px;">📥</span> ASSUMIR TURNO (IMPORTAR)
+        <span class="btn-descricao">Importa a sessão do operador que passou o turno</span>
+      </button>
     </div>
   </div>
   
@@ -535,6 +590,12 @@
   <input type="file" id="importarArquivo" accept=".json" onchange="processarImportacao(this.files[0])">
   
   <div class="container" id="main-container">
+    <!-- Barra de botões no topo (não acompanha scroll) -->
+    <div id="barra-topo-botoes">
+      <button id="btn-reiniciar-topo" onclick="resetarTurno()" data-tooltip="Reiniciar formulário">🔄 REINICIAR</button>
+      <button id="btn-config" onclick="abrirConfiguracoes()" data-tooltip="Configurações">⚙️ TEMA</button>
+    </div>
+    
     <h2 style="text-align: center; color: #1a73e8; margin: 5px 0; font-size: 20px;">🔄 RELATÓRIO DE TROCA DE TURNO</h2>
     <p style="text-align: center; color: #666; margin: 0 0 10px 0; font-size: 11px;">(Versão 6.3)</p>
     
@@ -995,7 +1056,7 @@
         <div class="preview-header">
           <span style="font-size:11px; color:#666;">Clique na mensagem para navegar</span>
           <div>
-            <button class="btn-acao btn-copiar" onclick="copiarMensagem()" data-tooltip="Copiar mensagem">📋 COPIAR</button>
+            <button id="btn-copiar" class="btn-acao btn-copiar" onclick="copiarMensagem()" data-tooltip="Disponível após exportar" disabled><span style="font-size: 18px;">📋</span> COPIAR</button>
             <button id="btn-formato-equipe" class="btn-acao btn-modo" onclick="toggleFormatoEquipe()" data-tooltip="Alternar formato das equipes" style="font-size:11px; padding:6px 12px; background:#2e7d32;">ATIVAR QUEBRAS EQUIPES</button>
             <button id="btn-quebra-pendencias" class="btn-acao btn-modo" onclick="toggleQuebraPendencias()" data-tooltip="Quebra de linha entre pendências" style="font-size:11px; padding:6px 12px; background:#607d8b;">COMPACTAR PENDÊNCIAS</button>
             <button class="btn-acao btn-modo" onclick="toggleModoNoturno()" data-tooltip="Alternar tema">🌙 Noturno</button>
@@ -1006,13 +1067,9 @@
     </div>
     
     <div style="text-align: center; margin: 15px 0;">
-      <button class="btn-acao btn-finalizar" onclick="finalizarTurno()" data-tooltip="Gera PDF e exporta sessão">REALIZAR TROCA DE TURNO</button>
-      <br><br>
-      <button class="btn-acao btn-whatsapp" onclick="enviarWhatsApp()" data-tooltip="Enviar pelo WhatsApp">📱 WHATSAPP</button>
-      <button class="btn-acao btn-limpar" onclick="limparPreview()" data-tooltip="Limpar preview">🗑️ LIMPAR</button>
+      <button class="btn-acao btn-finalizar" onclick="confirmarFinalizarTurno()" data-tooltip="Gera PDF e exporta sessão para o próximo operador"><span style="font-size: 24px;">📤</span> FINALIZAR TURNO (EXPORTAR)</button>
     </div>
     
-    <button id="reset-button" onclick="resetarTurno()" data-tooltip="Reiniciar formulário">🔄 REINICIAR PÁGINA!</button>
   </div>
   
   <p style="text-align: center; font-style: italic; font-family: 'Courier New', Courier, monospace; margin-top: 80px;">
@@ -1161,7 +1218,7 @@ function fecharTodosDropdowns() {
 
 function disableAllInteractive() {
   document.querySelectorAll('input, button, select, textarea').forEach(e => {
-    if (e.closest('.popup') || e.closest('#login-overlay') || e.closest('#popup-lgpd') || e.id === 'reset-button' || e.id === 'importarArquivo' || e.id === 'btn-config') return;
+    if (e.closest('.popup') || e.closest('#login-overlay') || e.closest('#popup-lgpd') || e.id === 'reset-button' || e.id === 'importarArquivo' || e.id === 'btn-config' || e.id === 'btn-reiniciar-topo') return;
     e.disabled = true;
   });
 }
@@ -1198,6 +1255,9 @@ function restaurarSessaoCache() {
   document.getElementById('clickOverlay').style.display = 'none';
   enableAllInteractive();
   
+  // Desabilita botão COPIAR (só habilita após exportar)
+  desabilitarBotaoCopiar();
+  
   const sessao = JSON.parse(localStorage.getItem(KEY_SESSAO));
   if (sessao) {
     carregarDadosCompletos(sessao);
@@ -1224,10 +1284,57 @@ function abrirImportacaoRestore() {
   document.getElementById('import-popup').style.display = 'block';
 }
 
+// Variável para saber de qual popup veio a confirmação
+let origemConfirmarIniciar = null;
+
+function confirmarIniciarNovo(origem) {
+  origemConfirmarIniciar = origem;
+  if (origem === 'restore') {
+    document.getElementById('restore-popup').style.display = 'none';
+  } else {
+    document.getElementById('inicio-popup').style.display = 'none';
+  }
+  document.getElementById('confirmar-iniciar-popup').style.display = 'block';
+}
+
+function executarIniciarNovo() {
+  document.getElementById('confirmar-iniciar-popup').style.display = 'none';
+  if (origemConfirmarIniciar === 'restore') {
+    iniciarDoZeroNovo();
+  } else {
+    iniciarDoZero();
+  }
+  origemConfirmarIniciar = null;
+}
+
+function cancelarIniciarNovo() {
+  document.getElementById('confirmar-iniciar-popup').style.display = 'none';
+  // Volta para o popup de origem
+  if (origemConfirmarIniciar === 'restore') {
+    document.getElementById('restore-popup').style.display = 'block';
+  } else {
+    document.getElementById('inicio-popup').style.display = 'block';
+  }
+  origemConfirmarIniciar = null;
+}
+
+function confirmarFinalizarTurno() {
+  document.getElementById('confirmar-finalizar-popup').style.display = 'block';
+}
+
+function executarFinalizarTurno() {
+  document.getElementById('confirmar-finalizar-popup').style.display = 'none';
+  finalizarTurno();
+}
+
 function iniciarDoZero() {
   document.getElementById('inicio-popup').style.display = 'none';
   document.getElementById('clickOverlay').style.display = 'none';
   enableAllInteractive();
+  
+  // Desabilita botão COPIAR (só habilita após exportar)
+  desabilitarBotaoCopiar();
+  
   document.getElementById('global-clock').style.display = 'block';
   globalTimerStart = Date.now();
   globalTimerInterval = setInterval(atualizarRelogio, 1000);
@@ -1316,6 +1423,10 @@ function confirmarImportacao() {
   document.getElementById('confirmar-popup').style.display = 'none';
   document.getElementById('clickOverlay').style.display = 'none';
   enableAllInteractive();
+  
+  // Desabilita botão COPIAR (só habilita após exportar)
+  desabilitarBotaoCopiar();
+  
   document.getElementById('global-clock').style.display = 'block';
   globalTimerStart = Date.now();
   globalTimerInterval = setInterval(atualizarRelogio, 1000);
@@ -3075,6 +3186,25 @@ function navegarPorClique(event) {
   }
 }
 // ============================================
+// CONTROLE DO BOTÃO COPIAR
+// ============================================
+function desabilitarBotaoCopiar() {
+  const btn = document.getElementById('btn-copiar');
+  if (btn) {
+    btn.disabled = true;
+    btn.setAttribute('data-tooltip', 'Disponível após exportar');
+  }
+}
+
+function habilitarBotaoCopiar() {
+  const btn = document.getElementById('btn-copiar');
+  if (btn) {
+    btn.disabled = false;
+    btn.setAttribute('data-tooltip', 'Copiar mensagem');
+  }
+}
+
+// ============================================
 // COPIAR MENSAGEM
 // ============================================
 function copiarMensagem() {
@@ -3233,7 +3363,11 @@ function finalizarTurno() {
     a.download = bn + '.json';
     a.click();
     URL.revokeObjectURL(u);
-    mostrarNotificacao('✅ Turno finalizado!');
+    
+    // Habilita o botão COPIAR após exportar
+    habilitarBotaoCopiar();
+    
+    mostrarNotificacao('✅ Turno finalizado! Botão COPIAR liberado.');
   }
 }
 
