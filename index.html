@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TROCA DE TURNO v6.3</title>
+  <title>TROCA DE TURNO v7.0</title>
   <link rel="icon" href="turno.png" type="image/png">
   <script src="usuarios.js"></script>
   <script src="horarios.js"></script>
@@ -140,7 +140,7 @@
     .section-header:hover { filter: brightness(1.1); }
     .section-toggle { font-size: 16px; transition: transform 0.3s; }
     .section-toggle.collapsed { transform: rotate(-90deg); }
-    .section-content { padding: 12px; transition: max-height 0.3s ease; overflow: visible; }
+    .section-content { padding: 12px; transition: max-height 0.3s ease; overflow: visible; background: #d3e3fd; }
     .section-content.collapsed { max-height: 0 !important; padding: 0 12px; overflow: hidden; }
     
     .section-contagem { border-color: var(--cor-contagem); }
@@ -182,6 +182,7 @@
     
     .section-pendencias { border-color: var(--cor-pendencias); }
     .section-pendencias .section-header { background: var(--cor-pendencias); }
+    .section-pendencias .section-content { background: #d3e3fd; }
     .section-sobreaviso { border-color: #9c27b0; }
     .section-sobreaviso .section-header { background: #9c27b0; }
     .section-equipes { border-color: var(--cor-equipes); z-index: 50; }
@@ -193,7 +194,7 @@
     
     #section-dados { z-index: 60; }
     
-    .item-box { background: #fafafa; padding: 8px 10px; margin: 6px 0; border-radius: 5px; border: 2px solid #000000; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .item-box { background: #fafafa; padding: 8px 10px; margin: 6px 0; border-radius: 8px; border: 1px solid #a4a4a4; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
     .item-box.box-erro { border-color: #f44336; animation: pulseBoxErro 1s infinite; }
     @keyframes pulseBoxErro { 0%, 100% { border-color: #f44336; box-shadow: 0 0 5px rgba(244, 67, 54, 0.5); } 50% { border-color: #ff7961; box-shadow: 0 0 15px rgba(244, 67, 54, 0.8); } }
     .item-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
@@ -238,6 +239,7 @@
     
     /* Dropdown de equipe */
     .caixa-item select.equipe-select { padding: 6px 8px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; min-width: 100px; max-width: 130px; }
+    .caixa-item select.tipo-pesada-select { padding: 6px 8px; font-size: 12px; border: 1px solid #ff9800; border-radius: 4px; background: #fff3e0; min-width: 80px; max-width: 100px; font-weight: bold; }
     
     /* Checkbox e campo de afetação */
     .afetacao-container { display: flex; align-items: center; gap: 4px; }
@@ -249,8 +251,8 @@
     .caixa-item input.input-erro { background: #ffcdd2; border-color: #f44336; animation: pulseInputErro 1s infinite; }
     @keyframes pulseInputErro { 0%, 100% { background: #ffcdd2; } 50% { background: #ffebee; } }
     
-    .btn-remove-item-ext { background: #f44336; color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .btn-remove-item-ext:hover { background: #d32f2f; }
+    .btn-remove-item-ext, .btn-remover-item { background: #f44336; color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .btn-remove-item-ext:hover, .btn-remover-item:hover { background: #d32f2f; }
     
     /* Botão toggle PENDENTE/RESOLVIDO */
     .btn-toggle-status { padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; min-width: 90px; transition: all 0.2s; }
@@ -317,14 +319,18 @@
     .btn-finalizar { background: linear-gradient(135deg, #4CAF50, #2E7D32); color: #fff; padding: 15px 35px; font-size: 16px; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); }
     .btn-finalizar:hover { transform: scale(1.03); box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5); }
     .btn-adicionar { background: #4caf50; color: #fff; }
-    .btn-modo { background: #333; color: #fff; font-size: 11px; padding: 6px 12px; }
-    .btn-copiar { background: #2196F3; color: #fff; font-size: 12px; padding: 8px 14px; }
+    .btn-modo { background: #333; color: #fff; font-size: 11px; padding: 8px 12px; height: 36px; display: inline-flex; align-items: center; justify-content: center; }
+    .btn-copiar { background: #2196F3; color: #fff; font-size: 12px; padding: 8px 14px; height: 36px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
     .btn-copiar:disabled { background: #888; cursor: not-allowed; opacity: 0.5; }
     
     #reset-button { background: #000; color: #fff; border: none; padding: 10px 25px; font-size: 14px; border-radius: 20px; cursor: pointer; display: block; margin: 15px auto; font-family: 'Courier New', monospace; font-style: italic; }
     
     .preview-box { background: #fff; color: #000; border: 1px solid #ccc; padding: 12px; border-radius: 6px; white-space: pre-wrap; font-family: monospace; font-size: 11px; min-height: 120px; cursor: default; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+    .preview-box .titulo-secao { color: #e53935; font-weight: bold; }
+    .preview-box .contagem-pendencia { color: #e53935; font-weight: bold; }
     .preview-box.modo-noturno { background: #000; color: #fff; border: none; }
+    .preview-box.modo-noturno .titulo-secao { color: #ff6b6b; }
+    .preview-box.modo-noturno .contagem-pendencia { color: #ff6b6b; }
     .preview-box.navegavel { cursor: pointer; }
     .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 5px; }
     
@@ -597,7 +603,7 @@
     </div>
     
     <h2 style="text-align: center; color: #1a73e8; margin: 5px 0; font-size: 20px;">🔄 RELATÓRIO DE TROCA DE TURNO</h2>
-    <p style="text-align: center; color: #666; margin: 0 0 10px 0; font-size: 11px;">(Versão 6.3)</p>
+    <p style="text-align: center; color: #666; margin: 0 0 10px 0; font-size: 11px;">(Versão 7.0)</p>
     
     <div id="sessao-info" class="sessao-info" style="display: none;"><strong>📍 Sessão Atual:</strong> <span id="sessao-operador-info"></span></div>
     
@@ -975,56 +981,39 @@
           </div>
           <div class="caixas-dinamicas" id="caixas-religador"></div>
         </div>
-        <div class="item-box" id="box-poste-mt">
+        <div class="item-box" id="box-ocorrencias-pesadas">
           <div class="item-header">
-            <span class="item-title">Poste MT Abalroado</span>
-            <div class="btn-group" id="btns-poste-mt">
-              <button class="btn-resposta btn-sim" onclick="abrirPopupQtd('poste-mt', this)">SIM</button>
-              <button class="btn-resposta btn-nao" onclick="selecionarNao('poste-mt', this)">NÃO</button>
-              <button class="btn-desfazer" id="desfazer-poste-mt" onclick="desfazerItem('poste-mt')">✕</button>
+            <span class="item-title">Ocorrências Pesadas</span>
+            <div class="btn-group" id="btns-ocorrencias-pesadas">
+              <button class="btn-resposta btn-sim" onclick="abrirPopupQtd('ocorrencias-pesadas', this)">SIM</button>
+              <button class="btn-resposta btn-nao" onclick="selecionarNao('ocorrencias-pesadas', this)">NÃO</button>
+              <button class="btn-desfazer" id="desfazer-ocorrencias-pesadas" onclick="desfazerItem('ocorrencias-pesadas')">✕</button>
             </div>
-            <div class="campos-inline" id="campos-poste-mt">
-              <button class="btn-remover-todas" onclick="removerTodasPendencias('poste-mt')">REMOVER TODAS</button>
-              <button class="btn-adicionar-item" onclick="adicionarPendencia('poste-mt')">+ADD</button>
-              <input type="text" id="poste-mt-qtd" class="qtd-readonly" value="0" readonly>
-              <input type="hidden" id="poste-mt-obs" value="">
+            <div class="campos-inline" id="campos-ocorrencias-pesadas">
+              <button class="btn-remover-todas" onclick="removerTodasPendencias('ocorrencias-pesadas')">REMOVER TODAS</button>
+              <button class="btn-adicionar-item" onclick="adicionarPendencia('ocorrencias-pesadas')">+ADD</button>
+              <input type="text" id="ocorrencias-pesadas-qtd" class="qtd-readonly" value="0" readonly>
+              <input type="hidden" id="ocorrencias-pesadas-obs" value="">
             </div>
           </div>
-          <div class="caixas-dinamicas" id="caixas-poste-mt"></div>
+          <div class="caixas-dinamicas" id="caixas-ocorrencias-pesadas"></div>
         </div>
-        <div class="item-box" id="box-poste-bt">
+        <div class="item-box" id="box-condutores-furtados">
           <div class="item-header">
-            <span class="item-title">Poste BT Abalroado</span>
-            <div class="btn-group" id="btns-poste-bt">
-              <button class="btn-resposta btn-sim" onclick="abrirPopupQtd('poste-bt', this)">SIM</button>
-              <button class="btn-resposta btn-nao" onclick="selecionarNao('poste-bt', this)">NÃO</button>
-              <button class="btn-desfazer" id="desfazer-poste-bt" onclick="desfazerItem('poste-bt')">✕</button>
+            <span class="item-title">Condutores Furtados</span>
+            <div class="btn-group" id="btns-condutores-furtados">
+              <button class="btn-resposta btn-sim" onclick="abrirPopupQtd('condutores-furtados', this)">SIM</button>
+              <button class="btn-resposta btn-nao" onclick="selecionarNao('condutores-furtados', this)">NÃO</button>
+              <button class="btn-desfazer" id="desfazer-condutores-furtados" onclick="desfazerItem('condutores-furtados')">✕</button>
             </div>
-            <div class="campos-inline" id="campos-poste-bt">
-              <button class="btn-remover-todas" onclick="removerTodasPendencias('poste-bt')">REMOVER TODAS</button>
-              <button class="btn-adicionar-item" onclick="adicionarPendencia('poste-bt')">+ADD</button>
-              <input type="text" id="poste-bt-qtd" class="qtd-readonly" value="0" readonly>
-              <input type="hidden" id="poste-bt-obs" value="">
+            <div class="campos-inline" id="campos-condutores-furtados">
+              <button class="btn-remover-todas" onclick="removerTodasPendencias('condutores-furtados')">REMOVER TODAS</button>
+              <button class="btn-adicionar-item" onclick="adicionarPendencia('condutores-furtados')">+ADD</button>
+              <input type="text" id="condutores-furtados-qtd" class="qtd-readonly" value="0" readonly>
+              <input type="hidden" id="condutores-furtados-obs" value="">
             </div>
           </div>
-          <div class="caixas-dinamicas" id="caixas-poste-bt"></div>
-        </div>
-        <div class="item-box" id="box-trafo-queimado">
-          <div class="item-header">
-            <span class="item-title">Trafo Queimado</span>
-            <div class="btn-group" id="btns-trafo-queimado">
-              <button class="btn-resposta btn-sim" onclick="abrirPopupQtd('trafo-queimado', this)">SIM</button>
-              <button class="btn-resposta btn-nao" onclick="selecionarNao('trafo-queimado', this)">NÃO</button>
-              <button class="btn-desfazer" id="desfazer-trafo-queimado" onclick="desfazerItem('trafo-queimado')">✕</button>
-            </div>
-            <div class="campos-inline" id="campos-trafo-queimado">
-              <button class="btn-remover-todas" onclick="removerTodasPendencias('trafo-queimado')">REMOVER TODAS</button>
-              <button class="btn-adicionar-item" onclick="adicionarPendencia('trafo-queimado')">+ADD</button>
-              <input type="text" id="trafo-queimado-qtd" class="qtd-readonly" value="0" readonly>
-              <input type="hidden" id="trafo-queimado-obs" value="">
-            </div>
-          </div>
-          <div class="caixas-dinamicas" id="caixas-trafo-queimado"></div>
+          <div class="caixas-dinamicas" id="caixas-condutores-furtados"></div>
         </div>
       </div>
     </div>
@@ -1056,7 +1045,10 @@
         <div class="preview-header">
           <span style="font-size:11px; color:#666;">Clique na mensagem para navegar</span>
           <div>
+            <button class="btn-acao btn-modo" onclick="diminuirFontePreview()" data-tooltip="Diminuir fonte" style="font-size:14px; padding:4px 10px;">➖</button>
+            <button class="btn-acao btn-modo" onclick="aumentarFontePreview()" data-tooltip="Aumentar fonte" style="font-size:14px; padding:4px 10px;">➕</button>
             <button id="btn-copiar" class="btn-acao btn-copiar" onclick="copiarMensagem()" data-tooltip="Disponível após exportar" disabled><span style="font-size: 18px;">📋</span> COPIAR</button>
+            <button id="btn-print" class="btn-acao btn-copiar" onclick="printarPreview()" data-tooltip="Disponível após exportar" disabled><span style="font-size: 18px;">📸</span> PRINT</button>
             <button id="btn-formato-equipe" class="btn-acao btn-modo" onclick="toggleFormatoEquipe()" data-tooltip="Alternar formato das equipes" style="font-size:11px; padding:6px 12px; background:#2e7d32;">ATIVAR QUEBRAS EQUIPES</button>
             <button id="btn-quebra-pendencias" class="btn-acao btn-modo" onclick="toggleQuebraPendencias()" data-tooltip="Quebra de linha entre pendências" style="font-size:11px; padding:6px 12px; background:#607d8b;">COMPACTAR PENDÊNCIAS</button>
             <button class="btn-acao btn-modo" onclick="toggleModoNoturno()" data-tooltip="Alternar tema">🌙 Noturno</button>
@@ -1145,7 +1137,7 @@ let DADOS_REGIOES = {
   "DEMEM": {
     "AQUIRAZ": ["AQUIRAZ","BEBERIBE","CAPONGA","CASCAVEL","EUSÉBIO","GUANACÉS","JACARECOARA","PARAJURU","PARIPUEIRA","PATACAS","PINDORETAMA","PRAINHA","SUCATINGA"],
     "BATURITÉ": ["ACARAPÉ","ANTÔNIO DIOGO","ARACOIABA","ARATUBA","BARREIRA","BATURITÉ","CAPISTRANO","CHOROZINHO","GADO DOS FERROS","GUAIÚBA","GUARAMIRANGA","ITAPIÚNA","MULUNGU","OCARA","PACOTI","PALMÁCIA","REDENÇÃO"],
-    "CAUCAIA": ["CATUANA","CAPUAN","CAUCAIA","ICARAI","NOVA METROPOLE","PECEM","SÃO GONÇALO DO AMARANTE","SIUPÉ","SÍTIOS NOVOS","TAIBA"],
+    "CAUCAIA": ["CATUANA","CAUCAIA","ICARAI","PECEM","SÃO GONÇALO DO AMARANTE","SIUPÉ","SÍTIOS NOVOS","TAIBA"],
     "HORIZONTE": ["CAMARÁ","CHOROZINHO","COLUNA","EUSÉBIO","GERERAU","HORIZONTE","ITAITINGA","MANGABEIRA","OCARA","PACAJUS","PITOMBEIRAS","SERRA DO FÉLIX"],
     "MARACANAÚ": ["ACARAPÉ","MARACANAÚ","MARANGUAPE","PACATUBA","PENEDO"]
   },
@@ -1177,6 +1169,8 @@ const KEY_CORES     = 'troca_turno_cores_'     + _sfx;
 const KEY_NAVEGACAO = 'troca_turno_navegacao_' + _sfx;
 let equipeCount = 0, operadorAnterior = null;
 let estados = {}, modoNoturno = false, sessaoImportada = false, dadosImportados = null;
+let mensagemCompleta = ''; // Mensagem com símbolos para copiar
+let tamanhoFontePreview = 11; // Tamanho da fonte do preview
 let detalhesPendentes = {}, itemAtualDetalhe = null, configCores = {};
 let areaSelecionada = '', navegacaoAtiva = true;
 let formatoEquipeCompacto = false;
@@ -1355,7 +1349,7 @@ function resetarTodosItensParaPadrao() {
   const todosItens = [
     'manobra', 'linha-viva',
     'clientes-vitais', 'cabo-partido', 'falta-varios', 'clientes-m1', 'incidencias-antigas',
-    'religador', 'poste-mt', 'poste-bt', 'trafo-queimado'
+    'religador', 'ocorrencias-pesadas', 'condutores-furtados'
   ];
   
   todosItens.forEach(id => {
@@ -1498,7 +1492,7 @@ function carregarDadosImportados(d) {
   if (d.equipes) d.equipes.forEach(eq => adicionarEquipeComDados(eq));
   
   // Carregar quantidades e observações (só para os que estão como SIM)
-  ['manobra','linha-viva','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     if (estados[id] === 'sim') {
       const q = document.getElementById(id + '-qtd'), o = document.getElementById(id + '-obs');
       if (q && d[id + 'Qtd']) q.value = d[id + 'Qtd'];
@@ -1527,7 +1521,7 @@ function carregarDadosImportados(d) {
 
 // Restaura estados na IMPORTAÇÃO - apenas SIM são restaurados, NÃO volta para SIM/NÃO
 function restaurarEstadosBotoesImportacao() {
-  const todosItens = ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','poste-mt','poste-bt','trafo-queimado','sobreaviso'];
+  const todosItens = ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','ocorrencias-pesadas','condutores-furtados','sobreaviso'];
   todosItens.forEach(id => {
     const v = estados[id];
     const bc = document.getElementById('btns-' + id);
@@ -1548,7 +1542,7 @@ function restaurarEstadosBotoesImportacao() {
 
 // Restaura caixas na IMPORTAÇÃO - sempre marca como NÃO REVISADO (só para itens SIM)
 function restaurarCaixasImportacao(data) {
-  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     // Só restaura se o estado for SIM
     if (estados[id] !== 'sim') return;
     
@@ -1584,6 +1578,15 @@ function restaurarCaixasImportacao(data) {
         const afetacaoChecked = it.afetacao ? 'checked' : '';
         const afetacaoQtdVal = it.afetacaoQtd || '0';
         
+        // Select de tipo para Ocorrências Pesadas
+        const tipoSelectHtml = id === 'ocorrencias-pesadas' ? `
+          <select class="tipo-pesada-select" id="${id}-tipo-${num}" onchange="onCampoAlterado()">
+            <option value="POSTE BT" ${it.tipoPesada === 'POSTE BT' ? 'selected' : ''}>POSTE BT</option>
+            <option value="POSTE MT" ${it.tipoPesada === 'POSTE MT' ? 'selected' : ''}>POSTE MT</option>
+            <option value="TRAFO" ${it.tipoPesada === 'TRAFO' ? 'selected' : ''}>TRAFO</option>
+          </select>
+        ` : '';
+        
         const wrapper = document.createElement('div');
         wrapper.className = 'caixa-item-wrapper';
         wrapper.id = `${id}-wrapper-${num}`;
@@ -1591,6 +1594,7 @@ function restaurarCaixasImportacao(data) {
         wrapper.innerHTML = `
           <div class="caixa-item ${statusClass}" id="${id}-item-${num}" data-status="${status}">
             <label>#${num}:</label>
+            ${tipoSelectHtml}
             <input type="text" class="codigo-input" id="${id}-codigo-${num}" value="${it.codigo || ''}" placeholder="OCORRÊNCIA" maxlength="10" oninput="formatarCodigo(this); this.classList.remove('input-erro');" onchange="onCampoAlterado()">
             <input type="text" class="descricao-input" id="${id}-desc-${num}" value="${it.desc || ''}" placeholder="OBSERVAÇÃO" oninput="this.classList.remove('input-erro');" onchange="onCampoAlterado()">
             <select class="equipe-select" id="${id}-equipe-${num}" onchange="onCampoAlterado()">
@@ -1604,7 +1608,7 @@ function restaurarCaixasImportacao(data) {
             </div>
             <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${id}', ${num})" title="Clique para alternar status">${statusText}</button>
           </div>
-          <button class="btn-remove-item-ext" onclick="removerItemCaixa('${id}', ${num})" title="Remover este item">✕</button>
+          <button class="btn-remover-item" onclick="removerItemCaixa('${id}', ${num})" title="Remover este item">✕</button>
         `;
         c.appendChild(wrapper);
         
@@ -1660,7 +1664,7 @@ function carregarDadosCompletos(d) {
   if (d.equipes) d.equipes.forEach(eq => adicionarEquipeComDados(eq));
   
   // Carregar quantidades e observações
-  ['manobra','linha-viva','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     const q = document.getElementById(id + '-qtd'), o = document.getElementById(id + '-obs');
     if (q && d[id + 'Qtd']) q.value = d[id + 'Qtd'];
     if (o && d[id + 'Obs']) o.value = d[id + 'Obs'];
@@ -1871,7 +1875,13 @@ function formatarTelefone(i) {
   i.value = v; 
 }
 
-function formatarCodigo(i) { i.value = i.value.replace(/\D/g, '').slice(0, 10); }
+function formatarCodigo(i) { 
+  let v = i.value.toUpperCase();
+  // 2 primeiros: letras ou números, 8 últimos: apenas números
+  let p1 = v.slice(0, 2).replace(/[^A-Z0-9]/g, '');
+  let p2 = v.slice(2).replace(/\D/g, '').slice(0, 8);
+  i.value = p1 + p2;
+}
 
 function verificarImportacao() { 
   if (!sessaoImportada) return; 
@@ -1899,6 +1909,20 @@ function onCampoAlterado() {
 }
 
 function toggleModoNoturno() { modoNoturno = !modoNoturno; document.getElementById('previewBox').classList.toggle('modo-noturno', modoNoturno); }
+
+function aumentarFontePreview() {
+  if (tamanhoFontePreview < 20) {
+    tamanhoFontePreview++;
+    document.getElementById('previewBox').style.fontSize = tamanhoFontePreview + 'px';
+  }
+}
+
+function diminuirFontePreview() {
+  if (tamanhoFontePreview > 8) {
+    tamanhoFontePreview--;
+    document.getElementById('previewBox').style.fontSize = tamanhoFontePreview + 'px';
+  }
+}
 
 function toggleQuebraPendencias() {
   quebraPendencias = !quebraPendencias;
@@ -2068,6 +2092,15 @@ function adicionarItemCaixa(id, container) {
   // Gera options das equipes cadastradas
   const equipesOptions = gerarOptionsEquipes();
   
+  // Se for Ocorrências Pesadas, adiciona select de tipo
+  const tipoSelectHtml = id === 'ocorrencias-pesadas' ? `
+    <select class="tipo-pesada-select" id="${id}-tipo-${num}" onchange="onCampoAlterado()">
+      <option value="POSTE BT">POSTE BT</option>
+      <option value="POSTE MT">POSTE MT</option>
+      <option value="TRAFO">TRAFO</option>
+    </select>
+  ` : '';
+  
   const wrapper = document.createElement('div');
   wrapper.className = 'caixa-item-wrapper';
   wrapper.id = `${id}-wrapper-${num}`;
@@ -2075,6 +2108,7 @@ function adicionarItemCaixa(id, container) {
   wrapper.innerHTML = `
     <div class="caixa-item pendente" id="${id}-item-${num}" data-status="pendente">
       <label>#${num}:</label>
+      ${tipoSelectHtml}
       <input type="text" class="codigo-input" id="${id}-codigo-${num}" placeholder="OCORRÊNCIA" maxlength="10" oninput="formatarCodigo(this); this.classList.remove('input-erro');" onchange="onCampoAlterado()">
       <input type="text" class="descricao-input" id="${id}-desc-${num}" placeholder="OBSERVAÇÃO" oninput="this.classList.remove('input-erro');" onchange="onCampoAlterado()">
       <select class="equipe-select" id="${id}-equipe-${num}" onchange="onCampoAlterado()">
@@ -2088,21 +2122,42 @@ function adicionarItemCaixa(id, container) {
       </div>
       <button class="btn-toggle-status pendente" onclick="toggleStatusItem('${id}', ${num})" title="Clique para alternar status">PENDENTE</button>
     </div>
-    <button class="btn-remove-item-ext" onclick="removerItemCaixa('${id}', ${num})" title="Remover este item">✕</button>
+    <button class="btn-remover-item" onclick="removerItemCaixa('${id}', ${num})" title="Remover este item">✕</button>
   `;
   container.appendChild(wrapper);
 }
 
 // Gera as options do dropdown de equipes baseado nas equipes cadastradas
 function gerarOptionsEquipes() {
-  let options = '';
+  // Opções fixas de necessidade
+  let options = `
+    <option value="NEC. SKY">NEC. SKY</option>
+    <option value="NEC. PODA">NEC. PODA</option>
+    <option value="NEC. DESMAT.">NEC. DESMAT.</option>
+    <option value="NEC. PESADA">NEC. PESADA</option>
+    <option value="NEC. LV">NEC. LV</option>
+    <option value="NEC. REDE">NEC. REDE</option>
+    <option value="NEC. TRIV.">NEC. TRIV.</option>
+    <option value="NEC. ENV. DIA">NEC. ENV. DIA</option>
+  `;
+  
+  // Adiciona separador e equipes cadastradas
+  const equipesCadastradas = [];
   document.querySelectorAll('.equipe-linha').forEach(el => {
     const id = el.id.replace('equipe-', '');
     const lead = document.getElementById('equipe-' + id + '-lead')?.value || '';
     if (lead.trim()) {
-      options += `<option value="${lead}">${lead}</option>`;
+      equipesCadastradas.push(lead);
     }
   });
+  
+  if (equipesCadastradas.length > 0) {
+    options += `<option disabled>──────────</option>`;
+    equipesCadastradas.forEach(lead => {
+      options += `<option value="${lead}">${lead}</option>`;
+    });
+  }
+  
   return options;
 }
 
@@ -2339,7 +2394,7 @@ function restaurarEstadosBotoes() {
 }
 
 function restaurarCaixas(data, marcarNaoRevisado = false) {
-  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     if (data[id] && data[id].length > 0) {
       const c = document.getElementById('caixas-' + id);
       if (!c) return;
@@ -2370,6 +2425,15 @@ function restaurarCaixas(data, marcarNaoRevisado = false) {
         const afetacaoChecked = it.afetacao ? 'checked' : '';
         const afetacaoQtdVal = it.afetacaoQtd || '0';
         
+        // Select de tipo para Ocorrências Pesadas
+        const tipoSelectHtml = id === 'ocorrencias-pesadas' ? `
+          <select class="tipo-pesada-select" id="${id}-tipo-${num}" onchange="onCampoAlterado()">
+            <option value="POSTE BT" ${it.tipoPesada === 'POSTE BT' ? 'selected' : ''}>POSTE BT</option>
+            <option value="POSTE MT" ${it.tipoPesada === 'POSTE MT' ? 'selected' : ''}>POSTE MT</option>
+            <option value="TRAFO" ${it.tipoPesada === 'TRAFO' ? 'selected' : ''}>TRAFO</option>
+          </select>
+        ` : '';
+        
         const wrapper = document.createElement('div');
         wrapper.className = 'caixa-item-wrapper';
         wrapper.id = `${id}-wrapper-${num}`;
@@ -2377,6 +2441,7 @@ function restaurarCaixas(data, marcarNaoRevisado = false) {
         wrapper.innerHTML = `
           <div class="caixa-item ${statusClass}" id="${id}-item-${num}" data-status="${status}">
             <label>#${num}:</label>
+            ${tipoSelectHtml}
             <input type="text" class="codigo-input" id="${id}-codigo-${num}" value="${it.codigo || ''}" placeholder="OCORRÊNCIA" maxlength="10" oninput="formatarCodigo(this); this.classList.remove('input-erro');" onchange="onCampoAlterado()">
             <input type="text" class="descricao-input" id="${id}-desc-${num}" value="${it.desc || ''}" placeholder="OBSERVAÇÃO" oninput="this.classList.remove('input-erro');" onchange="onCampoAlterado()">
             <select class="equipe-select" id="${id}-equipe-${num}" onchange="onCampoAlterado()">
@@ -2390,7 +2455,7 @@ function restaurarCaixas(data, marcarNaoRevisado = false) {
             </div>
             <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${id}', ${num})" title="Clique para alternar status">${statusText}</button>
           </div>
-          <button class="btn-remove-item-ext" onclick="removerItemCaixa('${id}', ${num})" title="Remover este item">✕</button>
+          <button class="btn-remover-item" onclick="removerItemCaixa('${id}', ${num})" title="Remover este item">✕</button>
         `;
         c.appendChild(wrapper);
         
@@ -2636,7 +2701,7 @@ function coletarTodosDados() {
     detalhesPendentes: JSON.parse(JSON.stringify(detalhesPendentes)),
     operadorAnterior: operadorAnterior
   };
-  ['manobra','linha-viva','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     d[id + 'Qtd'] = document.getElementById(id + '-qtd')?.value || '';
     d[id + 'Obs'] = document.getElementById(id + '-obs')?.value || '';
   });
@@ -2666,7 +2731,7 @@ function coletarDadosParaExportacao() {
     detalhesPendentes: JSON.parse(JSON.stringify(detalhesPendentes)),
     operadorAnterior: operadorAnterior
   };
-  ['manobra','linha-viva','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     d[id + 'Qtd'] = contarPendentes(id);
     d[id + 'Obs'] = document.getElementById(id + '-obs')?.value || '';
   });
@@ -2689,7 +2754,7 @@ function contarPendentes(id) {
 
 function coletarCaixas() {
   const r = {};
-  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     r[id] = [];
     const container = document.getElementById('caixas-' + id);
     if (container) {
@@ -2717,7 +2782,7 @@ function coletarCaixas() {
 // Coleta só os PENDENTES para exportação
 function coletarCaixasPendentes() {
   const r = {};
-  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     r[id] = [];
     const container = document.getElementById('caixas-' + id);
     if (container) {
@@ -2730,13 +2795,14 @@ function coletarCaixasPendentes() {
         const desc = item.querySelector('.descricao-input')?.value || '';
         const status = item.dataset.status || 'pendente';
         const equipe = item.querySelector('.equipe-select')?.value || '';
+        const tipoPesada = item.querySelector('.tipo-pesada-select')?.value || '';
         const afetacaoCheckbox = document.getElementById(`${id}-afetacao-${num}`);
         const afetacao = afetacaoCheckbox ? afetacaoCheckbox.checked : false;
         const afetacaoQtd = document.getElementById(`${id}-afetacao-qtd-${num}`)?.value || '';
         
         // Exporta PENDENTE e RESOLVIDO (não exporta REVISAR - itens não revisados)
         if ((cod || desc) && (status === 'pendente' || status === 'resolvido')) {
-          r[id].push({ codigo: cod, desc: desc, status: status, equipe: equipe, afetacao: afetacao, afetacaoQtd: afetacaoQtd });
+          r[id].push({ codigo: cod, desc: desc, status: status, equipe: equipe, tipoPesada: tipoPesada, afetacao: afetacao, afetacaoQtd: afetacaoQtd });
         }
       });
     }
@@ -2747,7 +2813,7 @@ function coletarCaixasPendentes() {
 // Verifica se todos os itens importados foram revisados
 function verificarItensRevisados() {
   const naoRevisados = [];
-  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     const container = document.getElementById('caixas-' + id);
     if (container) {
       container.querySelectorAll('.caixa-item.nao-revisado').forEach(item => {
@@ -2813,7 +2879,7 @@ function verificarCamposObrigatorios() {
   const todosItens = [
     'manobra', 'linha-viva',
     'clientes-vitais', 'cabo-partido', 'falta-varios', 'clientes-m1', 'incidencias-antigas',
-    'religador', 'poste-mt', 'poste-bt', 'trafo-queimado', 'sobreaviso'
+    'religador', 'ocorrencias-pesadas', 'condutores-furtados', 'sobreaviso'
   ];
   
   // Verificar se todos os itens têm SIM ou NÃO marcado
@@ -2865,7 +2931,7 @@ function verificarCamposObrigatorios() {
 // Marca inputs incompletos com classe 'input-erro' para ficar pulsando
 function verificarItensIncompletos() {
   let qtdErros = 0;
-  const todosIds = ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','poste-mt','poste-bt','trafo-queimado'];
+  const todosIds = ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','ocorrencias-pesadas','condutores-furtados'];
   
   todosIds.forEach(id => {
     const container = document.getElementById('caixas-' + id);
@@ -3027,7 +3093,7 @@ function gerarMensagem(validar = true) {
   }
   
   let pn = '';
-  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','poste-mt','poste-bt','trafo-queimado'].forEach(id => {
+  ['manobra','linha-viva','clientes-vitais','cabo-partido','falta-varios','clientes-m1','incidencias-antigas','religador','ocorrencias-pesadas','condutores-furtados'].forEach(id => {
     if (estados[id] === 'sim') {
       const caixas = document.getElementById('caixas-' + id);
       let pendentesCount = 0;
@@ -3044,10 +3110,13 @@ function gerarMensagem(validar = true) {
             const cod = item.querySelector('.codigo-input')?.value;
             const desc = item.querySelector('.descricao-input')?.value;
             const equipe = item.querySelector('.equipe-select')?.value || '';
+            const tipoPesada = item.querySelector('.tipo-pesada-select')?.value || '';
             const afetacaoQtd = document.getElementById(`${id}-afetacao-qtd-${num}`)?.value || '0';
             
             if (cod || desc) {
-              let linha = `  → ${cod || ''} - ${desc || ''}`;
+              let linha = `→ `;
+              if (tipoPesada) linha += `[${tipoPesada}] `;
+              linha += `${cod || ''} - ${desc || ''}`;
               if (equipe) linha += ` [${equipe}]`;
               linha += ` ⚠️ AFETAÇÃO: ${afetacaoQtd} CLIENTES`;
               pendentesTexto += linha + '\n';
@@ -3059,7 +3128,7 @@ function gerarMensagem(validar = true) {
       if (pendentesCount > 0) {
         const titleEl = document.querySelector(`#box-${id} .item-title`);
         const nome = titleEl ? titleEl.textContent.toUpperCase() : id.toUpperCase();
-        pn += `• ${nome}: (${pendentesCount})\n`;
+        pn += `_${nome}: (${pendentesCount})_\n`;
         pn += pendentesTexto;
         if (quebraPendencias) pn += '\n'; // quebra entre categorias
       }
@@ -3086,7 +3155,24 @@ function gerarMensagem(validar = true) {
   const linhas = msg.split('\n');
   const ultimasLinhas = linhas.slice(-3);
   const resto = linhas.slice(0, -3).join('\n').toUpperCase();
-  document.getElementById('previewBox').textContent = resto + '\n' + ultimasLinhas.join('\n');
+  
+  // Salva mensagem completa (com símbolos) para copiar
+  mensagemCompleta = resto + '\n' + ultimasLinhas.join('\n');
+  
+  // Remove * e _ para exibir no preview (versão limpa)
+  let previewLimpo = mensagemCompleta.replace(/\*/g, '').replace(/_/g, '');
+  
+  // Escapa HTML e destaca elementos em vermelho
+  previewLimpo = previewLimpo
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    // Títulos das seções (---- PENDÊNCIAS ----)
+    .replace(/(----+\s*[A-ZÁÉÍÓÚÃÕÂÊÔÇ0-9 ()]+\s*----+)/g, '<span class="titulo-secao">$1</span>')
+    // Títulos de pendências com contagem (MANOBRA: (1), LINHA VIVA: (2), etc)
+    .replace(/^([A-ZÁÉÍÓÚÃÕÂÊÔÇ0-9 .\-]+):\s*(\(\d+\))$/gm, '<span class="titulo-secao">$1:</span> <span class="contagem-pendencia">$2</span>');
+  
+  document.getElementById('previewBox').innerHTML = previewLimpo;
   
   return msg;
 }
@@ -3097,110 +3183,147 @@ function gerarMensagem(validar = true) {
 function navegarPorClique(event) {
   if (!navegacaoAtiva) return;
   
-  const selection = window.getSelection();
-  const clickedText = selection.toString() || event.target.textContent.substring(
-    Math.max(0, selection.anchorOffset - 50),
-    Math.min(event.target.textContent.length, selection.anchorOffset + 50)
-  );
+  // Pega a posição do clique e encontra o texto nessa linha
+  const previewBox = document.getElementById('previewBox');
+  const textoCompleto = previewBox.textContent;
   
-  const t = clickedText.toUpperCase();
-  let section = null;
-  let inputId = null;
-  
-  // Mapeia texto para seção E campo específico
-  if (t.includes('DATA:')) {
-    section = 'section-dados'; inputId = 'turno-data';
-  } else if (t.includes('TURNO DO DIA')) {
-    section = 'section-dados'; inputId = 'turno-entrada';
-  } else if (t.includes('OPERADOR')) {
-    section = 'section-dados'; inputId = 'operador';
-  } else if (t.includes('REGIÃO')) {
-    section = 'section-dados'; inputId = 'regiao';
-  } else if (t.includes('ÁREA')) {
-    section = 'section-dados'; inputId = 'area';
-  } else if (t.includes('DADOS DO TURNO')) {
-    section = 'section-dados'; inputId = 'turno-data';
-  } else if (t.includes('F RECEBIDOS')) {
-    section = 'section-contagem'; inputId = 'f-recebidos';
-  } else if (t.includes('F PENDENTES') || t.includes('F REPASSADOS')) {
-    section = 'section-contagem'; inputId = 'f-pendentes';
-  } else if (t.includes('INCIDÊNCIAS') && t.includes('RECEBIDAS')) {
-    section = 'section-contagem'; inputId = 'incidencias-recebidas';
-  } else if (t.includes('INCIDÊNCIAS') && t.includes('REPASSADAS')) {
-    section = 'section-contagem'; inputId = 'incidencias-tela-qtd';
-  } else if (t.includes('INCIDÊNCIAS EM TELA') || t.includes('CONTAGEM')) {
-    section = 'section-contagem'; inputId = 'incidencias-tela-qtd';
-  } else if (t.includes('EQUIPES')) {
-    section = 'section-equipes';
-  } else if (t.includes('MANOBRA')) {
-    section = 'section-pendencias'; inputId = 'manobra-qtd';
-  } else if (t.includes('LINHA VIVA')) {
-    section = 'section-pendencias'; inputId = 'linha-viva-qtd';
-  } else if (t.includes('CLIENTES-VITAIS') || t.includes('CLIENTES VITAIS')) {
-    section = 'section-pendencias'; inputId = 'clientes-vitais-qtd';
-  } else if (t.includes('CABO PARTIDO')) {
-    section = 'section-pendencias'; inputId = 'cabo-partido-qtd';
-  } else if (t.includes('FALTA')) {
-    section = 'section-pendencias'; inputId = 'falta-varios-qtd';
-  } else if (t.includes('CLIENTES M.1') || t.includes('CLIENTES M1')) {
-    section = 'section-pendencias'; inputId = 'clientes-m1-qtd';
-  } else if (t.includes('INCIDÊNCIAS ANTIGAS')) {
-    section = 'section-pendencias'; inputId = 'incidencias-antigas-qtd';
-  } else if (t.includes('RELIGADOR')) {
-    section = 'section-pendencias'; inputId = 'religador-qtd';
-  } else if (t.includes('POSTE MT')) {
-    section = 'section-pendencias'; inputId = 'poste-mt-qtd';
-  } else if (t.includes('POSTE BT')) {
-    section = 'section-pendencias'; inputId = 'poste-bt-qtd';
-  } else if (t.includes('TRAFO')) {
-    section = 'section-pendencias'; inputId = 'trafo-queimado-qtd';
-  } else if (t.includes('PENDÊNCIAS')) {
-    section = 'section-pendencias';
-  } else if (t.includes('SOBREAVISO')) {
-    section = 'section-sobreaviso'; inputId = 'sobreaviso-obs';
-  }
-  
-  if (section) {
-    const el = document.getElementById(section);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      el.classList.add('highlight-section');
-      setTimeout(() => el.classList.remove('highlight-section'), 1500);
+  // Usa caretRangeFromPoint para encontrar posição exata do clique
+  let clickPosition = 0;
+  if (document.caretRangeFromPoint) {
+    const range = document.caretRangeFromPoint(event.clientX, event.clientY);
+    if (range) {
+      clickPosition = range.startOffset;
+      // Pega o texto do nó onde clicou
+      const nodeText = range.startContainer.textContent || '';
+      // Encontra a linha onde clicou (procura quebras de linha antes e depois)
+      const antes = nodeText.substring(0, clickPosition).lastIndexOf('\n');
+      const depois = nodeText.indexOf('\n', clickPosition);
+      const linhaClicada = nodeText.substring(
+        antes === -1 ? 0 : antes + 1,
+        depois === -1 ? nodeText.length : depois
+      );
       
-      // Foca no campo e pisca a janela principal (box)
-      if (inputId) {
-        setTimeout(() => {
-          const input = document.getElementById(inputId);
-          if (input) {
-            input.focus();
-            // Encontra o box pai (item-box) e pisca ele
-            const box = input.closest('.item-box') || input.closest('.section-content');
-            if (box) {
-              box.classList.add('campo-obrigatorio-import');
-              setTimeout(() => box.classList.remove('campo-obrigatorio-import'), 5000);
-            }
-          }
-        }, 300);
+      // Usa a linha clicada para identificar a seção
+      const t = linhaClicada.toUpperCase();
+      
+      let boxId = null;
+      let section = null;
+      let inputId = null;
+      
+      // Mapeia texto para boxId
+      if (t.includes('MANOBRA')) {
+        boxId = 'box-manobra';
+      } else if (t.includes('LINHA VIVA')) {
+        boxId = 'box-linha-viva';
+      } else if (t.includes('CLIENTES-VITAIS') || t.includes('CLIENTES VITAIS')) {
+        boxId = 'box-clientes-vitais';
+      } else if (t.includes('CABO PARTIDO')) {
+        boxId = 'box-cabo-partido';
+      } else if (t.includes('FALTA')) {
+        boxId = 'box-falta-varios';
+      } else if (t.includes('CLIENTES M.1') || t.includes('CLIENTES M1')) {
+        boxId = 'box-clientes-m1';
+      } else if (t.includes('INCIDÊNCIAS ANTIGAS')) {
+        boxId = 'box-incidencias-antigas';
+      } else if (t.includes('RELIGADOR')) {
+        boxId = 'box-religador';
+      } else if (t.includes('POSTE MT') || t.includes('POSTE BT') || t.includes('TRAFO') || t.includes('OCORRÊNCIAS PESADAS') || t.includes('OCORRENCIA PESADA')) {
+        boxId = 'box-ocorrencias-pesadas';
+      } else if (t.includes('CONDUTORES FURTADOS') || t.includes('CONDUTOR FURTADO')) {
+        boxId = 'box-condutores-furtados';
+      } else if (t.includes('SOBREAVISO')) {
+        boxId = 'box-sobreaviso';
+      } else if (t.includes('DATA:')) {
+        section = 'section-dados'; inputId = 'turno-data';
+      } else if (t.includes('TURNO DO DIA')) {
+        section = 'section-dados'; inputId = 'turno-entrada';
+      } else if (t.includes('OPERADOR')) {
+        section = 'section-dados'; inputId = 'operador';
+      } else if (t.includes('REGIÃO')) {
+        section = 'section-dados'; inputId = 'regiao';
+      } else if (t.includes('ÁREA')) {
+        section = 'section-dados'; inputId = 'area';
+      } else if (t.includes('DADOS DO TURNO')) {
+        section = 'section-dados'; inputId = 'turno-data';
+      } else if (t.includes('F RECEBIDOS')) {
+        section = 'section-contagem'; inputId = 'f-recebidos';
+      } else if (t.includes('F PENDENTES') || t.includes('F REPASSADOS')) {
+        section = 'section-contagem'; inputId = 'f-pendentes';
+      } else if (t.includes('INCIDÊNCIAS') && t.includes('RECEBIDAS')) {
+        section = 'section-contagem'; inputId = 'incidencias-recebidas';
+      } else if (t.includes('INCIDÊNCIAS') && t.includes('REPASSADAS')) {
+        section = 'section-contagem'; inputId = 'incidencias-tela-qtd';
+      } else if (t.includes('INCIDÊNCIAS EM TELA') || t.includes('CONTAGEM') || t.includes('RESUMO')) {
+        section = 'section-contagem'; inputId = 'incidencias-tela-qtd';
+      } else if (t.includes('TURNO ') && (t.includes('(') || t.match(/TURNO [A-Z] /))) {
+        section = 'section-equipes';
+      } else if (t.includes('PENDÊNCIAS')) {
+        section = 'section-pendencias';
       }
+      
+      // Navega para a caixa específica (boxId) ou para a seção
+      if (boxId) {
+        const box = document.getElementById(boxId);
+        if (box) {
+          box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          box.classList.add('campo-obrigatorio-import');
+          setTimeout(() => box.classList.remove('campo-obrigatorio-import'), 3000);
+        }
+        return;
+      }
+      
+      if (section) {
+        const el = document.getElementById(section);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          el.classList.add('highlight-section');
+          setTimeout(() => el.classList.remove('highlight-section'), 1500);
+          
+          if (inputId) {
+            setTimeout(() => {
+              const input = document.getElementById(inputId);
+              if (input) {
+                input.focus();
+                const box = input.closest('.item-box') || input.closest('.section-content');
+                if (box) {
+                  box.classList.add('campo-obrigatorio-import');
+                  setTimeout(() => box.classList.remove('campo-obrigatorio-import'), 5000);
+                }
+              }
+            }, 300);
+          }
+        }
+      }
+      return;
     }
   }
 }
 // ============================================
-// CONTROLE DO BOTÃO COPIAR
+// CONTROLE DOS BOTÕES COPIAR E PRINT
 // ============================================
 function desabilitarBotaoCopiar() {
   const btn = document.getElementById('btn-copiar');
+  const btnPrint = document.getElementById('btn-print');
   if (btn) {
     btn.disabled = true;
     btn.setAttribute('data-tooltip', 'Disponível após exportar');
+  }
+  if (btnPrint) {
+    btnPrint.disabled = true;
+    btnPrint.setAttribute('data-tooltip', 'Disponível após exportar');
   }
 }
 
 function habilitarBotaoCopiar() {
   const btn = document.getElementById('btn-copiar');
+  const btnPrint = document.getElementById('btn-print');
   if (btn) {
     btn.disabled = false;
     btn.setAttribute('data-tooltip', 'Copiar mensagem');
+  }
+  if (btnPrint) {
+    btnPrint.disabled = false;
+    btnPrint.setAttribute('data-tooltip', 'Copiar como imagem');
   }
 }
 
@@ -3208,7 +3331,8 @@ function habilitarBotaoCopiar() {
 // COPIAR MENSAGEM
 // ============================================
 function copiarMensagem() {
-  const texto = document.getElementById('previewBox').textContent;
+  // Usa a mensagemCompleta que tem os símbolos * e _ para WhatsApp
+  const texto = mensagemCompleta || document.getElementById('previewBox').textContent;
   navigator.clipboard.writeText(texto).then(() => {
     mostrarNotificacao('📋 Mensagem copiada!');
   }).catch(() => {
@@ -3220,6 +3344,48 @@ function copiarMensagem() {
     document.body.removeChild(ta);
     mostrarNotificacao('📋 Mensagem copiada!');
   });
+}
+
+// ============================================
+// PRINT DO PREVIEW COMO IMAGEM
+// ============================================
+async function printarPreview() {
+  const previewBox = document.getElementById('previewBox');
+  if (!previewBox) return;
+  
+  mostrarNotificacao('⏳ Capturando imagem...');
+  
+  try {
+    // Usa html2canvas para capturar o elemento
+    const canvas = await html2canvas(previewBox, {
+      backgroundColor: previewBox.classList.contains('modo-noturno') ? '#000000' : '#ffffff',
+      scale: 2, // Melhor qualidade
+      useCORS: true,
+      logging: false
+    });
+    
+    // Converte canvas para blob
+    canvas.toBlob(async (blob) => {
+      try {
+        // Tenta copiar para clipboard usando a API moderna
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': blob })
+        ]);
+        mostrarNotificacao('📸 Imagem copiada para o clipboard!');
+      } catch (clipErr) {
+        // Fallback: oferece download da imagem
+        console.log('Clipboard API não suportada, oferecendo download:', clipErr);
+        const link = document.createElement('a');
+        link.download = 'troca_turno_preview.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        mostrarNotificacao('📸 Imagem salva como arquivo!');
+      }
+    }, 'image/png');
+  } catch (err) {
+    console.error('Erro ao capturar preview:', err);
+    mostrarNotificacao('❌ Erro ao capturar imagem');
+  }
 }
 
 // ============================================
@@ -3241,6 +3407,14 @@ function finalizarTurno() {
   imagens.forEach((img, i) => {
     imagensDisplay[i] = img.style.display;
     img.style.display = 'none';
+  });
+  
+  // Oculta botões que não devem aparecer no PDF
+  const botoesOcultar = document.querySelectorAll('.btn-remover-todas, .btn-adicionar-item, .btn-remover-item, .btn-remove-item-ext, .desfazer-btn, #barra-topo-botoes');
+  const botoesDisplay = [];
+  botoesOcultar.forEach((btn, i) => {
+    botoesDisplay[i] = btn.style.display;
+    btn.style.display = 'none';
   });
   
   // Substitui inputs por spans para captura correta
@@ -3345,6 +3519,9 @@ function finalizarTurno() {
   function restaurarElementos() {
     // Restaura imagens
     imagens.forEach((img, i) => img.style.display = imagensDisplay[i] || '');
+    
+    // Restaura botões
+    botoesOcultar.forEach((btn, i) => btn.style.display = botoesDisplay[i] || '');
     
     // Remove spans e restaura inputs
     inputsBackup.forEach((backup, idx) => {
