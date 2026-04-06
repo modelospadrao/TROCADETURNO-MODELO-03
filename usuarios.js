@@ -11,11 +11,11 @@
 // ============================================
 
 const USUARIOS_SISTEMA = [
-  { usuario: '4321', senha: '4321', nome: 'Administrador' },
+  { usuario: '0000', senha: '0000', nome: 'Administrador' },
   { usuario: '0391', senha: '0391', nome: 'Adrielia Maria' },
   { usuario: '4308', senha: '4308', nome: 'Alessandra Nogueira' },
   { usuario: '9011', senha: '9011', nome: 'Anderson Pontes' },
-  { usuario: '4276', senha: '4276', nome: 'Antonio Adalce' },
+  { usuario: '4276', senha: '4276', nome: 'Antonio Adalcle' },
 
   // Carlos Henrique (2 registros conforme foto)
   { usuario: '5661', senha: '5661', nome: 'Carlos Henrique' },
@@ -47,10 +47,10 @@ const USUARIOS_SISTEMA = [
 
   // NOVOS USUÁRIOS
   { usuario: '0000', senha: '0000', nome: 'Bruno Pinheiro' },
-  { usuario: '0000', senha: '0000', nome: 'Renan Henrique' },
-  { usuario: '0000', senha: '0000', nome: 'Fabiola Monique' },
+  { usuario: '4278', senha: '4278', nome: 'Renan Henrique' },
+  { usuario: '9535', senha: '9535', nome: 'Fabiola Monique' },
   { usuario: '9005', senha: '9005', nome: 'Samuel Peixoto' },
-  { usuario: '0000', senha: '0000', nome: 'Letycia Nunes' },
+  { usuario: '4059', senha: '4059', nome: 'Letycia Nunes' },
   { usuario: '0431', senha: '0431', nome: 'Francisco de Assis' },
   { usuario: '0387', senha: '0387', nome: 'Adelia Maria' },
   { usuario: '0373', senha: '0373', nome: 'Lays De Freitas' }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TROCA DE TURNO v7.1</title>
+  <title>TROCA DE TURNO v8.0</title>
   <link rel="icon" href="turno.png" type="image/png">
   <script src="usuarios.js"></script>
   <script src="horarios.js"></script>
@@ -21,7 +21,7 @@
     }
     html, body { overscroll-behavior-y: none; margin: 0; padding: 0; }
     body { font-family: Cambria, Cochin, Georgia, Times, sans-serif; background-color: #f5f5f5; font-size: 14px; }
-    .container { width: 100%; max-width: 1200px; margin: 10px auto; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+    .container { width: 100%; max-width: 1300px; margin: 10px auto; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
     
     /* LOGIN POPUP */
     #login-overlay {
@@ -136,12 +136,12 @@
     label { font-weight: bold; display: block; margin-top: 6px; margin-bottom: 2px; font-size: 12px; }
     
     .section { border: 2px solid var(--cor-dados); border-radius: 8px; margin: 12px 0; background: #fff; overflow: visible; box-shadow: 0 3px 10px rgba(0,0,0,0.12); position: relative; }
-    .section-header { background: var(--cor-dados); color: #fff; padding: 8px 12px; font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
-    .section-header:hover { filter: brightness(1.1); }
+    .section-header { background: var(--cor-dados); color: #fff; padding: 8px 12px; font-size: 14px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; position: relative; z-index: 100; }
+    .section-header:hover { filter: brightness(1.1); z-index: 99999; }
     .section-toggle { font-size: 16px; transition: transform 0.3s; }
     .section-toggle.collapsed { transform: rotate(-90deg); }
-    .section-content { padding: 12px; transition: max-height 0.3s ease; overflow: visible; background: #d3e3fd; }
-    .section-content.collapsed { max-height: 0 !important; padding: 0 12px; overflow: hidden; }
+    .section-content { padding: 12px; transition: all 0.3s ease; overflow: visible; background: #d3e3fd; position: relative; z-index: 1; }
+    .section-content.collapsed { max-height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; overflow: hidden; visibility: hidden; opacity: 0; }
     
     .section-contagem { border-color: var(--cor-contagem); }
     .section-contagem .section-header { background: var(--cor-contagem); }
@@ -186,8 +186,9 @@
     .section-observacoes { border-color: #607d8b; }
     .section-observacoes .section-header { background: #607d8b; }
     .obs-turno-textarea { width: 100%; min-height: 100px; padding: 12px; font-size: 14px; border: 2px solid #607d8b; border-radius: 6px; resize: vertical; box-sizing: border-box; font-family: inherit; }
-    .section-equipes { border-color: var(--cor-equipes); z-index: 50; }
+    .section-equipes { border-color: var(--cor-equipes); }
     .section-equipes .section-header { background: var(--cor-equipes); }
+    .section-equipes .section-header:hover { z-index: 99999; }
     .section-servicos { border-color: var(--cor-servicos); }
     .section-servicos .section-header { background: var(--cor-servicos); }
     .section-preview { border-color: var(--cor-preview); }
@@ -204,6 +205,7 @@
     .item-contador.visivel { display: inline; }
     .item-contador.destaque { color: #ff0000; font-size: 16px;}
     .item-title { font-weight: bold; color: #000000; font-size: 16px; text-transform: uppercase; flex: 1; min-width: 150px; }
+    .item-title.titulo-vermelho { color: #e53935; }
     
     .btn-group { display: flex; gap: 8px; align-items: center; }
     .btn-resposta { padding: 3px 12px; font-size: 12px; border: 2px solid; border-radius: 4px; cursor: pointer; transition: all 0.2s; font-weight: bold; }
@@ -233,20 +235,21 @@
     
     .caixas-dinamicas.visible { display: block; }
     .caixa-item-wrapper { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
-    .caixa-item { display: flex; align-items: center; gap: 8px; flex: 1; padding: 8px 10px; background: #fff; border-radius: 6px; border: 2px solid #ddd; flex-wrap: wrap; }
+    .caixa-item { display: flex; align-items: center; gap: 8px; flex: 1; padding: 8px 10px; background: #fff; border-radius: 6px; border: 2px solid #ddd; flex-wrap: wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     .caixa-item.resolvido { background: #d0fad3; border-color: #ffffff; }
     .caixa-item.pendente { background: #fae1b8; border-color: #ffffff; }
     .caixa-item.nao-revisado { background: #ffebee; border-color: #f44336; animation: pulseRevisar 1.5s infinite; }
     @keyframes pulseRevisar { 0%, 100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4); } 50% { box-shadow: 0 0 8px 2px rgba(244, 67, 54, 0.6); } }
     .caixa-item label { margin: 0; font-size: 11px; min-width: 25px; font-weight: bold; color: #666; }
-    .caixa-item input.codigo-input { width: 100px; font-family: monospace; font-size: 13px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; }
-    .caixa-item input.descricao-input { flex: 1; min-width: 120px; font-size: 13px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .caixa-item input.codigo-input { width: 100px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 13px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .caixa-item input.descricao-input { flex: 1; min-width: 120px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 13px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; }
     
     /* Dropdown de equipe */
-    .caixa-item select.equipe-select { padding: 6px 8px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; min-width: 100px; max-width: 130px; }
-    .caixa-item select.tipo-btmt-select { padding: 6px 8px; font-size: 12px; border: 1px solid #9e9e9e; border-radius: 4px; background: #f5f5f5; min-width: 50px; max-width: 60px; font-weight: bold; }
-    .caixa-item select.equipe-select { padding: 6px 8px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; min-width: 100px; max-width: 130px; }
+    .caixa-item select.equipe-select { padding: 6px 8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; min-width: 130px; max-width: 150px; }
+    .caixa-item select.tipo-btmt-select { padding: 6px 8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 12px; border: 1px solid #9e9e9e; border-radius: 4px; background: #f5f5f5; min-width: 50px; max-width: 60px; font-weight: bold; }
     .caixa-item select.equipe-select.nec-selecionado { background: #fff3e0; border-color: #ff9800; }
+    .caixa-item select.equipe-select.sem-recurso-selecionado { background: #fff3e0; border-color: #ff9800; }
+    .caixa-item select.equipe-select.prior-vencida-selecionado { background: #fff3e0; border-color: #ff9800; }
     
     /* Checkbox e campo de afetação */
     .afetacao-container { display: flex; align-items: center; gap: 4px; }
@@ -256,15 +259,64 @@
     .afetacao-container input.afetacao-qtd::-webkit-outer-spin-button,
     .afetacao-container input.afetacao-qtd::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     
-    /* Input com erro - fundo vermelho claro pulsando */
-    .caixa-item input.input-erro { background: #ffcdd2; border-color: #f44336; animation: pulseInputErro 1s infinite; }
-    @keyframes pulseInputErro { 0%, 100% { background: #ffcdd2; } 50% { background: #ffebee; } }
+    /* Input com erro - fundo vermelho claro pulsando (só a caixa, não as options) */
+    .caixa-item input.input-erro, .caixa-item select.input-erro { background: #ffcdd2 !important; border-color: #f44336 !important; box-shadow: 0 0 4px rgba(244,67,54,0.5); animation: pulseInputErro 1s infinite; }
+    .caixa-item .tipo-btmt-select.input-erro { background: #ffcdd2 !important; border: 2px solid #f44336 !important; box-shadow: 0 0 4px rgba(244,67,54,0.5); animation: pulseInputErro 1s infinite; }
+    .caixa-item select.input-erro option { background: #fff !important; color: #333 !important; animation: none !important; }
+    @keyframes pulseInputErro { 0%, 100% { background: #ffcdd2; box-shadow: 0 0 4px rgba(244,67,54,0.5); } 50% { background: #ffebee; box-shadow: 0 0 12px rgba(244,67,54,0.9); } }
+    
+    /* Campos obrigatórios gerais com pulsação */
+    .campo-obrigatorio-erro { background: #ffcdd2 !important; border: 2px solid #f44336 !important; box-shadow: 0 0 4px rgba(244,67,54,0.5); animation: pulseInputErro 1s infinite !important; }
+    .campo-obrigatorio-erro option { background: #fff !important; color: #333 !important; animation: none !important; }
+    
+    /* Inputs de repassar (CONTAGEM) - sem setas */
+    .input-repassar-clean { 
+      width:70px; font-size:  18px; font-weight:bold; text-align:center; 
+      border:none; border-radius:6px; background:#fff; color:#000; 
+      padding:5px 8px;
+      display: inline-block;
+      -moz-appearance: textfield; /* Firefox */
+    }
+    .input-repassar-clean:focus { outline: 2px solid #1a73e8; }
+    .input-repassar-clean::-webkit-outer-spin-button,
+    .input-repassar-clean::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .input-repassar-clean.campo-obrigatorio-erro { 
+      background: #ffcdd2 !important; 
+      border: 2px solid #f44336 !important; 
+      box-shadow: 0 0 8px rgba(244,67,54,0.7) !important; 
+      animation: pulseRepassar 0.8s ease-in-out infinite !important; 
+    }
+    @keyframes pulseRepassar { 
+      0%, 100% { 
+        background: #ffcdd2; 
+        box-shadow: 0 0 8px rgba(244,67,54,0.7); 
+        border-color: #f44336;
+        transform: scale(1);
+      } 
+      50% { 
+        background: #fff; 
+        box-shadow: 0 0 20px rgba(244,67,54,1); 
+        border-color: #d32f2f;
+        transform: scale(1.05);
+      } 
+    }
     
     .btn-remove-item-ext, .btn-remover-item { background: #f44336; color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .btn-remove-item-ext:hover, .btn-remover-item:hover { background: #d32f2f; }
     
+    /* Drag and Drop - Arrastar itens entre pendências */
+    .caixa-item-wrapper[draggable="true"] { cursor: grab; }
+    .caixa-item-wrapper[draggable="true"]:active { cursor: grabbing; }
+    .caixa-item-wrapper.dragging { opacity: 0.5; transform: scale(0.98); border: 2px dashed #1a73e8 !important; background: #e3f2fd !important; }
+    .caixas-pendencias.drag-over { background: #e8f5e9 !important; border: 2px dashed #4caf50 !important; min-height: 60px; }
+    .caixas-pendencias.drag-over::before { content: '📥 Solte aqui para mover'; display: block; text-align: center; padding: 10px; color: #4caf50; font-weight: bold; font-size: 12px; }
+    .item-box.drag-over-box { background: #e8f5e9 !important; border: 2px dashed #4caf50 !important; box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); }
+    .item-box.drag-over-box .item-header::after { content: ' 📥 Solte aqui!'; color: #4caf50; font-weight: bold; }
+    .drag-handle { cursor: grab; padding: 4px 8px; margin-right: 5px; color: #999; font-size: 14px; }
+    .drag-handle:hover { color: #333; }
+    
     /* Botão toggle PENDENTE/RESOLVIDO */
-    .btn-toggle-status { padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; min-width: 90px; transition: all 0.2s; }
+    .btn-toggle-status { padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 12px; font-weight: bold; min-width: 90px; transition: all 0.2s; }
     .btn-toggle-status.pendente { background: #c86805; color: #fff; }
     .btn-toggle-status.pendente:hover { background: #ff9800; }
     .btn-toggle-status.resolvido { background: #4d9c50; color: #fff; }
@@ -277,37 +329,41 @@
     #qtd-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; justify-content: center; align-items: center; }
     #qtd-popup-content { background: #fff; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
     #qtd-popup-content h3 { margin: 0 0 15px 0; color: #333; }
-    #qtd-popup-content input { width: 80px; font-size: 24px; text-align: center; padding: 10px; border: 2px solid #ddd; border-radius: 8px; }
+    #qtd-popup-content input { width: 80px; font-size: 24px; text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
     #qtd-popup-content button { margin: 15px 5px 0 5px; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
     #qtd-popup-ok { background: #4caf50; color: #fff; }
     #qtd-popup-cancel { background: #f44336; color: #fff; }
     
-    .equipe-linha { display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; padding: 6px 6px; background: #f9fff9; border: 1px solid #4caf50; border-radius: 4px; margin: 6px 0; position: relative; }
-    .equipe-linha input, .equipe-linha select { margin: 0; font-size: 11px; padding: 6px; box-sizing: border-box; }
+    .equipe-linha { display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; padding: 4px 8px; background: #eaeaea; border: 1px solid #14496f; border-radius: 8px; margin: 4px 0; position: relative; }
+    .equipe-linha:focus-within { z-index: 99998; }
+    .equipe-linha input, .equipe-linha select { margin: 0; font-size: 12px; font-family: Segoe Ui; padding: 6px; box-sizing: border-box; }
     .equipe-linha .lead-input { width: 95px; font-family: monospace; text-transform: uppercase; flex-shrink: 0; }
     .equipe-linha .nome-input { width: 130px; text-transform: uppercase; flex-shrink: 0; }
     .equipe-linha .tel-input { width: 120px; flex-shrink: 0; }
-    .equipe-linha .local-input { width: 100%; font-size: 10px; cursor: pointer; box-sizing: border-box; }
+    .equipe-linha .local-input { width: 100%; font-size: 12px; font-family: Segoe Ui; cursor: pointer; box-sizing: border-box; }
+    .equipe-linha .local-select { width: 188px; font-size: 11px; font-family: 'Segoe UI', sans-serif; padding: 6px 2px; flex-shrink: 0; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; }
     .equipe-header { display: flex; gap: 6px; align-items: center; padding: 0 6px; background: transparent; border: none; margin: 4px 0 0 0; justify-content: flex-start; flex-wrap: nowrap; }
     .equipe-header span { text-align: left; cursor: pointer; user-select: none; padding: 8px 6px; background: #fff; color: #333; border: 1px solid #607d8b; border-radius: 4px; font-size: 14px; font-weight: bold; box-sizing: border-box; white-space: nowrap; }
     .equipe-header span:hover { background: #e3f2fd; }
     .equipe-header span.coluna-ordenada { background: #fff; color: #e53935; border-color: #e53935; }
     .equipe-header .hd-lead { width: 95px; flex-shrink: 0; }
     .equipe-header .hd-horario { width: 85px; flex-shrink: 0; }
-    .equipe-header .hd-nome { width: 130px; flex-shrink: 0; }
+    .equipe-header .hd-nome { width: 129px; flex-shrink: 0; }
     .equipe-header .hd-tel { width: 120px; flex-shrink: 0; }
     .equipe-header .hd-local { flex: 1; min-width: 80px; }
     .equipe-header .hd-spacer { width: 32px; flex-shrink: 0; visibility: hidden; }
-    .equipe-linha .horario-select { width: 85px; font-size: 10px; padding: 6px 2px; margin: 0; flex-shrink: 0; }
+    .equipe-linha .horario-select { width: 80px; font-size: 12px; padding: 6px 2px; margin: 0; flex-shrink: 0; }
     .equipe-campo-erro { background: #ffcdd2 !important; border: 1px solid #f44336 !important; border-radius: 4px; animation: pulseEquipeErro 1s infinite; }
+    .equipe-campo-erro option { background: #fff !important; color: #333 !important; animation: none !important; }
     @keyframes pulseEquipeErro { 0%, 100% { background: #ffcdd2; box-shadow: 0 0 4px rgba(244,67,54,0.5); } 50% { background: #ffebee; box-shadow: 0 0 10px rgba(244,67,54,0.9); } }
     .equipe-linha .equipe-remove { background: #f44336; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; flex-shrink: 0; }
     
     .autocomplete-wrapper { position: relative; display: inline-block; flex: 1; min-width: 80px; }
+    .autocomplete-wrapper:focus-within { z-index: 99999; }
     .autocomplete-dropdown {
       position: absolute; top: 100%; left: 0; width: 200px; max-height: 200px;
       overflow-y: auto; background: #fff; border: 2px solid #4caf50; border-radius: 6px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 9999; display: none;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 99999; display: none;
     }
     .autocomplete-dropdown.visible { display: block; }
     .autocomplete-dropdown .dropdown-item {
@@ -321,7 +377,7 @@
     .area-dropdown {
       position: absolute; top: 100%; left: 0; width: 100%; max-height: 180px;
       overflow-y: auto; background: #fff; border: 2px solid #1a73e8; border-radius: 6px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 9999; display: none;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 99999; display: none;
     }
     .area-dropdown.visible { display: block; }
     .area-dropdown .dropdown-item { padding: 10px 12px; cursor: pointer; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #eee; background: #fff; color: #333; }
@@ -337,13 +393,19 @@
     
     #reset-button { background: #000; color: #fff; border: none; padding: 10px 25px; font-size: 14px; border-radius: 20px; cursor: pointer; display: block; margin: 15px auto; font-family: 'Courier New', monospace; font-style: italic; }
     
-    .preview-box { background: #fff; color: #000; border: 1px solid #ccc; padding: 12px; border-radius: 6px; white-space: pre-wrap; font-family: monospace; font-size: 11px; min-height: 120px; cursor: default; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+    .preview-box { background: #fff; color: #000; border: 1px solid #ccc; padding: 12px; border-radius: 6px; white-space: pre-wrap; font-family: monospace; font-size: 14px; min-height: 120px; cursor: default; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
     .preview-box .titulo-secao { color: #e53935; font-weight: bold; }
     .preview-box .contagem-pendencia { color: #e53935; font-weight: bold; }
     .preview-box .afetacao-alta { color: #e53935; font-weight: bold; }
+    .preview-box .nec-destaque { background: #ffeb3b; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; }
+    .preview-box .sem-recurso-destaque { background: #ff9800; color: #fff; padding: 1px 3px; border-radius: 2px; font-weight: bold; }
+    .preview-box .prior-vencida-destaque { background: #f44336; color: #fff; padding: 1px 3px; border-radius: 2px; font-weight: bold; }
     .preview-box.modo-noturno { background: #000; color: #fff; border: none; }
     .preview-box.modo-noturno .titulo-secao { color: #ff6b6b; }
     .preview-box.modo-noturno .contagem-pendencia { color: #ff6b6b; }
+    .preview-box.modo-noturno .nec-destaque { background: #ffc107; color: #000; }
+    .preview-box.modo-noturno .sem-recurso-destaque { background: #ff9800; color: #fff; }
+    .preview-box.modo-noturno .prior-vencida-destaque { background: #f44336; color: #fff; }
     .preview-box.navegavel { cursor: pointer; }
     .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 5px; }
     
@@ -401,9 +463,9 @@
     .footer { text-align: center; font-style: italic; font-family: 'Courier New', monospace; margin-top: 15px; padding: 10px; color: #666; font-size: 10px; }
     
     [data-tooltip] { position: relative; }
-    [data-tooltip]:hover::after { content: attr(data-tooltip); position: absolute; bottom: -110%; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 11px; white-space: nowrap; z-index: 9999; margin-bottom: 5px; }
+    [data-tooltip]:hover::after { content: attr(data-tooltip); position: absolute; bottom: -110%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); color: #fff; padding: 6px 12px; border-radius: 4px; font-size: 12px; white-space: nowrap; z-index: 99999; margin-bottom: 5px; pointer-events: none; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
     [data-tooltip].tooltip-hidden:hover::after { display: none; }
-    .section-header[data-tooltip]:hover::after { bottom: auto; top: 100%; margin-top: 5px; margin-bottom: 0; z-index: 9999; }
+    .section-header[data-tooltip]:hover::after { bottom: auto; top: 100%; margin-top: 5px; margin-bottom: 0; z-index: 99999; }
     
     .highlight-section { animation: highlightPulse 1.5s ease; }
     @keyframes highlightPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.12); } 50% { box-shadow: 0 0 25px rgba(33, 150, 243, 0.8); } }
@@ -616,226 +678,175 @@
     </div>
     
     <h2 style="text-align: center; color: #1a73e8; margin: 5px 0; font-size: 20px;">🔄 RELATÓRIO DE TROCA DE TURNO</h2>
-    <p style="text-align: center; color: #666; margin: 0 0 10px 0; font-size: 11px;">(Versão 7.1)</p>
+    <p style="text-align: center; color: #666; margin: 0 0 10px 0; font-size: 11px;">(Versão 8.0)</p>
     
     <div id="sessao-info" class="sessao-info" style="display: none;"><strong>📍 Sessão Atual:</strong> <span id="sessao-operador-info"></span></div>
     
     
-<!-- CONTAINER LADO A LADO -->
-<div style="display:flex; gap:20px; align-items:center;">
-
-  <!-- ========================= -->
-  <!--   BLOCO DADOS DO TURNO    -->
-  <!-- ========================= -->
-  <div class="section" id="section-dados" style="flex:1;">
-    <div class="section-header" onclick="toggleSection(this)" data-tooltip="Clique para ocultar/mostrar">
-      <span>📅 DADOS DO TURNO</span><span class="section-toggle">▼</span>
-    </div>
-
-    <div class="section-content">
-
-      <div class="row-inline">
-        <div>
-          <label class="obrigatorio">Data:</label>
-          <input type="date" id="turno-data" style="width:100%;" onchange="onCampoAlterado()">
-        </div>
-
-        <div>
-          <label class="obrigatorio">Turno do Dia:</label>
-          <select id="turno-entrada" style="width:100%;" onchange="onCampoAlterado()">
-            <option value="">Selecione...</option>
-            <option value="06:00 ÀS 15:48">06:00 ÀS 15:48</option>
-            <option value="13:00 ÀS 22:48">13:00 ÀS 22:48</option>
-            <option value="22:00 ÀS 06:57">22:00 ÀS 06:57</option>
-          </select>
-        </div>
-      </div>
-
-      <label class="obrigatorio">Operador Atual:</label>
-      <input type="text" id="operador" style="width:100%; background-color: #e8f5e9;"
-             placeholder="(PREENCHIDO AUTOMATICAMENTE)"
-             readonly>
-
-      <div class="row-inline">
-        <div>
-          <label class="obrigatorio">Região:</label>
-          <select id="regiao" style="width:100%;" onchange="atualizarAreas(); onCampoAlterado()">
-            <option value="">Selecione...</option>
-            <option value="DEMEM">DEMEM</option>
-            <option value="DEMEF">DEMEF</option>
-          </select>
-        </div>
-
-        <div class="autocomplete-wrapper" style="flex:1; min-width:140px;">
-          <label class="obrigatorio">Área:</label>
-          <input type="text" id="area" style="width:100%;" placeholder="Clique para selecionar..."
-                 onclick="toggleAreaDropdown()"
-                 oninput="filtrarAreas(this.value)"
-                 autocomplete="off">
-          <div class="area-dropdown" id="area-dropdown"></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-
-<!-- ========================= -->
-<!--       FOLHA AJUSTADA      -->
-<!-- ========================= -->
-<div style="
-    width:203px;
-    background:white;
-    padding:14px 20px;
-    border-radius:12px;
-    border:1px solid #d0d0d0;
-    box-shadow:
-      inset 0 0 12px rgba(255, 120, 120, 0.25),
-      0 2px 6px rgba(0,0,0,0.12);
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    align-self:center;
-">
-  <!-- BONEQUINHO/IMAGEM -->
-  <img src="boneco.png" alt="Ícone" style="
-      display:block;
-      margin:0 auto;
-      width:206px;
-      height:132px;
-  ">
-  
-  <!-- TÍTULO CDI -->
-  <p style="
-      text-align:center;
-      font-weight:bold;
-      font-size:34px;
-      margin:-13px 0 0 0;
-      color:#ff0000;
-  ">C D I</p>
-  
-  <!-- LEGENDA -->
-  <p style="
-      text-align:center;
-      font-style:italic;
-      font-size:12px;
-      margin:2px 0 0 0;
-      color:#888;
-  ">Centro de Despacho Integrado</p>
-
-  <!-- FURINHOS AJUSTADOS (ALINHADOS) -->
-  <div style="
-      position:absolute;
-      left:-5px;
-      top:19px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-  ">
-    <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
-    <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
-    <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
-    <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
-    <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
-    <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
-    <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
-    <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
-    <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
-  </div>
-  
-  <!-- 4 LINHAS DE TEXTO DENTRO DA FOLHA -->
-  <div style="margin-top:5px;">
-    <div style="border-top:1px solid #d0d0d0; margin-top:8px;"></div>
-    <div style="border-top:1px solid #d0d0d0; margin-top:8px;"></div>
-    <div style="border-top:1px solid #d0d0d0; margin-top:8px;"></div>
-    <div style="border-top:1px solid #d0d0d0; margin-top:8px;"></div>
-  </div>
-  
-  <!-- AVISO IMPORTAÇÃO -->
-  <div id="aviso-importacao" style="
-      display:none;
-      margin-bottom:12px;
-      font-size:13px;
-      padding:10px;
-      border-radius:8px;
-      background:#fff5f5;
-      box-shadow:inset 0 0 6px rgba(255, 120, 120, 0.25);
-  ">
-    <strong style="color:#c2492d;">⚠️ SESSÃO IMPORTADA</strong>
-    <p style="margin:0px 0 0 0; font-size:11px;">
-      Operador Anterior: <strong id="nome-anterior-aviso"></strong>
-    </p>
-  </div>
-  
-  <!-- OPERADOR ANTERIOR -->
-  <div id="operador-anterior-box" style="
-      display:none;
-      font-size:12px;
-      background:#f8f8f8;
-      padding:8px 10px;
-      border-radius:8px;
-      box-shadow:inset 0 0 6px rgba(0,0,0,0.10);
-  ">
-    <strong>Último Relatório recebido de:</strong><br>
-    <span id="operador-anterior-nome"></span>
-  </div>
-</div>
-</div>
-
-    
-    <!-- CONTAGEM -->
-<div class="section section-contagem" id="section-contagem">
+<!-- SEÇÃO PRINCIPAL - DADOS, CONTAGEM E CDI -->
+<div class="section" id="section-dados-principal">
   <div class="section-header" onclick="toggleSection(this)" data-tooltip="Clique para ocultar/mostrar">
-    <span>💡RESUMO (ENTRADA E SAÍDA DE OCORRENCIAS)</span><span class="section-toggle">▼</span>
+    <span>📋 INFORMAÇÕES DO TURNO</span><span class="section-toggle">▼</span>
   </div>
-
-  <div class="section-content">
-    <!-- Linha 1: Campos RECEBIDOS (somente leitura - caixas pretas) -->
-    <div class="count-buttons-container">
-      <div class="count-button">
-        <span class="label">📥 "F" RECEBIDOS</span>
-        <span id="f-recebidos-display" class="value">0</span>
-        <input type="hidden" id="f-recebidos" value="0">
-      </div>
-      <div class="count-button">
-        <span class="label">📥 "INC." RECEBIDAS</span>
-        <span id="incidencias-recebidas-display" class="value">0</span>
-        <input type="hidden" id="incidencias-recebidas" value="0">
-      </div>
-    </div>
-
-    
-    
-    <!-- Linha 2: Campos REPASSADOS (uma caixa só) -->
-    <div class="count-buttons-container">
-      <div class="count-button" style="background-color:#0053bf; display:flex; justify-content:center; gap:75px; padding:-1px 20px;">
-        <div style="text-align:center;">
-          <span class="label">📤 TOTAL "F" REPASSADOS</span>
-          <input 
-            type="number" 
-            id="f-pendentes" 
-            min="0" 
-            placeholder="0" 
-            onchange="onCampoAlterado()"
-            style="width:80px; font-size:22px; font-weight:bold; text-align:center; border:none; border-radius:6px; background:#fff; color:#000; display:block; margin:5px auto 0 auto;"
-          >
+  
+  <div class="section-content" style="padding:15px;">
+    <div style="display:flex; gap:15px; align-items:stretch;">
+      
+      <!-- ========================= -->
+      <!--   CARD DADOS DO TURNO     -->
+      <!-- ========================= -->
+      <div id="section-dados" style="flex:1; background:#f9f9f9; border:1px solid #ddd; border-radius:8px; padding:12px; display:flex; flex-direction:column;">
+        <div style="font-weight:bold; font-size:13px; color:#607d8b; margin-bottom:10px; padding-bottom:8px; border-bottom:2px solid #607d8b;">
+          📅 DADOS DO TURNO
         </div>
-        <div style="text-align:center;">
-          <span class="label">📤 TOTAL "INC." REPASSADAS</span>
-          <input 
-            type="number" 
-            id="incidencias-tela-qtd" 
-            min="0" 
-            placeholder="0" 
-            onchange="onCampoAlterado()"
-            style="width:80px; font-size:22px; font-weight:bold; text-align:center; border:none; border-radius:6px; background:#fff; color:#000; display:block; margin:5px auto 0 auto;"
-          >
+        
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; gap:8px;">
+            <div style="flex:1;">
+              <label class="obrigatorio" style="font-size:11px; display:block; margin-bottom:3px;">Data:</label>
+              <input type="date" id="turno-data" style="width:100%; padding:6px; font-size:12px; border:1px solid #ccc; border-radius:4px;" onchange="this.classList.remove('campo-obrigatorio-erro'); onCampoAlterado()">
+            </div>
+            <div style="flex:1;">
+              <label class="obrigatorio" style="font-size:11px; display:block; margin-bottom:3px;">Turno:</label>
+              <select id="turno-entrada" style="width:100%; padding:6px; font-size:12px; border:1px solid #ccc; border-radius:4px;" onchange="this.classList.remove('campo-obrigatorio-erro'); onCampoAlterado()">
+                <option value="">Selecione...</option>
+                <option value="06:00 ÀS 15:48">06:00 ÀS 15:48</option>
+                <option value="13:00 ÀS 22:48">13:00 ÀS 22:48</option>
+                <option value="22:00 ÀS 06:57">22:00 ÀS 06:57</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="obrigatorio" style="font-size:11px; display:block; margin-bottom:3px;">Operador:</label>
+            <input type="text" id="operador" style="width:100%; padding:6px; font-size:12px; background-color:#e8f5e9; border:1px solid #ccc; border-radius:4px;"
+                   placeholder="(PREENCHIDO AUTOMATICAMENTE)" readonly>
+          </div>
+
+          <div style="display:flex; gap:8px;">
+            <div style="flex:1;">
+              <label class="obrigatorio" style="font-size:11px; display:block; margin-bottom:3px;">Região:</label>
+              <select id="regiao" style="width:100%; padding:6px; font-size:12px; border:1px solid #ccc; border-radius:4px;" onchange="this.classList.remove('campo-obrigatorio-erro'); atualizarAreasSelect(); onCampoAlterado()">
+                <option value="">Selecione...</option>
+                <option value="DEMEM">DEMEM</option>
+                <option value="DEMEF">DEMEF</option>
+              </select>
+            </div>
+            <div style="flex:1;">
+              <label class="obrigatorio" style="font-size:11px; display:block; margin-bottom:3px;">Área:</label>
+              <select id="area" style="width:100%; padding:6px; font-size:12px; border:1px solid #ccc; border-radius:4px;" onchange="this.classList.remove('campo-obrigatorio-erro'); selecionarAreaSelect(); onCampoAlterado()">
+                <option value="">Selecione a região primeiro...</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- ========================= -->
+      <!--   CARD CONTAGEM           -->
+      <!-- ========================= -->
+      <div id="section-contagem" style="flex:1; background:#f9f9f9; border:1px solid #ddd; border-radius:8px; padding:12px; display:flex; flex-direction:column;">
+        <div style="font-weight:bold; font-size:13px; color:#607d8b; margin-bottom:10px; padding-bottom:8px; border-bottom:2px solid #607d8b;">
+          💡 CONTAGEM
+        </div>
+        
+        <div style="flex:1; display:flex; flex-direction:column; gap:10px; justify-content:center;">
+          
+          <!-- BLOCO RECEBIDOS (PRETO) -->
+          <div style="background:#000000; border-radius:8px; padding:5px; display:flex; align-items:center; gap:0px;">
+            <!-- Ícone único -->
+            <span style="font-size:60px; line-height:1;">📥</span>
+            <!-- Linhas -->
+            <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:15px; color:#fff; font-weight:500;">F RECEBIDOS</span>
+                <span id="f-recebidos-display" style="font-size:18px; font-weight:bold; color:#f44336; width:70px; text-align:center; background:#fff; padding:5px 2px; border-radius:6px; display:inline-block;">0</span>
+                <input type="hidden" id="f-recebidos" value="0">
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:15px; color:#fff; font-weight:500;">INCIDÊNCIAS RECEBIDAS</span>
+                <span id="incidencias-recebidas-display" style="font-size:18px; font-weight:bold; color:#f44336; width:70px; text-align:center; background:#fff; padding:5px 2px; border-radius:6px; display:inline-block;">0</span>
+                <input type="hidden" id="incidencias-recebidas" value="0">
+              </div>
+            </div>
+          </div>
+          
+          <!-- BLOCO REPASSADOS (CINZA) -->
+          <div style="background:#607d8b; border-radius:8px; padding:5px; display:flex; align-items:center; gap:0px;">
+            <!-- Ícone único -->
+            <span style="font-size:60px; line-height:1;">📤</span>
+            <!-- Linhas -->
+            <div style="flex:1; display:flex; flex-direction:column; gap:0px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:15px; color:#fff; font-weight:500;">F REPASSADOS</span>
+                <input type="number" id="f-pendentes" class="input-repassar-clean" min="0" placeholder="0" 
+                       onchange="onCampoAlterado()" oninput="this.classList.remove('campo-obrigatorio-erro')">
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:15px; color:#fff; font-weight:500;">INCIDÊNCIAS REPASSADAS</span>
+                <input type="number" id="incidencias-tela-qtd" class="input-repassar-clean" min="0" placeholder="0" 
+                       onchange="onCampoAlterado()" oninput="this.classList.remove('campo-obrigatorio-erro')">
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- ========================= -->
+      <!--       CARD CDI            -->
+      <!-- ========================= -->
+      <div style="width:220px; flex-shrink:0; background:#fff; border:1px solid #d0d0d0; border-radius:8px; padding:12px; display:flex; flex-direction:column; box-shadow:inset 0 0 12px rgba(255, 120, 120, 0.15); position:relative;">
+        <!-- FURINHOS -->
+        <div style="position:absolute; left:-5px; top:15px; display:flex; flex-direction:column; gap:12px;">
+          <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
+          <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
+          <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
+          <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
+          <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
+          <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
+          <div style="width:10px; height:10px; background:#d0d0d0; border-radius:50%;"></div>
+        </div>
+        
+        <!-- BONEQUINHO/IMAGEM -->
+        <img src="boneco.png" alt="Ícone" style="display:block; margin:0 auto; width:180px; height:115px;">
+        
+        <!-- TÍTULO CDI -->
+        <p style="text-align:center; font-weight:bold; font-size:28px; margin:-8px 0 0 0; color:#ff0000;">C D I</p>
+        
+        <!-- LEGENDA -->
+        <p style="text-align:center; font-style:italic; font-size:11px; margin:2px 0 0 0; color:#888;">Centro de Despacho Integrado</p>
+        
+        <!-- LINHAS -->
+        <div style="margin-top:5px;">
+          <div style="border-top:1px solid #d0d0d0; margin-top:6px;"></div>
+          <div style="border-top:1px solid #d0d0d0; margin-top:6px;"></div>
+          <div style="border-top:1px solid #d0d0d0; margin-top:6px;"></div>
+          <div style="border-top:1px solid #d0d0d0; margin-top:6px;"></div>
+          <div style="border-top:1px solid #d0d0d0; margin-top:6px;"></div>
+          <div style="border-top:1px solid #d0d0d0; margin-top:6px;"></div>
+          <div style="border-top:1px solid #d0d0d0; margin-top:6px;"></div>
+          <div style="border-top:1px solid #d0d0d0; margin-top:6px;"></div>
+          <div style="border-top:1px solid #d0d0d0; margin-top:6px;"></div>
+        </div>
+        
+        <!-- AVISO IMPORTAÇÃO -->
+        <div id="aviso-importacao" style="display:none; margin-top:8px; font-size:12px; padding:8px; border-radius:6px; background:#fff5f5; box-shadow:inset 0 0 6px rgba(255, 120, 120, 0.25);">
+          <strong style="color:#c2492d;">⚠️ SESSÃO IMPORTADA</strong>
+          <p style="margin:0; font-size:10px;">Operador Anterior: <strong id="nome-anterior-aviso"></strong></p>
+        </div>
+        
+        <!-- OPERADOR ANTERIOR -->
+        <div id="operador-anterior-box" style="display:none; margin-top:8px; font-size:11px; background:#f8f8f8; padding:6px 8px; border-radius:6px; box-shadow:inset 0 0 6px rgba(0,0,0,0.10);">
+          <strong>Último Relatório recebido de:</strong><br>
+          <span id="operador-anterior-nome"></span>
+        </div>
+      </div>
+
     </div>
   </div>
-</div>    
+</div>
+    
     <!-- EQUIPES ATIVAS -->
     <div class="section section-equipes" id="section-equipes">
       <div class="section-header" onclick="toggleSection(this)" data-tooltip="Clique para ocultar/mostrar"><span>🚗 EQUIPES ATIVAS (<span id="equipes-count">0</span>)</span><span class="section-toggle">▼</span></div>
@@ -1057,6 +1068,25 @@
           </div>
           <div class="caixas-dinamicas" id="caixas-religador"></div>
         </div>
+        
+        <div class="item-box" id="box-segundo-recurso">
+          <div class="item-header">
+            <span class="item-contador" id="contador-segundo-recurso"></span>
+            <span class="item-title titulo-vermelho">SEGUNDO RECURSO</span>
+            <div class="btn-group" id="btns-segundo-recurso">
+              <button class="btn-resposta btn-sim" onclick="abrirPopupQtd('segundo-recurso', this)">SIM</button>
+              <button class="btn-resposta btn-nao" onclick="selecionarNao('segundo-recurso', this)">NÃO</button>
+              <button class="btn-desfazer" id="desfazer-segundo-recurso" onclick="desfazerItem('segundo-recurso')">✕</button>
+            </div>
+            <div class="campos-inline" id="campos-segundo-recurso">
+              <button class="btn-remover-todas" onclick="removerTodasPendencias('segundo-recurso')">REMOVER TODAS</button>
+              <button class="btn-adicionar-item" onclick="adicionarPendencia('segundo-recurso')">ADICIONAR OCORRÊNCIA</button>
+              <input type="text" id="segundo-recurso-qtd" class="qtd-readonly" value="0" readonly>
+              <input type="hidden" id="segundo-recurso-obs" value="">
+            </div>
+          </div>
+          <div class="caixas-dinamicas" id="caixas-segundo-recurso"></div>
+        </div>
       </div>
     </div>
     
@@ -1073,17 +1103,18 @@
       <div class="section-header" onclick="toggleSection(this)" data-tooltip="Clique para ocultar/mostrar"><span>RELATÓRIO DE PRÉ-VISUALIZAÇÃO</span><span class="section-toggle">▼</span></div>
       <div class="section-content">
         <div class="preview-header">
-          <span style="font-size:11px; color:#666;">Clique na mensagem para navegar</span>
+          <span style="font-size:15px; color:#666;">Clique na mensagem para navegar</span>
           <div>
-            <button class="btn-acao btn-modo" onclick="diminuirFontePreview()" data-tooltip="Diminuir fonte" style="font-size:14px; padding:4px 10px;">➖</button>
-            <button class="btn-acao btn-modo" onclick="aumentarFontePreview()" data-tooltip="Aumentar fonte" style="font-size:14px; padding:4px 10px;">➕</button>
+            <span id="contador-fonte" style="font-size:17px; font-weight:bold; font-family: inherit; color:#333; padding:8px 14px; background:#f0f0f0; border-radius:4px; min-width:53px; text-align:center; display:inline-block;">11px</span>
+            <button class="btn-acao btn-modo" onclick="diminuirFontePreview()" data-tooltip="Diminuir fonte" style="font-size:20px; color:#333; background:#f0f0f0; padding:10px 20px;">━</button>
+            <button class="btn-acao btn-modo" onclick="aumentarFontePreview()" data-tooltip="Aumentar fonte" style="font-size:20px; color:#333; background:#f0f0f0; padding:10px 20px;">╋</button>
             <button id="btn-copiar" class="btn-acao btn-copiar" onclick="copiarMensagem()" data-tooltip="Disponível após exportar" disabled><span style="font-size: 18px;">📋</span> COPIAR</button>
             <button id="btn-print" class="btn-acao btn-copiar" onclick="printarPreview()" data-tooltip="Disponível após exportar" disabled><span style="font-size: 18px;">📸</span> PRINT</button>
           </div>
         </div>
         <div id="previewBox" class="preview-box navegavel" onclick="navegarPorClique(event)"></div>
         <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
-          <button id="btn-formato-equipe" class="btn-acao btn-modo" onclick="toggleFormatoEquipe()" data-tooltip="Alternar formato das equipes" style="font-size:11px; padding:6px 12px; background:#2e7d32;">ATIVAR QUEBRAS EQUIPES</button>
+          <button id="btn-formato-equipe" class="btn-acao btn-modo" onclick="toggleFormatoEquipe()" data-tooltip="Alternar formato das equipes" style="font-size:11px; padding:6px 12px; background:#2e7d32;">COMPACTAR EQUIPES</button>
           <button id="btn-quebra-pendencias" class="btn-acao btn-modo" onclick="toggleQuebraPendencias()" data-tooltip="Quebra de linha entre pendências" style="font-size:11px; padding:6px 12px; background:#607d8b;">COMPACTAR PENDÊNCIAS</button>
           <button class="btn-acao btn-modo" onclick="toggleModoNoturno()" data-tooltip="Alternar tema" style="font-size:11px; padding:6px 12px;">🌙 Noturno</button>
         </div>
@@ -1169,8 +1200,9 @@ let DADOS_REGIOES = {
     "BATURITÉ": ["ACARAPÉ","ANTÔNIO DIOGO","ARACOIABA","ARATUBA","BARREIRA","BATURITÉ","CAPISTRANO","CHOROZINHO","GADO DOS FERROS","GUAIÚBA","GUARAMIRANGA","ITAPIÚNA","MULUNGU","OCARA","PACOTI","PALMÁCIA","REDENÇÃO"],
     "CAUCAIA": ["CATUANA","CAUCAIA","ICARAI","PECEM","SÃO GONÇALO DO AMARANTE","SIUPÉ","SÍTIOS NOVOS","TAIBA"],
     "HORIZONTE": ["CAMARÁ","CHOROZINHO","COLUNA","EUSÉBIO","GERERAU","HORIZONTE","ITAITINGA","MANGABEIRA","OCARA","PACAJUS","PITOMBEIRAS","SERRA DO FÉLIX"],
-    "MARACANAÚ": ["ACARAPÉ","MARACANAÚ","MARANGUAPE","PACATUBA","PENEDO"]
+    "MARACANAÚ": ["ACARAPÉ","GUAIUBA","INDUSTRIAL I","INDUSTRIAL II","INDUSTRIAL III","JEIREISSATI I","JEIREISSATI II","JEIREISSATI III","JACANAU","MARACANAÚ","MUCUNA","MARANGUAPE","PACATUBA","PENEDO"]
   },
+
 
   "DEMEF": {
     "DF-001": ["ALDEOTA","BENFICA","CAIS DO PORTO","CENTRO","CIDADE 2000","COCÓ","DE LOURDES","DIONÍSIO TORRES","EDSON QUEIROZ","ENGENHEIRO LUCIANO CAVALCANTE","FARIAS BRITO","FÁTIMA","GUARARAPES","JACARECANGA","JOAQUIM TÁVORA","JOSÉ BONIFÁCIO","MAGUARY","MANOEL DIAS BRANCO","MEIRELES","MOURA BRASIL","MUCURIPE","PAPICU","PRAIA DE IRACEMA","PRAIA DO FUTURO","SABIAGUABA","SALINAS","SÃO GERARDO","SÃO JOÃO DO TAUAPÉ","VARJOTA","VICENTE PINZON"],
@@ -1200,7 +1232,7 @@ const KEY_NAVEGACAO = 'troca_turno_navegacao_' + _sfx;
 let equipeCount = 0, operadorAnterior = null;
 let estados = {}, modoNoturno = false, sessaoImportada = false, dadosImportados = null;
 let mensagemCompleta = ''; // Mensagem com símbolos para copiar
-let tamanhoFontePreview = 11; // Tamanho da fonte do preview
+let tamanhoFontePreview = 14; // Tamanho da fonte do preview
 let detalhesPendentes = {}, itemAtualDetalhe = null, configCores = {};
 let areaSelecionada = '', navegacaoAtiva = true;
 let formatoEquipeCompacto = false;
@@ -1220,6 +1252,8 @@ function fecharLGPD() {
 // ============================================
 window.onload = async function() {
   await carregarDadosExternos();
+  carregarTamanhoFontePreview();
+  configurarDropZones(); // Configurar drag and drop entre pendências
 
   // Mostra LGPD primeiro, esconde login até aceitar
   document.getElementById('login-overlay').style.display = 'none';
@@ -1522,7 +1556,7 @@ function carregarDadosImportados(d) {
   if (d.equipes) d.equipes.forEach(eq => adicionarEquipeComDados(eq));
   
   // Carregar quantidades e observações (só para os que estão como SIM)
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     if (estados[id] === 'sim') {
       const q = document.getElementById(id + '-qtd'), o = document.getElementById(id + '-obs');
       if (q && d[id + 'Qtd']) q.value = d[id + 'Qtd'];
@@ -1549,28 +1583,31 @@ function carregarDadosImportados(d) {
 
 // Restaura estados na IMPORTAÇÃO - apenas SIM são restaurados, NÃO volta para SIM/NÃO
 function restaurarEstadosBotoesImportacao() {
-  const todosItens = ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'];
+  const todosItens = ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'];
   todosItens.forEach(id => {
     const v = estados[id];
     const bc = document.getElementById('btns-' + id);
     const c  = document.getElementById('campos-' + id);
+    const cx = document.getElementById('caixas-' + id);
     if (!bc) return;
 
     if (v === 'sim') {
-      // SIM: oculta botões, mostra campos
+      // SIM: oculta botões, mostra campos e container de caixas
       bc.querySelectorAll('.btn-resposta').forEach(b => { b.style.display = 'none'; b.classList.remove('selecionado'); });
       if (c) c.classList.add('visible');
+      if (cx) cx.classList.add('visible');
     } else {
       // NÃO ou sem estado: restaura SIM/NÃO limpos, sem seleção
       bc.querySelectorAll('.btn-resposta').forEach(b => { b.style.display = ''; b.classList.remove('selecionado'); });
       if (c) c.classList.remove('visible');
+      if (cx) { cx.classList.remove('visible'); cx.innerHTML = ''; }
     }
   });
 }
 
 // Restaura caixas na IMPORTAÇÃO - sempre marca como NÃO REVISADO (só para itens SIM)
 function restaurarCaixasImportacao(data) {
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     // Só restaura se o estado for SIM
     if (estados[id] !== 'sim') return;
     
@@ -1616,15 +1653,28 @@ function restaurarCaixasImportacao(data) {
         const wrapper = document.createElement('div');
         wrapper.className = 'caixa-item-wrapper';
         wrapper.id = `${id}-wrapper-${num}`;
+        wrapper.draggable = true;
+        wrapper.dataset.origemId = id;
+        wrapper.dataset.itemNum = num;
         
-        // Verifica se equipe é NEC. para aplicar classe
-        const necClass = (it.equipe && it.equipe.startsWith('NEC.')) ? 'nec-selecionado' : '';
+        // Eventos de drag
+        wrapper.ondragstart = function(e) { iniciarDrag(e, this); };
+        wrapper.ondragend = function(e) { finalizarDrag(e, this); };
+        
+        // Verifica se equipe é NEC., SEM RECURSO ou PRIOR. VENCIDA para aplicar classe
+        let selectClass = '';
+        if (it.equipe) {
+          if (it.equipe.startsWith('NEC.')) selectClass = 'nec-selecionado';
+          else if (it.equipe === 'SEM RECURSO') selectClass = 'sem-recurso-selecionado';
+          else if (it.equipe === 'PRIOR. VENCIDA') selectClass = 'prior-vencida-selecionado';
+        }
         
         // NOVA ORDEM: BT/MT → Ocorrência → Afetação → Observação → Equipe → Status
         wrapper.innerHTML = `
           <div class="caixa-item ${statusClass}" id="${id}-item-${num}" data-status="${status}">
+            <span class="drag-handle" title="Arraste para mover">⋮⋮</span>
             <label>#${num}:</label>
-            <select class="tipo-btmt-select" id="${id}-tipo-${num}" onchange="onCampoAlterado()">
+            <select class="tipo-btmt-select" id="${id}-tipo-${num}" onchange="this.classList.remove('input-erro'); onCampoAlterado()">
               <option value="" ${!tipoBtMt ? 'selected' : ''}>-</option>
               <option value="BT" ${tipoBtMt === 'BT' ? 'selected' : ''}>BT</option>
               <option value="MT" ${tipoBtMt === 'MT' ? 'selected' : ''}>MT</option>
@@ -1636,8 +1686,8 @@ function restaurarCaixasImportacao(data) {
               <input type="number" class="afetacao-qtd" id="${id}-afetacao-qtd-${num}" value="${afetacaoQtdVal}" min="0" onchange="onCampoAlterado()">
             </div>
             <input type="text" class="descricao-input" id="${id}-desc-${num}" value="${it.desc || ''}" placeholder="OBSERVAÇÃO" oninput="this.classList.remove('input-erro');" onchange="onCampoAlterado()">
-            <select class="equipe-select ${necClass}" id="${id}-equipe-${num}" onchange="destacarSelectNecessidade(this); onCampoAlterado()">
-              <option value="">Equipe</option>
+            <select class="equipe-select ${selectClass}" id="${id}-equipe-${num}" onchange="this.classList.remove('input-erro'); destacarSelectNecessidade(this); onCampoAlterado()">
+              <option value="" disabled selected>DEFINIR RECURSO</option>
               ${equipesOptions}
             </select>
             <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${id}', ${num})" title="Clique para alternar status">${statusText}</button>
@@ -1698,7 +1748,7 @@ function carregarDadosCompletos(d) {
   if (d.equipes) d.equipes.forEach(eq => adicionarEquipeComDados(eq));
   
   // Carregar quantidades e observações
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     const q = document.getElementById(id + '-qtd'), o = document.getElementById(id + '-obs');
     if (q && d[id + 'Qtd']) q.value = d[id + 'Qtd'];
     if (o && d[id + 'Obs']) o.value = d[id + 'Obs'];
@@ -1737,24 +1787,58 @@ function atualizarAreas() {
   fecharTodosDropdowns();
 }
 
+// Nova função para atualizar select de área quando região muda
+function atualizarAreasSelect() {
+  const regiao = document.getElementById('regiao').value;
+  const areaSelect = document.getElementById('area');
+  areaSelect.innerHTML = '';
+  areaSelecionada = '';
+  
+  if (!regiao) {
+    areaSelect.innerHTML = '<option value="">Selecione a região primeiro...</option>';
+    return;
+  }
+  
+  const areas = DADOS_REGIOES[regiao] ? Object.keys(DADOS_REGIOES[regiao]).sort() : [];
+  areaSelect.innerHTML = '<option value="">Selecione...</option>';
+  areas.forEach(area => {
+    const opt = document.createElement('option');
+    opt.value = area;
+    opt.textContent = area;
+    areaSelect.appendChild(opt);
+  });
+}
+
+// Nova função quando seleciona área no select
+function selecionarAreaSelect() {
+  const areaSelect = document.getElementById('area');
+  areaSelecionada = areaSelect.value;
+  // Atualiza as localidades disponíveis nas equipes
+  atualizarSelectsLocalidades();
+}
+
 function toggleAreaDropdown() {
   const regiao = document.getElementById('regiao').value;
   if (!regiao) { mostrarNotificacao('⚠️ Selecione a região primeiro!'); return; }
   const dropdown = document.getElementById('area-dropdown');
-  if (dropdown.classList.contains('visible')) { dropdown.classList.remove('visible'); }
-  else { renderizarAreasDropdown(''); dropdown.classList.add('visible'); }
+  if (dropdown && dropdown.classList.contains('visible')) { dropdown.classList.remove('visible'); }
+  else if (dropdown) { renderizarAreasDropdown(''); dropdown.classList.add('visible'); }
 }
 
 function filtrarAreas(termo) {
   const regiao = document.getElementById('regiao').value;
   if (!regiao) return;
-  renderizarAreasDropdown(termo);
-  document.getElementById('area-dropdown').classList.add('visible');
+  const dropdown = document.getElementById('area-dropdown');
+  if (dropdown) {
+    renderizarAreasDropdown(termo);
+    dropdown.classList.add('visible');
+  }
 }
 
 function renderizarAreasDropdown(filtro) {
   const regiao = document.getElementById('regiao').value;
   const dropdown = document.getElementById('area-dropdown');
+  if (!dropdown) return;
   const areas = DADOS_REGIOES[regiao] ? Object.keys(DADOS_REGIOES[regiao]) : [];
   const filtradas = areas.filter(a => a.toUpperCase().includes(filtro.toUpperCase()));
   dropdown.innerHTML = '';
@@ -1776,10 +1860,33 @@ function getLocalidadesDisponiveis() {
   return DADOS_REGIOES[regiao][area];
 }
 
+// Gera options HTML para os selects de localidades
+function gerarOptionsLocalidades() {
+  const localidades = getLocalidadesDisponiveis();
+  if (localidades.length === 0) return '';
+  return localidades.map(loc => `<option value="${loc}">${loc}</option>`).join('');
+}
+
+// Atualiza todas as selects de localidades quando área muda
+function atualizarSelectsLocalidades() {
+  const localOptions = gerarOptionsLocalidades();
+  document.querySelectorAll('.local-select').forEach(select => {
+    const valorAtual = select.value;
+    const placeholder = select.options[0]?.text || 'Local';
+    select.innerHTML = `<option value="">${placeholder}</option>${localOptions}`;
+    // Tenta restaurar valor anterior se ainda existir nas opções
+    if (valorAtual) {
+      const optionExists = Array.from(select.options).some(opt => opt.value === valorAtual);
+      if (optionExists) select.value = valorAtual;
+    }
+  });
+}
+
 function toggleLocalDropdown(inputId, dropdownId) {
   const localidades = getLocalidadesDisponiveis();
   if (localidades.length === 0) { mostrarNotificacao('⚠️ Selecione Região e Área primeiro!'); return; }
   const dropdown = document.getElementById(dropdownId);
+  if (!dropdown) return;
   fecharTodosDropdowns();
   if (!dropdown.classList.contains('visible')) { renderizarLocalDropdown(inputId, dropdownId, ''); dropdown.classList.add('visible'); }
 }
@@ -1938,10 +2045,16 @@ function verificarImportacao() {
 
 // MUDANÇA 4: Destacar select quando opção NEC. for selecionada
 function destacarSelectNecessidade(selectElement) {
-  if (selectElement.value.startsWith('NEC.')) {
+  // Remove todas as classes de destaque
+  selectElement.classList.remove('nec-selecionado', 'sem-recurso-selecionado', 'prior-vencida-selecionado');
+  
+  const valor = selectElement.value;
+  if (valor.startsWith('NEC.')) {
     selectElement.classList.add('nec-selecionado');
-  } else {
-    selectElement.classList.remove('nec-selecionado');
+  } else if (valor === 'SEM RECURSO') {
+    selectElement.classList.add('sem-recurso-selecionado');
+  } else if (valor === 'PRIOR. VENCIDA') {
+    selectElement.classList.add('prior-vencida-selecionado');
   }
 }
 
@@ -1957,6 +2070,8 @@ function aumentarFontePreview() {
   if (tamanhoFontePreview < 20) {
     tamanhoFontePreview++;
     document.getElementById('previewBox').style.fontSize = tamanhoFontePreview + 'px';
+    atualizarContadorFonte();
+    localStorage.setItem('tamanhoFontePreview', tamanhoFontePreview);
   }
 }
 
@@ -1964,6 +2079,24 @@ function diminuirFontePreview() {
   if (tamanhoFontePreview > 8) {
     tamanhoFontePreview--;
     document.getElementById('previewBox').style.fontSize = tamanhoFontePreview + 'px';
+    atualizarContadorFonte();
+    localStorage.setItem('tamanhoFontePreview', tamanhoFontePreview);
+  }
+}
+
+function atualizarContadorFonte() {
+  const contador = document.getElementById('contador-fonte');
+  if (contador) {
+    contador.textContent = tamanhoFontePreview + 'px';
+  }
+}
+
+function carregarTamanhoFontePreview() {
+  const salvo = localStorage.getItem('tamanhoFontePreview');
+  if (salvo) {
+    tamanhoFontePreview = parseInt(salvo);
+    document.getElementById('previewBox').style.fontSize = tamanhoFontePreview + 'px';
+    atualizarContadorFonte();
   }
 }
 
@@ -2138,12 +2271,20 @@ function adicionarItemCaixa(id, container) {
   const wrapper = document.createElement('div');
   wrapper.className = 'caixa-item-wrapper';
   wrapper.id = `${id}-wrapper-${num}`;
+  wrapper.draggable = true;
+  wrapper.dataset.origemId = id;
+  wrapper.dataset.itemNum = num;
+  
+  // Eventos de drag
+  wrapper.ondragstart = function(e) { iniciarDrag(e, this); };
+  wrapper.ondragend = function(e) { finalizarDrag(e, this); };
   
   // NOVA ORDEM: BT/MT → Ocorrência → Afetação → Observação → Equipe → Status
   wrapper.innerHTML = `
     <div class="caixa-item pendente" id="${id}-item-${num}" data-status="pendente">
+      <span class="drag-handle" title="Arraste para mover">⋮⋮</span>
       <label>#${num}:</label>
-      <select class="tipo-btmt-select" id="${id}-tipo-${num}" onchange="onCampoAlterado()">
+      <select class="tipo-btmt-select" id="${id}-tipo-${num}" onchange="this.classList.remove('input-erro'); onCampoAlterado()">
         <option value="">-</option>
         <option value="BT">BT</option>
         <option value="MT">MT</option>
@@ -2155,8 +2296,8 @@ function adicionarItemCaixa(id, container) {
         <input type="number" class="afetacao-qtd" id="${id}-afetacao-qtd-${num}" value="0" min="0" onchange="onCampoAlterado()">
       </div>
       <input type="text" class="descricao-input" id="${id}-desc-${num}" placeholder="OBSERVAÇÃO" oninput="this.classList.remove('input-erro');" onchange="onCampoAlterado()">
-      <select class="equipe-select" id="${id}-equipe-${num}" onchange="destacarSelectNecessidade(this); onCampoAlterado()">
-        <option value="">Equipe</option>
+      <select class="equipe-select" id="${id}-equipe-${num}" onchange="this.classList.remove('input-erro'); destacarSelectNecessidade(this); onCampoAlterado()">
+        <option value="" disabled selected>DEFINIR RECURSO</option>
         ${equipesOptions}
       </select>
       <button class="btn-toggle-status pendente" onclick="toggleStatusItem('${id}', ${num})" title="Clique para alternar status">PENDENTE</button>
@@ -2166,10 +2307,237 @@ function adicionarItemCaixa(id, container) {
   container.appendChild(wrapper);
 }
 
+// ========================================
+// DRAG AND DROP - Mover itens entre pendências
+// ========================================
+
+let itemArrastando = null;
+
+function iniciarDrag(e, elemento) {
+  itemArrastando = elemento;
+  elemento.classList.add('dragging');
+  
+  // Salva os dados do item
+  const dados = coletarDadosItem(elemento);
+  e.dataTransfer.setData('text/plain', JSON.stringify(dados));
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function finalizarDrag(e, elemento) {
+  elemento.classList.remove('dragging');
+  itemArrastando = null;
+  
+  // Remove classe drag-over de todos os containers
+  document.querySelectorAll('.caixas-pendencias').forEach(c => {
+    c.classList.remove('drag-over');
+  });
+}
+
+function coletarDadosItem(wrapper) {
+  const item = wrapper.querySelector('.caixa-item');
+  return {
+    origemId: wrapper.dataset.origemId,
+    tipo: wrapper.querySelector('.tipo-btmt-select')?.value || '',
+    codigo: wrapper.querySelector('.codigo-input')?.value || '',
+    afetacaoChecked: wrapper.querySelector('input[type="checkbox"]')?.checked || false,
+    afetacaoQtd: wrapper.querySelector('.afetacao-qtd')?.value || '0',
+    descricao: wrapper.querySelector('.descricao-input')?.value || '',
+    equipe: wrapper.querySelector('.equipe-select')?.value || '',
+    status: item?.dataset.status || 'pendente'
+  };
+}
+
+function configurarDropZones() {
+  const todosIds = ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'];
+  
+  todosIds.forEach(id => {
+    const container = document.getElementById('caixas-' + id);
+    const box = document.getElementById('box-' + id);
+    
+    // Função comum de drop
+    const handleDrop = function(e, destinoId) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Remove classes de destaque
+      if (container) container.classList.remove('drag-over');
+      if (box) box.classList.remove('drag-over-box');
+      
+      const dadosJson = e.dataTransfer.getData('text/plain');
+      
+      if (dadosJson && itemArrastando) {
+        const dados = JSON.parse(dadosJson);
+        
+        // Não faz nada se soltar na mesma seção
+        if (dados.origemId === destinoId) {
+          return;
+        }
+        
+        // Garante que a seção destino está em modo "SIM"
+        if (estados[destinoId] !== 'sim') {
+          ativarSecaoParaDrop(destinoId);
+        }
+        
+        // Cria novo item no destino com os dados
+        moverItemParaDestino(destinoId, dados);
+        
+        // Remove item da origem
+        const origemId = dados.origemId;
+        itemArrastando.remove();
+        atualizarContadorPendentes(origemId);
+        
+        // Verifica se origem ficou vazia
+        const containerOrigem = document.getElementById('caixas-' + origemId);
+        if (containerOrigem && containerOrigem.querySelectorAll('.caixa-item-wrapper').length === 0) {
+          removerTodasPendencias(origemId);
+        }
+        
+        // Atualiza contador do destino
+        atualizarContadorPendentes(destinoId);
+        
+        onCampoAlterado();
+      }
+    };
+    
+    // Configura drop no container de itens (quando já tem itens)
+    if (container) {
+      container.ondragover = function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        this.classList.add('drag-over');
+      };
+      
+      container.ondragleave = function(e) {
+        if (!this.contains(e.relatedTarget)) {
+          this.classList.remove('drag-over');
+        }
+      };
+      
+      container.ondrop = function(e) {
+        handleDrop(e, id);
+      };
+    }
+    
+    // Configura drop na caixa inteira (para quando não tem SIM marcado ainda)
+    if (box) {
+      box.ondragover = function(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        this.classList.add('drag-over-box');
+      };
+      
+      box.ondragleave = function(e) {
+        if (!this.contains(e.relatedTarget)) {
+          this.classList.remove('drag-over-box');
+        }
+      };
+      
+      box.ondrop = function(e) {
+        handleDrop(e, id);
+      };
+    }
+  });
+}
+
+// Ativa uma seção para receber item arrastado (sem popup de quantidade)
+function ativarSecaoParaDrop(id) {
+  const bs = document.getElementById('btns-' + id)?.querySelectorAll('.btn-resposta');
+  const c = document.getElementById('campos-' + id);
+  const d = document.getElementById('desfazer-' + id);
+  const cx = document.getElementById('caixas-' + id);
+  
+  // Oculta todos os botões de resposta
+  if (bs) bs.forEach(x => x.style.display = 'none');
+  
+  // Mostra os campos (REMOVER TODAS, ADICIONAR)
+  if (c) c.classList.add('visible');
+  
+  // Mostra o container de caixas
+  if (cx) cx.classList.add('visible');
+  
+  // Define estado como SIM
+  estados[id] = 'sim';
+  
+  // Inicializa contador se necessário
+  if (!contadorItens[id]) contadorItens[id] = 0;
+  
+  // Remove classe de erro (para de piscar)
+  const box = document.getElementById('box-' + id);
+  if (box) box.classList.remove('box-erro');
+}
+
+function moverItemParaDestino(destinoId, dados) {
+  const container = document.getElementById('caixas-' + destinoId);
+  if (!container) return;
+  
+  // Incrementa contador
+  if (!contadorItens[destinoId]) contadorItens[destinoId] = 0;
+  contadorItens[destinoId]++;
+  const num = contadorItens[destinoId];
+  
+  const equipesOptions = gerarOptionsEquipes();
+  
+  const wrapper = document.createElement('div');
+  wrapper.className = 'caixa-item-wrapper';
+  wrapper.id = `${destinoId}-wrapper-${num}`;
+  wrapper.draggable = true;
+  wrapper.dataset.origemId = destinoId;
+  wrapper.dataset.itemNum = num;
+  
+  wrapper.ondragstart = function(e) { iniciarDrag(e, this); };
+  wrapper.ondragend = function(e) { finalizarDrag(e, this); };
+  
+  const statusClass = dados.status === 'resolvido' ? 'resolvido' : 'pendente';
+  const statusText = dados.status === 'resolvido' ? 'RESOLVIDO' : 'PENDENTE';
+  const itemClass = dados.status === 'resolvido' ? 'caixa-item resolvido' : 'caixa-item pendente';
+  
+  wrapper.innerHTML = `
+    <div class="${itemClass}" id="${destinoId}-item-${num}" data-status="${dados.status}">
+      <span class="drag-handle" title="Arraste para mover">⋮⋮</span>
+      <label>#${num}:</label>
+      <select class="tipo-btmt-select" id="${destinoId}-tipo-${num}" onchange="this.classList.remove('input-erro'); onCampoAlterado()">
+        <option value="">-</option>
+        <option value="BT" ${dados.tipo === 'BT' ? 'selected' : ''}>BT</option>
+        <option value="MT" ${dados.tipo === 'MT' ? 'selected' : ''}>MT</option>
+      </select>
+      <input type="text" class="codigo-input" id="${destinoId}-codigo-${num}" placeholder="OCORRÊNCIA" maxlength="10" value="${dados.codigo}" oninput="formatarCodigo(this); this.classList.remove('input-erro');" onchange="onCampoAlterado()">
+      <div class="afetacao-container">
+        <input type="checkbox" id="${destinoId}-afetacao-${num}" ${dados.afetacaoChecked ? 'checked' : ''} onchange="onCampoAlterado();">
+        <label for="${destinoId}-afetacao-${num}">Afet.</label>
+        <input type="number" class="afetacao-qtd" id="${destinoId}-afetacao-qtd-${num}" value="${dados.afetacaoQtd}" min="0" onchange="onCampoAlterado()">
+      </div>
+      <input type="text" class="descricao-input" id="${destinoId}-desc-${num}" placeholder="OBSERVAÇÃO" value="${dados.descricao}" oninput="this.classList.remove('input-erro');" onchange="onCampoAlterado()">
+      <select class="equipe-select" id="${destinoId}-equipe-${num}" onchange="this.classList.remove('input-erro'); destacarSelectNecessidade(this); onCampoAlterado()">
+        <option value="" disabled ${!dados.equipe ? 'selected' : ''}>DEFINIR RECURSO</option>
+        ${equipesOptions}
+      </select>
+      <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${destinoId}', ${num})" title="Clique para alternar status">${statusText}</button>
+    </div>
+    <button class="btn-remover-item" onclick="removerItemCaixa('${destinoId}', ${num})" title="Remover este item">✕</button>
+  `;
+  
+  container.appendChild(wrapper);
+  container.classList.add('visible');
+  
+  // Define o valor da equipe após inserir no DOM
+  if (dados.equipe) {
+    const equipeSelect = wrapper.querySelector('.equipe-select');
+    if (equipeSelect) {
+      equipeSelect.value = dados.equipe;
+      destacarSelectNecessidade(equipeSelect);
+    }
+  }
+  
+  atualizarContadorPendentes(destinoId);
+}
+
 // Gera as options do dropdown de equipes baseado nas equipes cadastradas
 function gerarOptionsEquipes() {
-  // Opções fixas de necessidade em ordem A-Z
+  // Opções fixas - SEM RECURSO, PRIOR. VENCIDA, e necessidades em ordem A-Z
   let options = `
+    <option value="SEM RECURSO">SEM RECURSO</option>
+    <option value="PRIOR. VENCIDA">PRIOR. VENCIDA</option>
+    <option disabled>──────────</option>
     <option value="NEC. CABO">NEC. CABO</option>
     <option value="NEC. DESMAT.">NEC. DESMAT.</option>
     <option value="NEC. ENV. DIA">NEC. ENV. DIA</option>
@@ -2208,7 +2576,7 @@ function atualizarDropdownsEquipes() {
   const options = gerarOptionsEquipes();
   document.querySelectorAll('.equipe-select').forEach(select => {
     const valorAtual = select.value;
-    select.innerHTML = `<option value="">Equipe</option>${options}`;
+    select.innerHTML = `<option value="" disabled selected>DEFINIR RECURSO</option>${options}`;
     // Tenta manter o valor selecionado
     if (valorAtual) {
       select.value = valorAtual;
@@ -2448,7 +2816,7 @@ function desfazerSimples(id) {
 
 function restaurarEstadosBotoes() {
   for (let id in estados) {
-    const v = estados[id], bc = document.getElementById('btns-' + id), c = document.getElementById('campos-' + id), d = document.getElementById('desfazer-' + id);
+    const v = estados[id], bc = document.getElementById('btns-' + id), c = document.getElementById('campos-' + id), d = document.getElementById('desfazer-' + id), cx = document.getElementById('caixas-' + id);
     if (!bc) continue;
     bc.querySelectorAll('.btn-resposta').forEach(b => {
       if (b.classList.contains('btn-sim') && v === 'sim') {
@@ -2465,11 +2833,12 @@ function restaurarEstadosBotoes() {
     });
     if (d && v === 'nao') d.classList.add('visible');
     if (c && v === 'sim') c.classList.add('visible');
+    if (cx && v === 'sim') cx.classList.add('visible');
   }
 }
 
 function restaurarCaixas(data, marcarNaoRevisado = false) {
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     if (data[id] && data[id].length > 0) {
       const c = document.getElementById('caixas-' + id);
       if (!c) return;
@@ -2510,15 +2879,28 @@ function restaurarCaixas(data, marcarNaoRevisado = false) {
         const wrapper = document.createElement('div');
         wrapper.className = 'caixa-item-wrapper';
         wrapper.id = `${id}-wrapper-${num}`;
+        wrapper.draggable = true;
+        wrapper.dataset.origemId = id;
+        wrapper.dataset.itemNum = num;
         
-        // Verifica se equipe é NEC. para aplicar classe
-        const necClass = (it.equipe && it.equipe.startsWith('NEC.')) ? 'nec-selecionado' : '';
+        // Eventos de drag
+        wrapper.ondragstart = function(e) { iniciarDrag(e, this); };
+        wrapper.ondragend = function(e) { finalizarDrag(e, this); };
+        
+        // Verifica se equipe é NEC., SEM RECURSO ou PRIOR. VENCIDA para aplicar classe
+        let selectClass = '';
+        if (it.equipe) {
+          if (it.equipe.startsWith('NEC.')) selectClass = 'nec-selecionado';
+          else if (it.equipe === 'SEM RECURSO') selectClass = 'sem-recurso-selecionado';
+          else if (it.equipe === 'PRIOR. VENCIDA') selectClass = 'prior-vencida-selecionado';
+        }
         
         // NOVA ORDEM: BT/MT → Ocorrência → Afetação → Observação → Equipe → Status
         wrapper.innerHTML = `
           <div class="caixa-item ${statusClass}" id="${id}-item-${num}" data-status="${status}">
+            <span class="drag-handle" title="Arraste para mover">⋮⋮</span>
             <label>#${num}:</label>
-            <select class="tipo-btmt-select" id="${id}-tipo-${num}" onchange="onCampoAlterado()">
+            <select class="tipo-btmt-select" id="${id}-tipo-${num}" onchange="this.classList.remove('input-erro'); onCampoAlterado()">
               <option value="" ${!tipoBtMt ? 'selected' : ''}>-</option>
               <option value="BT" ${tipoBtMt === 'BT' ? 'selected' : ''}>BT</option>
               <option value="MT" ${tipoBtMt === 'MT' ? 'selected' : ''}>MT</option>
@@ -2530,8 +2912,8 @@ function restaurarCaixas(data, marcarNaoRevisado = false) {
               <input type="number" class="afetacao-qtd" id="${id}-afetacao-qtd-${num}" value="${afetacaoQtdVal}" min="0" onchange="onCampoAlterado()">
             </div>
             <input type="text" class="descricao-input" id="${id}-desc-${num}" value="${it.desc || ''}" placeholder="OBSERVAÇÃO" oninput="this.classList.remove('input-erro');" onchange="onCampoAlterado()">
-            <select class="equipe-select ${necClass}" id="${id}-equipe-${num}" onchange="destacarSelectNecessidade(this); onCampoAlterado()">
-              <option value="">Equipe</option>
+            <select class="equipe-select ${selectClass}" id="${id}-equipe-${num}" onchange="this.classList.remove('input-erro'); destacarSelectNecessidade(this); onCampoAlterado()">
+              <option value="" disabled selected>DEFINIR RECURSO</option>
               ${equipesOptions}
             </select>
             <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${id}', ${num})" title="Clique para alternar status">${statusText}</button>
@@ -2591,6 +2973,7 @@ function adicionarEquipe() {
   d.className = 'equipe-linha';
   d.id = 'equipe-' + equipeCount;
   const horariosOptions = gerarOptionsHorarios();
+  const localOptions = gerarOptionsLocalidades();
   d.innerHTML = `
     <input type="text"
        class="lead-input"
@@ -2606,22 +2989,22 @@ function adicionarEquipe() {
     </select>
     <input type="text" class="nome-input" id="equipe-${equipeCount}-nome" placeholder="Nome" oninput="this.value = this.value.toUpperCase();" onchange="onCampoAlterado()">
     <input type="tel" class="tel-input" id="equipe-${equipeCount}-telefone" placeholder="85 00000-0000" maxlength="13" oninput="formatarTelefone(this)" onchange="onCampoAlterado()">
-    <div class="autocomplete-wrapper">
-      <input type="text" class="local-input" id="equipe-${equipeCount}-local1" placeholder="Local 1" onclick="toggleLocalDropdown('equipe-${equipeCount}-local1', 'dropdown-${equipeCount}-1')" oninput="filtrarLocal('equipe-${equipeCount}-local1', 'dropdown-${equipeCount}-1')" autocomplete="off">
-      <div class="autocomplete-dropdown" id="dropdown-${equipeCount}-1"></div>
-    </div>
-    <div class="autocomplete-wrapper">
-      <input type="text" class="local-input" id="equipe-${equipeCount}-local2" placeholder="Local 2" onclick="toggleLocalDropdown('equipe-${equipeCount}-local2', 'dropdown-${equipeCount}-2')" oninput="filtrarLocal('equipe-${equipeCount}-local2', 'dropdown-${equipeCount}-2')" autocomplete="off">
-      <div class="autocomplete-dropdown" id="dropdown-${equipeCount}-2"></div>
-    </div>
-    <div class="autocomplete-wrapper">
-      <input type="text" class="local-input" id="equipe-${equipeCount}-local3" placeholder="Local 3" onclick="toggleLocalDropdown('equipe-${equipeCount}-local3', 'dropdown-${equipeCount}-3')" oninput="filtrarLocal('equipe-${equipeCount}-local3', 'dropdown-${equipeCount}-3')" autocomplete="off">
-      <div class="autocomplete-dropdown" id="dropdown-${equipeCount}-3"></div>
-    </div>
-    <div class="autocomplete-wrapper">
-      <input type="text" class="local-input" id="equipe-${equipeCount}-local4" placeholder="Local 4" onclick="toggleLocalDropdown('equipe-${equipeCount}-local4', 'dropdown-${equipeCount}-4')" oninput="filtrarLocal('equipe-${equipeCount}-local4', 'dropdown-${equipeCount}-4')" autocomplete="off">
-      <div class="autocomplete-dropdown" id="dropdown-${equipeCount}-4"></div>
-    </div>
+    <select class="local-select" id="equipe-${equipeCount}-local1" onchange="onCampoAlterado()">
+      <option value="">Local 1</option>
+      ${localOptions}
+    </select>
+    <select class="local-select" id="equipe-${equipeCount}-local2" onchange="onCampoAlterado()">
+      <option value="">Local 2</option>
+      ${localOptions}
+    </select>
+    <select class="local-select" id="equipe-${equipeCount}-local3" onchange="onCampoAlterado()">
+      <option value="">Local 3</option>
+      ${localOptions}
+    </select>
+    <select class="local-select" id="equipe-${equipeCount}-local4" onchange="onCampoAlterado()">
+      <option value="">Local 4</option>
+      ${localOptions}
+    </select>
     <button class="equipe-remove" onclick="removerEquipe(${equipeCount})">✕</button>
   `;
   c.appendChild(d);
@@ -2637,6 +3020,7 @@ function adicionarEquipeComDados(dados) {
   d.className = 'equipe-linha';
   d.id = 'equipe-' + equipeCount;
   const horariosOptions = gerarOptionsHorarios();
+  const localOptions = gerarOptionsLocalidades();
   d.innerHTML = `
     <input type="text"
            class="lead-input"
@@ -2670,45 +3054,22 @@ function adicionarEquipeComDados(dados) {
            oninput="formatarTelefone(this)"
            onchange="onCampoAlterado()">
 
-    <div class="autocomplete-wrapper">
-      <input type="text" class="local-input" id="equipe-${equipeCount}-local1"
-             value="${dados.local1 || dados.localidade || ''}"
-             placeholder="Local 1"
-             onclick="toggleLocalDropdown('equipe-${equipeCount}-local1', 'dropdown-${equipeCount}-1')"
-             oninput="filtrarLocal('equipe-${equipeCount}-local1', 'dropdown-${equipeCount}-1')"
-             autocomplete="off">
-      <div class="autocomplete-dropdown" id="dropdown-${equipeCount}-1"></div>
-    </div>
-
-    <div class="autocomplete-wrapper">
-      <input type="text" class="local-input" id="equipe-${equipeCount}-local2"
-             value="${dados.local2 || ''}"
-             placeholder="Local 2"
-             onclick="toggleLocalDropdown('equipe-${equipeCount}-local2', 'dropdown-${equipeCount}-2')"
-             oninput="filtrarLocal('equipe-${equipeCount}-local2', 'dropdown-${equipeCount}-2')"
-             autocomplete="off">
-      <div class="autocomplete-dropdown" id="dropdown-${equipeCount}-2"></div>
-    </div>
-
-    <div class="autocomplete-wrapper">
-      <input type="text" class="local-input" id="equipe-${equipeCount}-local3"
-             value="${dados.local3 || ''}"
-             placeholder="Local 3"
-             onclick="toggleLocalDropdown('equipe-${equipeCount}-local3', 'dropdown-${equipeCount}-3')"
-             oninput="filtrarLocal('equipe-${equipeCount}-local3', 'dropdown-${equipeCount}-3')"
-             autocomplete="off">
-      <div class="autocomplete-dropdown" id="dropdown-${equipeCount}-3"></div>
-    </div>
-
-    <div class="autocomplete-wrapper">
-      <input type="text" class="local-input" id="equipe-${equipeCount}-local4"
-             value="${dados.local4 || ''}"
-             placeholder="Local 4"
-             onclick="toggleLocalDropdown('equipe-${equipeCount}-local4', 'dropdown-${equipeCount}-4')"
-             oninput="filtrarLocal('equipe-${equipeCount}-local4', 'dropdown-${equipeCount}-4')"
-             autocomplete="off">
-      <div class="autocomplete-dropdown" id="dropdown-${equipeCount}-4"></div>
-    </div>
+    <select class="local-select" id="equipe-${equipeCount}-local1" onchange="onCampoAlterado()">
+      <option value="">Local 1</option>
+      ${localOptions}
+    </select>
+    <select class="local-select" id="equipe-${equipeCount}-local2" onchange="onCampoAlterado()">
+      <option value="">Local 2</option>
+      ${localOptions}
+    </select>
+    <select class="local-select" id="equipe-${equipeCount}-local3" onchange="onCampoAlterado()">
+      <option value="">Local 3</option>
+      ${localOptions}
+    </select>
+    <select class="local-select" id="equipe-${equipeCount}-local4" onchange="onCampoAlterado()">
+      <option value="">Local 4</option>
+      ${localOptions}
+    </select>
 
     <button class="equipe-remove" onclick="removerEquipe(${equipeCount})">✕</button>
   `;
@@ -2720,6 +3081,15 @@ function adicionarEquipeComDados(dados) {
     const selHorario = document.getElementById(`equipe-${equipeCount}-horario`);
     if (selHorario) selHorario.value = dados.horario;
   }
+  // Restaura localidades selecionadas
+  const local1 = dados.local1 || dados.localidade || '';
+  const local2 = dados.local2 || '';
+  const local3 = dados.local3 || '';
+  const local4 = dados.local4 || '';
+  if (local1) document.getElementById(`equipe-${equipeCount}-local1`).value = local1;
+  if (local2) document.getElementById(`equipe-${equipeCount}-local2`).value = local2;
+  if (local3) document.getElementById(`equipe-${equipeCount}-local3`).value = local3;
+  if (local4) document.getElementById(`equipe-${equipeCount}-local4`).value = local4;
 }
 
 
@@ -2866,7 +3236,7 @@ function coletarTodosDados() {
     detalhesPendentes: JSON.parse(JSON.stringify(detalhesPendentes)),
     operadorAnterior: operadorAnterior
   };
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     d[id + 'Qtd'] = document.getElementById(id + '-qtd')?.value || '';
     d[id + 'Obs'] = document.getElementById(id + '-obs')?.value || '';
   });
@@ -2896,7 +3266,7 @@ function coletarDadosParaExportacao() {
     detalhesPendentes: JSON.parse(JSON.stringify(detalhesPendentes)),
     operadorAnterior: operadorAnterior
   };
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     d[id + 'Qtd'] = contarPendentes(id);
     d[id + 'Obs'] = document.getElementById(id + '-obs')?.value || '';
   });
@@ -2919,7 +3289,7 @@ function contarPendentes(id) {
 
 function coletarCaixas() {
   const r = {};
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     r[id] = [];
     const container = document.getElementById('caixas-' + id);
     if (container) {
@@ -2947,7 +3317,7 @@ function coletarCaixas() {
 // Coleta só os PENDENTES para exportação
 function coletarCaixasPendentes() {
   const r = {};
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     r[id] = [];
     const container = document.getElementById('caixas-' + id);
     if (container) {
@@ -2978,7 +3348,7 @@ function coletarCaixasPendentes() {
 // Verifica se todos os itens importados foram revisados
 function verificarItensRevisados() {
   const naoRevisados = [];
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     const container = document.getElementById('caixas-' + id);
     if (container) {
       container.querySelectorAll('.caixa-item.nao-revisado').forEach(item => {
@@ -2997,13 +3367,27 @@ function verificarItensRevisados() {
 // ============================================
 function verificarCamposObrigatorios() {
   const m = [];
-  if (!document.getElementById('turno-data').value) m.push('📅 Data');
-  if (!document.getElementById('turno-entrada').value) m.push('🕐 Turno do Dia');
-  if (!document.getElementById('operador').value.trim()) m.push('👤 Operador');
-  if (!document.getElementById('regiao').value) m.push('🗺️ Região');
-  if (!document.getElementById('area').value) m.push('📍 Área');
-  if (!document.getElementById('f-pendentes').value) m.push('📤 F Pendentes (Repassar)');
-  if (!document.getElementById('incidencias-tela-qtd').value) m.push('📤 Incidências (Repassar)');
+  // Validação dos campos básicos - adiciona classe de erro pulsante
+  const camposBasicos = [
+    { id: 'turno-data', msg: '📅 Data' },
+    { id: 'turno-entrada', msg: '🕐 Turno do Dia' },
+    { id: 'operador', msg: '👤 Operador' },
+    { id: 'regiao', msg: '🗺️ Região' },
+    { id: 'area', msg: '📍 Área' },
+    { id: 'f-pendentes', msg: '📤 F Pendentes (Repassar)' },
+    { id: 'incidencias-tela-qtd', msg: '📤 Incidências (Repassar)' }
+  ];
+  
+  camposBasicos.forEach(campo => {
+    const el = document.getElementById(campo.id);
+    const valor = el?.value?.trim() || '';
+    if (!valor) {
+      m.push(campo.msg);
+      el?.classList.add('campo-obrigatorio-erro');
+    } else {
+      el?.classList.remove('campo-obrigatorio-erro');
+    }
+  });
 
   // Validação das equipes ativas
   const equipesLinhas = document.querySelectorAll('.equipe-linha');
@@ -3044,7 +3428,7 @@ function verificarCamposObrigatorios() {
   const todosItens = [
     'manobra', 'linha-viva',
     'clientes-vitais', 'cabo-partido', 'falta-varios', 'clientes-m1', 'incidencias-antigas',
-    'religador', 'ocorrencias-pesadas', 'condutores-furtados', 'prioridade-zero'
+    'religador', 'ocorrencias-pesadas', 'condutores-furtados', 'prioridade-zero', 'segundo-recurso'
   ];
   
   // Verificar se todos os itens têm SIM ou NÃO marcado
@@ -3084,6 +3468,20 @@ function verificarCamposObrigatorios() {
     m.push('🔴 Descrever observação Mínimo 1 caracteres');
   }
   
+  // Verificar se BT/MT está preenchido em todas as pendências
+  const qtdBtMtVazio = verificarBtMtObrigatorio();
+  if (qtdBtMtVazio > 0) {
+    m.push('<br>⚠️ <strong>SELECIONAR BT OU MT</strong>');
+    m.push(`🔴 ${qtdBtMtVazio} pendência(s) sem BT/MT selecionado`);
+  }
+  
+  // Verificar se RECURSO está preenchido em todas as pendências
+  const qtdRecursoVazio = verificarRecursoObrigatorio();
+  if (qtdRecursoVazio > 0) {
+    m.push('<br>⚠️ <strong>INSERIR RECURSO</strong>');
+    m.push(`🔴 ${qtdRecursoVazio} pendência(s) sem recurso selecionado`);
+  }
+  
   if (m.length > 0) {
     document.getElementById('obrigatorio-text').innerHTML = '🚨 CAMPOS OBRIGATÓRIOS:<br>' + m.join('<br>');
     document.getElementById('obrigatorio-popup').style.display = 'block';
@@ -3096,7 +3494,7 @@ function verificarCamposObrigatorios() {
 // Marca inputs incompletos com classe 'input-erro' para ficar pulsando
 function verificarItensIncompletos() {
   let qtdErros = 0;
-  const todosIds = ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'];
+  const todosIds = ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'];
   
   todosIds.forEach(id => {
     const container = document.getElementById('caixas-' + id);
@@ -3140,6 +3538,60 @@ function verificarItensIncompletos() {
           }
         } else {
           afetacaoQtdInput?.classList.remove('input-erro');
+        }
+      });
+    }
+  });
+  
+  return qtdErros;
+}
+
+// Verifica se BT/MT está selecionado em todas as pendências
+// Marca selects sem valor com classe 'input-erro' para ficar pulsando
+function verificarBtMtObrigatorio() {
+  let qtdErros = 0;
+  const todosIds = ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'];
+  
+  todosIds.forEach(id => {
+    const container = document.getElementById('caixas-' + id);
+    if (container && estados[id] === 'sim') {
+      container.querySelectorAll('.caixa-item').forEach(item => {
+        const btmtSelect = item.querySelector('.tipo-btmt-select');
+        if (btmtSelect) {
+          const valor = btmtSelect.value;
+          if (!valor || valor === '' || valor === '-') {
+            btmtSelect.classList.add('input-erro');
+            qtdErros++;
+          } else {
+            btmtSelect.classList.remove('input-erro');
+          }
+        }
+      });
+    }
+  });
+  
+  return qtdErros;
+}
+
+// Verifica se RECURSO está selecionado em todas as pendências
+// Marca selects sem valor com classe 'input-erro' para ficar pulsando
+function verificarRecursoObrigatorio() {
+  let qtdErros = 0;
+  const todosIds = ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'];
+  
+  todosIds.forEach(id => {
+    const container = document.getElementById('caixas-' + id);
+    if (container && estados[id] === 'sim') {
+      container.querySelectorAll('.caixa-item').forEach(item => {
+        const equipeSelect = item.querySelector('.equipe-select');
+        if (equipeSelect) {
+          const valor = equipeSelect.value;
+          if (!valor || valor === '') {
+            equipeSelect.classList.add('input-erro');
+            qtdErros++;
+          } else {
+            equipeSelect.classList.remove('input-erro');
+          }
         }
       });
     }
@@ -3258,7 +3710,7 @@ function gerarMensagem(validar = true) {
   }
   
   let pn = '';
-  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador'].forEach(id => {
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     if (estados[id] === 'sim') {
       const caixas = document.getElementById('caixas-' + id);
       let pendentesCount = 0;
@@ -3346,7 +3798,13 @@ function gerarMensagem(validar = true) {
         return `AFETAÇÃO: <span class="afetacao-alta">${num}</span> CLIENTES`;
       }
       return match;
-    });
+    })
+    // Destacar NEC. XXXXX com fundo amarelo (marca-texto)
+    .replace(/\[NEC\.[^\]]+\]/g, '<span class="nec-destaque">$&</span>')
+    // Destacar [SEM RECURSO] com fundo laranja
+    .replace(/\[SEM RECURSO\]/g, '<span class="sem-recurso-destaque">[SEM RECURSO]</span>')
+    // Destacar [PRIOR. VENCIDA] com fundo vermelho
+    .replace(/\[PRIOR\. VENCIDA\]/g, '<span class="prior-vencida-destaque">[PRIOR. VENCIDA]</span>');
   
   document.getElementById('previewBox').innerHTML = previewLimpo;
   
@@ -3409,6 +3867,8 @@ function navegarPorClique(event) {
         boxId = 'box-condutores-furtados';
       } else if (t.includes('PRIORIDADE ZERO') || t.includes('PRIORIDADE 0')) {
         boxId = 'box-prioridade-zero';
+      } else if (t.includes('2° RECURSO') || t.includes('2 RECURSO') || t.includes('SEGUNDO RECURSO')) {
+        boxId = 'box-segundo-recurso';
       } else if (t.includes('OBSERVAÇÕES DO TURNO') || t.includes('OBSERVACOES DO TURNO')) {
         section = 'section-observacoes'; inputId = 'observacoes-turno';
       } else if (t.includes('DATA:')) {
