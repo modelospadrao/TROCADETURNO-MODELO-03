@@ -46,7 +46,7 @@ const USUARIOS_SISTEMA = [
   { usuario: '0515', senha: '0515', nome: 'Maria Zildêna' },
 
   // NOVOS USUÁRIOS
-  { usuario: '0000', senha: '0000', nome: 'Bruno Pinheiro' },
+  { usuario: 'XXXX', senha: 'XXXX', nome: 'Bruno Pinheiro' },
   { usuario: '4278', senha: '4278', nome: 'Renan Henrique' },
   { usuario: '9535', senha: '9535', nome: 'Fabiola Monique' },
   { usuario: '9005', senha: '9005', nome: 'Samuel Peixoto' },
