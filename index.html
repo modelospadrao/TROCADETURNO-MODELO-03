@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TROCA DE TURNO v8.0</title>
+  <title>TROCA DE TURNO v10.0</title>
   <link rel="icon" href="turno.png" type="image/png">
   <script src="usuarios.js"></script>
   <script src="horarios.js"></script>
@@ -21,7 +21,7 @@
     }
     html, body { overscroll-behavior-y: none; margin: 0; padding: 0; }
     body { font-family: Cambria, Cochin, Georgia, Times, sans-serif; background-color: #f5f5f5; font-size: 14px; }
-    .container { width: 100%; max-width: 1300px; margin: 10px auto; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+    .container { width: 100%; max-width: 1300px; margin: 10px 545px 10px 20px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
     
     /* LOGIN POPUP */
     #login-overlay {
@@ -41,6 +41,7 @@
       padding: 30px 40px;
       border-radius: 15px;
       text-align: center;
+      font-family: 'Consolas', 'Monaco', monospace;
       box-shadow: 0 10px 40px rgba(0,0,0,0.5);
       max-width: 320px;
       width: 90%;
@@ -48,7 +49,6 @@
     #login-popup h2 {
       margin: 0 0 5px 0;
       color: #333;
-      font-size: 22px;
     }
     #login-popup .login-subtitle {
       color: #666;
@@ -109,10 +109,11 @@
     }
     #login-usuario-logado {
       position: fixed;
-      top: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px;
+      top: 20px;
+      left: 8%;
+      transform: translateX(-61%);
+      font-size: 14px;
+      font-family: 'Consolas', 'Monaco', monospace;
       color: #fff;
       background: #4caf50;
       padding: 4px 12px;
@@ -183,6 +184,158 @@
     .section-pendencias { border-color: var(--cor-pendencias); }
     .section-pendencias .section-header { background: var(--cor-pendencias); }
     .section-pendencias .section-content { background: #d3e3fd; }
+    
+    /* Seção de Ocorrências Concluídas */
+    .section-concluidas { border-color: #2e7d32; }
+    .section-concluidas .section-header { background: #2e7d32; }
+    .section-concluidas .section-content { background: #e8f5e9; padding: 10px; overflow: visible !important; position: relative; z-index: 100; }
+    .concluidas-container {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      max-width: 100%;
+      overflow: visible !important;
+      position: relative;
+    }
+    .concluidas-vazio {
+      color: #666;
+      font-style: italic;
+      font-size: 12px;
+      padding: 10px;
+      text-align: center;
+      grid-column: 1 / -1;
+    }
+    
+    /* Wrapper do card com abas */
+    .card-concluido-wrapper {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    
+    /* Abas acima do card */
+    .card-abas {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      height: 20px;
+      gap: 2px;
+    }
+    .card-aba {
+      border: 1px solid #aaa;
+      border-bottom: none;
+      padding: 8px 5px;
+      font-size: 12px; line-height: 1px;
+      cursor: pointer;
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 18px;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 600;
+    }
+    .card-aba-restaurar {
+      background: #000000;
+      color: #ffffff;
+      font-size: 11px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      height: 18px; line-height: 19px;
+      border-color: #ff9800
+      width: 124px;
+    }
+    .card-aba-restaurar:hover {
+      background: #000000;
+      color: #ff9800;
+    }
+    .card-aba-fechar {
+      background: #ff0600;
+      color: #ffffff;
+      border-color: #c62828;
+      min-width: 24px;
+      font-weight: bold;
+    }
+    .card-aba-fechar:hover {
+      background: #c62828;
+    }
+    
+    .card-linha1 {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: space-between;
+    }
+    .card-numero {
+      font-weight: bold;
+      color: #c62828;
+      font-family: 'Consolas', monospace;
+      font-size: 12px;
+    }
+    .card-btmt {
+      background: #222;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 7px;
+      font-weight: bold;
+      font-size: 11px;
+    }
+    .card-linha2 {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: space-between;
+      white-space: nowrap;
+    }
+    .card-tipo {
+      color: #666;
+      font-size: 9px;
+      flex-shrink: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 80px;
+    }
+    .card-equipe {
+      color: #1565c0;
+      font-weight: bold;
+      font-family: 'Consolas', monospace;
+      font-size: 11px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-align: right;
+    }
+    
+    /* Card concluído - visual neutro */
+    .card-concluido {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      background: #fafafa;
+      border: 1px solid #959595;
+      border-radius: 0 0 4px 4px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-family: font-family: 'Consolas', 'Monaco', monospace;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      position: relative;
+      cursor: help;
+      margin-top: -1px;
+    }
+    .card-concluido-wrapper:hover .card-concluido {
+      background: #f0f0f0;
+      border-color: #888;
+    }
+    .card-concluido-wrapper:hover .card-aba {
+      border-color: #888;
+    }
+    .card-concluido-wrapper:hover .card-aba-restaurar {
+      border-color: #ff9800;
+    }
+    .card-concluido-wrapper:hover .card-aba-fechar {
+      border-color: #c62828;
+    }
+    
     .section-observacoes { border-color: #607d8b; }
     .section-observacoes .section-header { background: #607d8b; }
     .obs-turno-textarea { width: 100%; min-height: 100px; padding: 12px; font-size: 14px; border: 2px solid #607d8b; border-radius: 6px; resize: vertical; box-sizing: border-box; font-family: inherit; }
@@ -208,6 +361,10 @@
     .item-title.titulo-vermelho { color: #e53935; }
     
     .btn-group { display: flex; gap: 8px; align-items: center; }
+    /* Oculta btn-group quando seção está ativa (campos-inline visível) */
+    .campos-inline.visible ~ .btn-group,
+    .campos-inline.visible + .btn-group { display: none; }
+    .item-header:has(.campos-inline.visible) .btn-group { display: none; }
     .btn-resposta { padding: 3px 12px; font-size: 12px; border: 2px solid; border-radius: 4px; cursor: pointer; transition: all 0.2s; font-weight: bold; }
     .btn-sim { background: #4caf50; border-color: #4caf50; color: #ffffff; }
     .btn-sim:hover { background: #257028; border-color: #257028; color: #fff; }
@@ -316,47 +473,95 @@
     .drag-handle:hover { color: #333; }
     
     /* Botão toggle PENDENTE/RESOLVIDO */
-    .btn-toggle-status { padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 12px; font-weight: bold; min-width: 90px; transition: all 0.2s; }
+    .btn-toggle-status { padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 12px; font-weight: bold; min-width: 90px; transition: all 0.2s; position: relative; }
     .btn-toggle-status.pendente { background: #c86805; color: #fff; }
     .btn-toggle-status.pendente:hover { background: #ff9800; }
     .btn-toggle-status.resolvido { background: #4d9c50; color: #fff; }
     .btn-toggle-status.resolvido:hover { background: #31de39; }
     .btn-toggle-status.nao-revisado { background: #f44336; color: #fff; animation: pulseBtn 1.5s infinite; }
     .btn-toggle-status.nao-revisado:hover { background: #d32f2f; }
+    /* Tooltip dos botões de status */
+    .btn-toggle-status[data-tooltip]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      z-index: 99999;
+      background: rgba(0,0,0,0.9);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: normal;
+      white-space: nowrap;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 6px;
+      pointer-events: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
     @keyframes pulseBtn { 0%, 100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4); } 50% { box-shadow: 0 0 8px 4px rgba(244, 67, 54, 0.6); } }
     
     /* Popup de quantidade */
     #qtd-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; justify-content: center; align-items: center; }
     #qtd-popup-content { background: #fff; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
     #qtd-popup-content h3 { margin: 0 0 15px 0; color: #333; }
-    #qtd-popup-content input { width: 80px; font-size: 24px; text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
+    #qtd-popup-content input { width: 81px; font-size: 24px; text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
     #qtd-popup-content button { margin: 15px 5px 0 5px; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
     #qtd-popup-ok { background: #4caf50; color: #fff; }
     #qtd-popup-cancel { background: #f44336; color: #fff; }
     
-    .equipe-linha { display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; padding: 4px 8px; background: #eaeaea; border: 1px solid #14496f; border-radius: 8px; margin: 4px 0; position: relative; }
+    .equipe-linha { display: flex; flex-direction: column; gap: 4px; padding: 4px 8px; background: #eaeaea; border: 1px solid #14496f; border-radius: 8px; margin: 4px 0; position: relative; transition: all 0.2s; }
     .equipe-linha:focus-within { z-index: 99998; }
+    .equipe-linha.drag-over { background: #c8e6c9; border-color: #4caf50; box-shadow: 0 0 10px rgba(76,175,80,0.4); }
+    .equipe-linha.dragging { opacity: 0.5; transform: scale(0.98); }
+    .equipe-principal { display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; }
+    .equipe-linha .drag-handle { color: #888; font-size: 14px; font-weight: bold; cursor: grab; flex-shrink: 0; padding: 0 2px; }
+    .equipe-linha .drag-handle:active { cursor: grabbing; }
     .equipe-linha input, .equipe-linha select { margin: 0; font-size: 12px; font-family: Segoe Ui; padding: 6px; box-sizing: border-box; }
     .equipe-linha .lead-input { width: 95px; font-family: monospace; text-transform: uppercase; flex-shrink: 0; }
-    .equipe-linha .nome-input { width: 130px; text-transform: uppercase; flex-shrink: 0; }
-    .equipe-linha .tel-input { width: 120px; flex-shrink: 0; }
-    .equipe-linha .local-input { width: 100%; font-size: 12px; font-family: Segoe Ui; cursor: pointer; box-sizing: border-box; }
-    .equipe-linha .local-select { width: 188px; font-size: 11px; font-family: 'Segoe UI', sans-serif; padding: 6px 2px; flex-shrink: 0; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; }
+    .equipe-linha .nome-input { width: 135px; text-transform: uppercase; flex-shrink: 0; }
+    .equipe-linha .tel-wrapper { display: flex; align-items: center; gap: 0; flex-shrink: 0; width: 120px; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
+    .equipe-linha .tel-wrapper.equipe-campo-erro { border-color: #f44336 !important; background: #ffcdd2 !important; animation: pulseEquipeErro 1s infinite; }
+    .equipe-linha .tel-wrapper.equipe-campo-erro .tel-ddd,
+    .equipe-linha .tel-wrapper.equipe-campo-erro .tel-resto { background: transparent !important; }
+    .equipe-linha .tel-ddd { width: 28px; font-family: 'Consolas', monospace; font-size: 12px; padding: 6px 2px; border: none; text-align: center; background: transparent; }
+    .equipe-linha .tel-nove { color: #e53935; font-family: 'Consolas', monospace; font-size: 12px; font-weight: bold; padding: 0 1px; background: transparent; }
+    .equipe-linha .tel-resto { width: 75px; font-family: 'Consolas', monospace; font-size: 12px; padding: 6px 2px; border: none; border-radius: 0 4px 4px 0; background: transparent; }
+    .equipe-linha .tel-input { width: 120px; flex-shrink: 0; font-family: 'Consolas', monospace; }
+    .equipe-linha .local-input { width: 100%; font-size: 10px; font-family: Segoe Ui; cursor: pointer; box-sizing: border-box; }
+    .equipe-linha .local-select { width: 172px; font-size: 11px; font-family: 'Consolas', 'Monaco', monospace; padding: 6px 2px; flex-shrink: 0; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; }
     .equipe-header { display: flex; gap: 6px; align-items: center; padding: 0 6px; background: transparent; border: none; margin: 4px 0 0 0; justify-content: flex-start; flex-wrap: nowrap; }
     .equipe-header span { text-align: left; cursor: pointer; user-select: none; padding: 8px 6px; background: #fff; color: #333; border: 1px solid #607d8b; border-radius: 4px; font-size: 14px; font-weight: bold; box-sizing: border-box; white-space: nowrap; }
     .equipe-header span:hover { background: #e3f2fd; }
     .equipe-header span.coluna-ordenada { background: #fff; color: #e53935; border-color: #e53935; }
     .equipe-header .hd-lead { width: 95px; flex-shrink: 0; }
     .equipe-header .hd-horario { width: 85px; flex-shrink: 0; }
-    .equipe-header .hd-nome { width: 129px; flex-shrink: 0; }
+    .equipe-header .hd-nome { width: 135px; flex-shrink: 0; }
     .equipe-header .hd-tel { width: 120px; flex-shrink: 0; }
-    .equipe-header .hd-local { flex: 1; min-width: 80px; }
-    .equipe-header .hd-spacer { width: 32px; flex-shrink: 0; visibility: hidden; }
-    .equipe-linha .horario-select { width: 80px; font-size: 12px; padding: 6px 2px; margin: 0; flex-shrink: 0; }
+    .equipe-header .hd-local { width: 172px; flex-shrink: 0; }
+    .equipe-header .hd-parceiro { width: 42px; flex-shrink: 0; cursor: default; text-align: center; }
+    .equipe-header .hd-spacer { width: 0px; flex-shrink: 0; visibility: hidden; }
+    .equipe-linha .horario-select { width: 84px; font-size: 12px; padding: 6px 2px; margin: 0; flex-shrink: 0; }
     .equipe-campo-erro { background: #ffcdd2 !important; border: 1px solid #f44336 !important; border-radius: 4px; animation: pulseEquipeErro 1s infinite; }
     .equipe-campo-erro option { background: #fff !important; color: #333 !important; animation: none !important; }
     @keyframes pulseEquipeErro { 0%, 100% { background: #ffcdd2; box-shadow: 0 0 4px rgba(244,67,54,0.5); } 50% { background: #ffebee; box-shadow: 0 0 10px rgba(244,67,54,0.9); } }
     .equipe-linha .equipe-remove { background: #f44336; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; flex-shrink: 0; }
+    .equipe-linha .equipe-add-parceiro { background: #ffffff; color: #4caf50; border: 1px solid #4caf50; border-radius: 4px; cursor: pointer; font-size: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 24px; height: 22px; font-weight: bold; }
+    .equipe-linha .equipe-add-parceiro:hover { background: #e8f5e9; }
+    .equipe-linha .equipe-add-parceiro.parceiro-ativo { background: #ff9800; color: #fff; border-color: #ff9800; }
+    .equipe-linha .equipe-add-parceiro.parceiro-ativo:hover { background: #000000; border-color: #000000;}
+    
+    /* Linha do parceiro - alinhada com campos do líder */
+    .equipe-linha .parceiro-linha { display: none; width: 100%; padding: 4px 0; background: #fff3e0; border: 1px dashed #ff9800; border-radius: 6px; align-items: center; gap: 6px; flex-wrap: nowrap; transition: all 0.2s; }
+    .equipe-linha .parceiro-linha.drag-over { background: #c8e6c9; border-color: #4caf50; box-shadow: 0 0 8px rgba(76,175,80,0.4); }
+    .equipe-linha .parceiro-spacer-drag { width: 21px; flex-shrink: 0; }
+    .equipe-linha .parceiro-spacer-lead { width: 95px; flex-shrink: 0; }
+    .equipe-linha .parceiro-spacer-hora { width: 80px; flex-shrink: 0; }
+    .equipe-linha .parceiro-spacer-local { width: 80px; flex-shrink: 0; }
+    .equipe-linha .parceiro-spacer-btn { width: 24px; flex-shrink: 0; }
+    .equipe-linha .parceiro-spacer-x { width: 32px; flex-shrink: 0; }
+    .equipe-linha .parceiro-nome { width: 135px !important; }
+    .equipe-linha .parceiro-tel { width: 120px !important; }
     
     .autocomplete-wrapper { position: relative; display: inline-block; flex: 1; min-width: 80px; }
     .autocomplete-wrapper:focus-within { z-index: 99999; }
@@ -418,26 +623,29 @@
     .btn-opcao-inicio { 
       background: #555 !important; 
       color: #fff !important; 
-      padding: 15px 20px !important; 
+      padding: 13px 20px !important; 
       display: flex !important; 
       flex-direction: column !important; 
       align-items: center !important; 
-      gap: 5px !important;
+      gap: 0px !important;
       width: 100% !important;
+      font-family: 'Consolas', 'Monaco', monospace;
       transition: background 0.3s, transform 0.1s !important;
     }
-    .btn-opcao-inicio:hover { background: #666 !important; }
+    .btn-opcao-inicio:hover { background: #c41f35 !important; }
     .btn-opcao-inicio:active { background: #444 !important; transform: scale(0.98); }
     .btn-descricao { 
-      font-size: 10px; 
+      font-size: 13px; 
       font-weight: normal; 
       opacity: 0.8; 
-      margin-top: 3px;
-    }
+      margin-top: -3px;
+      }
     .popup .no-button { background: #f44336; color: #fff; }
     .popup .import-button { background: #9C27B0; color: #fff; }
     .popup .restore-button { background: #2196F3; color: #fff; }
     .popup .close-button { background: #666; color: #fff; margin-top: 10px; }
+    #notification-popup .close-button { background: #1a73e8; color: #fff; border: none; padding: 10px 30px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; margin-top: 15px; display: none; }
+    #notification-popup .close-button:hover { background: #1557b0; }
     
     #config-popup { max-width: 350px; }
     .config-item { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 5px; }
@@ -466,12 +674,604 @@
     [data-tooltip]:hover::after { content: attr(data-tooltip); position: absolute; bottom: -110%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); color: #fff; padding: 6px 12px; border-radius: 4px; font-size: 12px; white-space: nowrap; z-index: 99999; margin-bottom: 5px; pointer-events: none; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
     [data-tooltip].tooltip-hidden:hover::after { display: none; }
     .section-header[data-tooltip]:hover::after { bottom: auto; top: 100%; margin-top: 5px; margin-bottom: 0; z-index: 99999; }
+    /* Tooltips no painel de contatos rápidos */
+    .contatos-rapidos-painel [data-tooltip]:hover::after { bottom: auto; top: 100%; left: 0; transform: none; margin-top: 5px; }
+    .contatos-lista-header [data-tooltip]:hover::after { top: 100%; left: 0; transform: none; }
+    /* Tooltips WhatsApp/Editar/Remover - à ESQUERDA do ícone (mesma linha) */
+    .contato-card .btn-whatsapp[data-tooltip]:hover::after,
+    .contato-card .btn-editar[data-tooltip]:hover::after,
+    .contato-card .btn-remover[data-tooltip]:hover::after { top: 50%; bottom: auto; left: auto; right: 100%; transform: translateY(-50%); margin-right: 8px; margin-top: 0; }
+    /* Tooltip no nome - mostra nome completo */
+    .contato-card .card-nome[data-tooltip]:hover::after { top: 50%; bottom: auto; left: auto; right: 100%; transform: translateY(-50%); margin-right: 8px; margin-top: 0; }
+    .rodape-contatos [data-tooltip]:hover::after { top: auto; bottom: 100%; left: 0; transform: none; margin-bottom: 5px; }
+    /* Tooltip drag handle nas Equipes Ativas - à DIREITA do ícone */
+    .equipe-linha .drag-handle[data-tooltip]:hover::after { top: 50%; bottom: auto; left: 100%; right: auto; transform: translateY(-50%); margin-left: 8px; margin-top: 0; }
+    /* Tooltip drag handle nos Contatos Rápidos - à DIREITA do ícone */
+    .contato-card .drag-handle[data-tooltip]:hover::after { top: 50%; bottom: auto; left: 100%; right: auto; transform: translateY(-50%); margin-left: 8px; margin-top: 0; }
+    /* Tooltip limpar busca - à ESQUERDA */
+    .btn-limpar-busca-todos[data-tooltip]:hover::after { top: 50%; bottom: auto; left: auto; right: 100%; transform: translateY(-50%); margin-right: 8px; margin-top: 0; }
+    /* Tooltip excluir todos - mais à ESQUERDA */
+    .btn-excluir-todos[data-tooltip]:hover::after { top: auto; bottom: 100%; left: auto; right: 0; transform: none; margin-bottom: 5px; }
+    /* Tooltip limpar campo no modo edição - à ESQUERDA */
+    .contatos-adicionar .btn-limpar-campo[data-tooltip]:hover::after { top: 50%; bottom: auto; left: auto; right: 100%; transform: translateY(-50%); margin-right: 8px; margin-top: 0; }
+    /* Tooltip contador de contatos - à ESQUERDA */
+    .contatos-lista-header .hd-contagem[data-tooltip]:hover::after { top: 50%; bottom: auto; left: auto; right: 100%; transform: translateY(-50%); margin-right: 8px; margin-top: 0; }
     
     .highlight-section { animation: highlightPulse 1.5s ease; }
     @keyframes highlightPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.12); } 50% { box-shadow: 0 0 25px rgba(33, 150, 243, 0.8); } }
+    
+    /* Painel de Contatos Rápidos - Flutuante */
+    /* Painel de Contatos Rápidos - Flutuante */
+    .contatos-rapidos-painel {
+      position: fixed;
+      top: 10px;
+      right: 5px;
+      bottom: 10px;
+      width: 539px;
+      background: #607d8b;
+      border: 1px solid #455a64;
+      border-radius: 8px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.45);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .contatos-rapidos-header {
+      background: #607d8b;
+      color: #fff;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .contatos-rapidos-header:hover { filter: brightness(1.15); }
+    .contatos-rapidos-toggle { font-size: 14px; transition: transform 0.3s; }
+    .contatos-rapidos-toggle.collapsed { transform: rotate(-90deg); }
+    .contatos-rapidos-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.3s ease;
+      background: #f0f4f8;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      flex: 1;
+      min-height: 0;
+    }
+    .contatos-rapidos-body.collapsed {
+      max-height: 0 !important;
+      padding: 0 12px;
+      overflow: hidden;
+      opacity: 0;
+    }
+    
+    /* Seções do clipboard */
+    .clipboard-secao {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+    .clipboard-secao.secao-lista {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .clipboard-secao-titulo {
+      font-size: 11px;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #ddd;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Busca destacada - 3 campos + botões */
+    .contatos-busca {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #333;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    .contatos-busca svg { width: 16px; height: 16px; stroke: #fff; flex-shrink: 0; }
+    .contatos-busca input {
+      flex: 1;
+      min-width: 60px;
+      border: 1px solid #555;
+      background: #444;
+      font-size: 11px;
+      outline: none;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+    .contatos-busca input::placeholder { color: rgba(255,255,255,0.5); }
+    .contatos-busca input:focus { border-color: #4caf50; background: #555; }
+    /* Campo de busca com botão limpar */
+    .campo-busca-limpar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex: 1;
+      min-width: 60px;
+    }
+    .campo-busca-limpar input { width: 100%; padding-right: 22px; }
+    .campo-busca-limpar .btn-limpar-busca {
+      position: absolute;
+      right: 5px;
+      width: 14px;
+      height: 14px;
+      border: none;
+      background: #ff0000;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .campo-busca-limpar .btn-limpar-busca:hover { opacity: 1; background: #e53935; }
+    .btn-limpar-busca-todos {
+      background: #e53935;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .btn-limpar-busca-todos:hover { background: #c62828; }
+    
+    /* Formulário de adicionar */
+    .contatos-adicionar {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .contatos-form-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .contatos-adicionar input {
+      padding: 7px 10px;
+      font-size: 12px;
+      border: 1px solid #ccc;
+      border-radius: 11px;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff;
+    }
+    .contatos-adicionar input:focus { border-color: #14496f; outline: none; box-shadow: 0 0 4px rgba(20,73,111,0.3); }
+    .contatos-adicionar input::placeholder { color: #999; }
+    .contatos-adicionar .input-lead { width: 100px; font-family: monospace; text-transform: uppercase; flex-shrink: 0; }
+    .contatos-adicionar .input-hora { width: 65px; flex-shrink: 0; padding: 6px 4px; font-size: 11px; border: 1px solid #ccc; border-radius: 4px; }
+    .contatos-adicionar .input-nome { width: 170px; text-transform: uppercase; min-width: 60px; }
+    .contatos-adicionar .input-tel { width: 130px; flex-shrink: 0; }
+    .contatos-adicionar .input-erro { background: #ffcdd2 !important; border-color: #f44336 !important; animation: pulseInputErro 1s infinite; }
+    
+    /* Campos desabilitados com tracejado diagonal */
+    .contatos-adicionar input:disabled,
+    .contatos-adicionar select:disabled {
+      background: repeating-linear-gradient(
+        -45deg,
+        #f5f5f5,
+        #f5f5f5 4px,
+        #e0e0e0 4px,
+        #e0e0e0 8px
+      ) !important;
+      color: #999 !important;
+      cursor: not-allowed;
+      border-color: #ccc !important;
+    }
+    .contatos-adicionar input:disabled::placeholder {
+      color: #bbb;
+    }
+    
+    .contatos-botoes {
+      display: flex;
+      gap: 6px;
+      margin-top: 3px;
+    }
+    .contatos-botoes button {
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: bold;
+      border: none;
+      border-radius: 29px;
+      cursor: pointer;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-novo-contato { background: #1a73e8; color: #fff; flex: 1; justify-content: center; }
+    .btn-novo-contato:hover:not(:disabled) { background: #1557b0; }
+    .btn-novo-contato:disabled { background: #ccc; color: #888; cursor: not-allowed; opacity: 0.6; }
+    .btn-salvar-contato { background: #4caf50; color: #fff; flex: 1; justify-content: center; }
+    .btn-salvar-contato:hover:not(:disabled) { background: #43a047; }
+    .btn-salvar-contato:disabled { background: #ccc; color: #888; cursor: not-allowed; opacity: 0.6; }
+    .btn-limpar-contato { background: #e53935; color: #fff; flex: 1; justify-content: center; }
+    .btn-limpar-contato:hover:not(:disabled) { background: #c62828; }
+    .btn-limpar-contato:disabled { background: #ccc; color: #888; cursor: not-allowed; opacity: 0.6; }
+    .btn-cancelar-contato { background: #ff9800; color: #fff; flex: 1; justify-content: center; }
+    .btn-cancelar-contato:hover:not(:disabled) { background: #f57c00; }
+    .btn-cancelar-contato:disabled { background: #ccc; color: #888; cursor: not-allowed; opacity: 0.6; }
+    
+    /* Campo com botão de limpar */
+    .campo-com-limpar {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .campo-com-limpar input { padding-right: 22px; }
+    .campo-com-limpar .btn-limpar-campo {
+      position: absolute;
+      right: 3px;
+      width: 16px;
+      height: 16px;
+      border: none;
+      background: #999;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .campo-com-limpar .btn-limpar-campo:hover { opacity: 1; background: #e53935; }
+    
+    /* Rodapé com botões */
+    .rodape-contatos {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #ccc;
+    }
+    .rodape-esquerda {
+      display: flex;
+      gap: 6px;
+    }
+    .rodape-contatos .btn-json-texto {
+      padding: 6px 10px;
+      border: 1px solid #607d8b;
+      background: #fff;
+      color: #333;
+      font-size: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .rodape-contatos .btn-json-texto:hover { background: #e3f2fd; border-color: #1976d2; }
+    .btn-excluir-todos {
+      padding: 8px 14px;
+      background: #e53935;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(229,57,53,0.4);
+    }
+    .btn-excluir-todos:hover { background: #c62828; box-shadow: 0 3px 10px rgba(229,57,53,0.5); }
+    
+    /* Cabeçalho da lista */
+    .contatos-lista-header {
+      display: flex;
+      gap: 6px;
+      padding: 0 6px 0 39px;
+      margin-bottom: 5px;
+      align-items: center;
+    }
+    .contatos-lista-header span {
+      font-size: 12px;
+      font-weight: bold;
+      color: #333;
+      padding: 4px -6px;
+      background: #fff;
+      border: 1px solid #c6c6c6;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .contatos-lista-header span:hover { background: #ffffff; }
+    .contatos-lista-header span.ordenado { background: #fff; color: #e53935; border-color: #e53935; }
+    .contatos-lista-header.contatos-lista-header .hd-lead { width: 72px; flex-shrink: 0; text-align: left; padding-left: 2px; line-height: 19px; font-family: 'Consolas', 'Monaco', monospace;}
+    .contatos-lista-header .hd-hora { width: 58px; flex-shrink: 0; text-align: left; line-height: 19px; font-family: 'Consolas', 'Monaco', monospace; padding-left: 2px;}
+    .contatos-lista-header .hd-nome { width: 91px; flex-shrink: 0; text-align: left; padding-left: 2px; line-height: 19px; font-family: 'Consolas', 'Monaco', monospace;}
+    .contatos-lista-header .hd-tel { width: 81px; flex-shrink: 0; text-align: left; padding-left: 3px; line-height: 19px; font-family: 'Consolas', 'Monaco', monospace;}
+    .contatos-lista-header .hd-contagem { width: 100px; font-size: 14px; background: #000000; color: #ffffff; border: 1px; border-radius: 4px; border-color: #ff0000; cursor: default; right: -5px; width: 91px; height: 17px; height: 20px; line-height: 19px; font-family: 'Consolas', 'Monaco', monospace;}
+    .contatos-lista-header .hd-contagem:hover { background: #ff0000; }
+    
+    /* Lista de contatos */
+    .contatos-lista {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 3px 3px 3px 3px;
+      background: #b6b6b6;
+      border: 1px solid #14496f;
+      border-radius: 8px;
+      min-height: 60px;
+      transition: all 0.3s;
+    }
+    .contatos-lista.drag-over {
+      background: #c8e6c9;
+      border-color: #4caf50;
+      box-shadow: inset 0 0 10px rgba(76,175,80,0.3);
+    }
+    .contato-card {
+      background: linear-gradient(135deg, #fff, #f8fafc);
+      border: 1px solid #020202;
+      border-radius: 8px;
+      padding: 1px 6px;
+      cursor: grab;
+      transition: all 0.2s;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0px;
+      box-shadow: 0 5px 3px rgba(0,0,0,0.1);
+    }
+    .contato-card:hover {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      border-color: #1976d2;
+      box-shadow: 0 3px 10px rgba(25,118,210,0.25);
+      transform: translateY(-1px);
+    }
+    .contato-card:active { cursor: grabbing; transform: scale(0.98); }
+    .contato-card .card-icon {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      font-size: 15px;
+      opacity: 0.3;
+      display: none;
+    }
+    .contato-card .drag-handle {
+      color: #999;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: grab;
+      flex-shrink: 0;
+      width: 6px;
+    }
+    .contato-card .card-separador {
+      color: #999;
+      font-size: 12px;
+      flex-shrink: 0;
+      padding: 0 2px;
+    }
+    .contato-card .card-lead {
+      width: 88px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 13px;
+      font-weight: bold;
+      color: #14496f;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .contato-card .card-hora {
+      width: 42px;
+      font-size: 13px;
+      font-weight: bold;
+      font-family: 'Consolas', 'Monaco', monospace;
+      color: #f44336;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .contato-card .card-nome {
+      flex: 1;
+      padding-left: 3px;
+      font-size: 13px;
+      font-weight: bold;
+      font-family: 'Consolas', 'Monaco', monospace;
+      color: #333;
+      text-transform: uppercase;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 60px;
+      cursor: default;
+      
+    }
+    .contato-card .card-tel {
+      width: 95px;
+      padding-left: 3px;
+      font-size: 13px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      color: #000000;
+      flex-shrink: 0;
+    }
+    .contato-card .card-acoes {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+      width: 83px;
+      justify-content: flex-end;
+    }
+    .contato-card .btn-whatsapp, .contato-card .btn-editar, .contato-card .btn-remover {
+      width: 22px;
+      height: 22px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .contato-card .btn-editar img { 
+      background: transparent; 
+      padding: 0;
+      width: 22px;
+      height: 22px;
+    }
+    .contato-card .btn-whatsapp img {
+      width: 30px;
+      height: 30px;
+    }
+    .contato-card .btn-whatsapp:hover { transform: scale(1.1); }
+    .contato-card .btn-editar { background: transparent; color: #555; }
+    .contato-card .btn-editar:hover { background: transparent; color: #333; }
+    .contato-card .btn-remover { background: #000000; color: #ffffff; border-radius: 34px; font-weight: bold; font-size: 14px;}
+    .contato-card .btn-remover:hover { background: #ff0000; color: #ffffff; }
+    
+    .contatos-vazio {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      padding: 20px;
+      font-style: italic;
+    }
+    
+    /* Não imprime contatos rápidos */
+    @media print { 
+      .contatos-rapidos-painel { display: none !important; } 
+      .equipe-linha .drag-handle { display: none !important; }
+      .equipe-header .hd-drag { display: none !important; }
+    }
+
+    /* Assinatura */
+    .assinatura {
+      text-align: center;
+      font-style: italic;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 11px;
+      color: #888;
+      margin-top: 30px;
+      padding-top: 14px;
+      border-top: 1px solid #ddd;
+    }
   </style>
 </head>
 <body>
+  
+  <!-- PAINEL DE CONTATOS RÁPIDOS - Flutuante -->
+  <div class="contatos-rapidos-painel" id="contatos-rapidos-painel">
+    <div class="contatos-rapidos-header" onclick="toggleContatosRapidos()">
+      <span>📞 CONTATOS RÁPIDOS</span>
+      <span class="contatos-rapidos-toggle" id="contatos-toggle">▼</span>
+    </div>
+    <div class="contatos-rapidos-body" id="contatos-body">
+      
+      <!-- SEÇÃO: BUSCA -->
+      <div class="clipboard-secao">
+        <div class="clipboard-secao-titulo">🔍 BUSCAR POR CONTATOS</div>
+        <div class="contatos-busca">
+          <div class="campo-busca-limpar">
+            <input type="text" id="busca-lead" placeholder="LEAD" oninput="filtrarContatosMulti(); verificarBuscaPreenchida()">
+            <button class="btn-limpar-busca" onclick="document.getElementById('busca-lead').value=''; filtrarContatosMulti(); verificarBuscaPreenchida()">✕</button>
+          </div>
+          <div class="campo-busca-limpar">
+            <input type="text" id="busca-nome" placeholder="NOME" oninput="filtrarContatosMulti(); verificarBuscaPreenchida()">
+            <button class="btn-limpar-busca" onclick="document.getElementById('busca-nome').value=''; filtrarContatosMulti(); verificarBuscaPreenchida()">✕</button>
+          </div>
+          <div class="campo-busca-limpar">
+            <input type="text" id="busca-tel" placeholder="TEL" oninput="filtrarContatosMulti(); verificarBuscaPreenchida()">
+            <button class="btn-limpar-busca" onclick="document.getElementById('busca-tel').value=''; filtrarContatosMulti(); verificarBuscaPreenchida()">✕</button>
+          </div>
+          <button class="btn-limpar-busca-todos" id="btn-limpar-busca-todos" onclick="limparBuscaContatos()" style="display: none;" data-tooltip="Limpar busca">✕</button>
+        </div>
+      </div>
+      
+      <!-- SEÇÃO: EDIÇÃO -->
+      <div class="clipboard-secao">
+        <div class="clipboard-secao-titulo">✏️ EDIÇÃO DE CONTATOS</div>
+        <div class="contatos-adicionar">
+          <div class="contatos-form-row">
+            <div class="campo-com-limpar">
+              <input type="text" id="novo-contato-lead" class="input-lead" placeholder="LEAD" maxlength="10" oninput="aplicarMascaraLeadContato(this); verificarCamposContato()" disabled>
+              <button class="btn-limpar-campo" onclick="document.getElementById('novo-contato-lead').value=''; verificarCamposContato()" data-tooltip="Limpar">✕</button>
+            </div>
+            <select id="novo-contato-hora" class="input-hora" onchange="verificarCamposContato()" disabled>
+              <option value="">--:--</option>
+            </select>
+            <div class="campo-com-limpar">
+              <input type="text" id="novo-contato-nome" class="input-nome" placeholder="NOME" oninput="formatarNome(this); verificarCamposContato()" disabled>
+              <button class="btn-limpar-campo" onclick="document.getElementById('novo-contato-nome').value=''; verificarCamposContato()" data-tooltip="Limpar">✕</button>
+            </div>
+            <div class="campo-com-limpar">
+              <input type="tel" id="novo-contato-tel" class="input-tel" placeholder="TELEFONE" maxlength="13" oninput="formatarTelefoneContato(this); verificarCamposContato()" disabled>
+              <button class="btn-limpar-campo" onclick="document.getElementById('novo-contato-tel').value=''; verificarCamposContato()" data-tooltip="Limpar">✕</button>
+            </div>
+          </div>
+          <div class="contatos-botoes">
+            <button class="btn-novo-contato" id="btn-novo-contato" onclick="iniciarNovoContato()">NOVO</button>
+            <button class="btn-salvar-contato" id="btn-salvar-contato" onclick="adicionarContato()" disabled>✓ SALVAR</button>
+            <button class="btn-cancelar-contato" id="btn-cancelar-edicao" onclick="cancelarEdicaoContato()" disabled>✕ CANCELAR</button>
+            <button class="btn-limpar-contato" id="btn-limpar-contato" onclick="limparCamposContato()" disabled>LIMPAR</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SEÇÃO: LISTA -->
+      <div class="clipboard-secao secao-lista">
+        <div class="clipboard-secao-titulo">📋 LISTA DE CONTATOS SALVOS</div>
+        <!-- Cabeçalho da lista (mesmos ícones das Equipes Ativas) -->
+        <div class="contatos-lista-header">
+          <span class="hd-lead" onclick="ordenarContatos('lead')" data-tooltip="Ordenar por Lead">🚗LEAD</span>
+          <span class="hd-hora" onclick="ordenarContatos('horario')" data-tooltip="Ordenar por Hora">🕐HORA</span>
+          <span class="hd-nome" onclick="ordenarContatos('nome')" data-tooltip="Ordenar por Nome">👤NOME</span>
+          <span class="hd-tel" onclick="ordenarContatos('tel')" data-tooltip="Ordenar por Telefone">📞TELEFONE</span>
+          <span class="hd-contagem" id="contagem-contatos" data-tooltip="Total de contatos">0</span>
+        </div>
+        
+        <!-- Lista de contatos (zona de DROP para receber de Equipes Ativas) -->
+        <div class="contatos-lista" id="contatos-lista"
+             ondragover="event.preventDefault(); this.classList.add('drag-over');"
+             ondragleave="this.classList.remove('drag-over');"
+           ondrop="receberDropDeEquipe(event); this.classList.remove('drag-over');">
+        <div class="contatos-vazio" id="contatos-vazio">Nenhum contato salvo</div>
+        </div>
+      </div>
+      
+      <!-- Rodapé com botões -->
+      <div class="rodape-contatos">
+        <div class="rodape-esquerda">
+          <button class="btn-json-texto" onclick="exportarContatosJSON()" data-tooltip="Baixar arquivo JSON">⬇️ EXPORTAR CONTATOS</button>
+          <button class="btn-json-texto" onclick="document.getElementById('importar-contatos-file').click()" data-tooltip="Carregar arquivo JSON">⬆️ IMPORTAR CONTATOS</button>
+          <input type="file" id="importar-contatos-file" accept=".json" style="display:none" onchange="importarContatosJSON(event)">
+        </div>
+        <button class="btn-excluir-todos" onclick="limparTodosContatos()" data-tooltip="Excluir TODOS os contatos">⚠️ EXCLUIR TODOS</button>
+      </div>
+    </div>
+  </div>
+  
+ 
   
   <!-- POPUP: LGPD -->
   <div id="popup-lgpd" style="display:none;flex-direction:column;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(20,20,20,0.97);color:#fff;border-radius:16px;z-index:99999;max-width:96vw;width:420px;max-height:88vh;overflow:hidden;box-shadow:0 0 24px rgba(0,0,0,0.7);">
@@ -559,22 +1359,36 @@
     </div>
   </div>
 
+  <div id="confirmar-limpar-contatos-popup" class="popup">
+    <p style="font-size: 18px;">🗑️ <strong>EXCLUIR TODOS OS CONTATOS?</strong></p>
+    <p>Tem certeza que deseja remover <strong id="qtd-contatos-excluir">0</strong> contatos?<br><span style="color: #ff6b6b; font-size: 12px;">Esta ação não pode ser desfeita!</span></p>
+    <div class="popup-buttons">
+      <button class="yes-button" onclick="executarLimparTodosContatos()">✓ SIM, EXCLUIR TODOS</button>
+      <button class="no-button" onclick="fecharPopup('confirmar-limpar-contatos-popup')">✕ CANCELAR</button>
+    </div>
+  </div>
+
   <div id="restore-popup" class="popup">
     <p style="font-size: 18px;">💾 <strong>SESSÃO ENCONTRADA!</strong></p>
     <p>Existe uma sessão salva. O que deseja fazer?</p>
-    <div class="popup-buttons" style="flex-direction: column; gap: 10px;">
+
+    <div class="popup-buttons" style="display: flex; flex-direction: row; gap: 10px;">
+
       <button class="btn-opcao-inicio" onclick="restaurarSessaoCache()">
-        <span style="font-size: 24px;">🔄</span> CONTINUAR SESSÃO (RECUPERAR PREENCHIMENTO)
-        <span class="btn-descricao">Retoma o preenchimento salvo neste computador</span>
+        CONTINUAR SESSÃO...
+        <span class="btn-descricao">Retoma o preenchimento salvo na maquina</span>
       </button>
+
       <button class="btn-opcao-inicio" onclick="confirmarIniciarNovo('restore')">
-        <span style="font-size: 24px;">🆕</span> INICIAR PREENCHIMENTO (NOVO)
-        <span class="btn-descricao">Inicia do zero, apagando dados anteriores</span>
+        INICIAR NOVO!
+        <span class="btn-descricao">Começa do zero</span>
       </button>
+
       <button class="btn-opcao-inicio" onclick="abrirImportacaoRestore()">
-        <span style="font-size: 24px;">📥</span> ASSUMIR TURNO (IMPORTAR)
-        <span class="btn-descricao">Importa a sessão do operador que passou o turno</span>
+        IMPORTAR!
+        <span class="btn-descricao">Assumir turno</span>
       </button>
+
     </div>
   </div>
 
@@ -584,15 +1398,15 @@
   <div id="auto-save-indicator">💾 Salvo</div>
   
   <div id="inicio-popup" class="popup">
-    <p style="font-size: 20px;">🔄 <strong>TROCA DE TURNO</strong></p>
+    <p style="font-size: 20px;"><strong>TROCA DE TURNO</strong></p>
     <p>O que deseja fazer?</p>
     <div class="popup-buttons" style="flex-direction: column; gap: 10px;">
       <button class="btn-opcao-inicio" onclick="confirmarIniciarNovo('inicio')">
-        <span style="font-size: 24px;">🆕</span> INICIAR PREENCHIMENTO (NOVO)
+        <span style="font-size: 24px;"></span> INICIAR PREENCHIMENTO (NOVO)
         <span class="btn-descricao">Inicia do zero uma nova sessão</span>
       </button>
       <button class="btn-opcao-inicio" onclick="abrirImportacao()">
-        <span style="font-size: 24px;">📥</span> ASSUMIR TURNO (IMPORTAR)
+        <span style="font-size: 24px;"></span> ASSUMIR TURNO (IMPORTAR)
         <span class="btn-descricao">Importa a sessão do operador que passou o turno</span>
       </button>
     </div>
@@ -678,7 +1492,7 @@
     </div>
     
     <h2 style="text-align: center; color: #1a73e8; margin: 5px 0; font-size: 20px;">🔄 RELATÓRIO DE TROCA DE TURNO</h2>
-    <p style="text-align: center; color: #666; margin: 0 0 10px 0; font-size: 11px;">(Versão 8.0)</p>
+    <p style="text-align: center; color: #666; margin: 0 0 10px 0; font-size: 11px;">(Versão 10.0)</p>
     
     <div id="sessao-info" class="sessao-info" style="display: none;"><strong>📍 Sessão Atual:</strong> <span id="sessao-operador-info"></span></div>
     
@@ -851,20 +1665,22 @@
     <div class="section section-equipes" id="section-equipes">
       <div class="section-header" onclick="toggleSection(this)" data-tooltip="Clique para ocultar/mostrar"><span>🚗 EQUIPES ATIVAS (<span id="equipes-count">0</span>)</span><span class="section-toggle">▼</span></div>
       <div class="section-content">
-        <div style="text-align: center; margin-bottom: 8px;">
-          <button class="btn-acao btn-adicionar" onclick="adicionarEquipe()" data-tooltip="Adicionar nova equipe">➕ Adicionar</button>
-          <button class="btn-acao btn-limpar" onclick="removerUltimaEquipe()" data-tooltip="Remover última equipe">➖ Remover</button>
+        <div class="equipes-acoes-container" style="text-align: center; margin-bottom: 8px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+          <button class="btn-acao btn-adicionar" onclick="adicionarEquipe()" data-tooltip="Adicionar nova equipe" style="font-family: 'Consolas', 'Monaco', monospace; border-radius: 34px;">➕ADICIONAR EQUIPE</button>
+          <button class="btn-acao btn-remover-equipe" onclick="removerUltimaEquipe()" data-tooltip="Remover última equipe" style="background: #e53935; color: #fff; font-family: 'Consolas', 'Monaco', monospace; border-radius: 34px;" >➖REMOVER EQUIPE</button>
+          <button class="btn-acao btn-copiar-clipboard" onclick="exportarEquipesParaContatos()" data-tooltip="Copiar todas equipes para Clipboard (Contatos Rápidos)" style="background: #fff; color: #ff0000; border: 1px solid #ccc; font-family: 'Consolas', 'Monaco', monospace; border-radius: 34px;">📋 COPIAR P/ CLIPBOARD</button>
         </div>
         <!-- CABEÇALHO DAS COLUNAS (clicável para ordenar) -->
         <div class="equipe-header">
-          <span id="hd-col-lead" class="hd-lead" onclick="ordenarEquipes('lead')" title="Ordenar por Lead">🚗 LEAD</span>
-          <span id="hd-col-horario" class="hd-horario" onclick="ordenarEquipes('horario')" title="Ordenar por Horário">🕐 HORA</span>
-          <span id="hd-col-nome" class="hd-nome" onclick="ordenarEquipes('nome')" title="Ordenar por Nome">👤 NOME</span>
-          <span id="hd-col-telefone" class="hd-tel" onclick="ordenarEquipes('telefone')" title="Ordenar por Telefone">📞 TELEFONE</span>
-          <span id="hd-col-local1" class="hd-local" onclick="ordenarEquipes('local1')" title="Ordenar por Localidade 1">📍 LOCAL 1</span>
-          <span id="hd-col-local2" class="hd-local" onclick="ordenarEquipes('local2')" title="Ordenar por Localidade 2">📍 LOCAL 2</span>
-          <span id="hd-col-local3" class="hd-local" onclick="ordenarEquipes('local3')" title="Ordenar por Localidade 3">📍 LOCAL 3</span>
-          <span id="hd-col-local4" class="hd-local" onclick="ordenarEquipes('local4')" title="Ordenar por Localidade 4">📍 LOCAL 4</span>
+          <span class="hd-drag" style="width:20px; visibility:hidden;">⋮⋮</span>
+          <span id="hd-col-lead" class="hd-lead" onclick="ordenarEquipes('lead')" data-tooltip="Ordenar por Lead">🚗 LEAD</span>
+          <span id="hd-col-horario" class="hd-horario" onclick="ordenarEquipes('horario')" data-tooltip="Ordenar por Horário">🕐 HORA</span>
+          <span id="hd-col-nome" class="hd-nome" onclick="ordenarEquipes('nome')" data-tooltip="Ordenar por Nome">👤 NOME</span>
+          <span id="hd-col-telefone" class="hd-tel" onclick="ordenarEquipes('telefone')" data-tooltip="Ordenar por Telefone">📞 TELEFONE</span>
+          <span id="hd-col-local1" class="hd-local" onclick="ordenarEquipes('local1')" data-tooltip="Ordenar por Localidade 1">📍 LOCAL 1</span>
+          <span id="hd-col-local2" class="hd-local" onclick="ordenarEquipes('local2')" data-tooltip="Ordenar por Localidade 2">📍 LOCAL 2</span>
+          <span id="hd-col-local3" class="hd-local" onclick="ordenarEquipes('local3')" data-tooltip="Ordenar por Localidade 3">📍 LOCAL 3</span>
+          <span id="hd-col-local4" class="hd-local" onclick="ordenarEquipes('local4')" data-tooltip="Ordenar por Localidade 4">📍 LOCAL 4</span>
           <span class="hd-spacer"></span>
         </div>
         <div id="equipes-container"></div>
@@ -1090,6 +1906,16 @@
       </div>
     </div>
     
+    <!-- OCORRÊNCIAS CONCLUÍDAS -->
+    <div class="section section-concluidas" id="section-concluidas">
+      <div class="section-header" onclick="toggleSection(this)" data-tooltip="Clique para ocultar/mostrar"><span>✅ OCORRÊNCIAS CONCLUÍDAS (<span id="concluidas-count">0</span>)</span><span class="section-toggle">▼</span></div>
+      <div class="section-content">
+        <div class="concluidas-container" id="concluidas-container">
+          <div class="concluidas-vazio" id="concluidas-vazio">Nenhuma ocorrência concluída</div>
+        </div>
+      </div>
+    </div>
+    
     <!-- OBSERVAÇÕES DO TURNO -->
     <div class="section section-observacoes" id="section-observacoes">
       <div class="section-header" onclick="toggleSection(this)" data-tooltip="Clique para ocultar/mostrar"><span>📝 OBSERVAÇÕES DO TURNO</span><span class="section-toggle">▼</span></div>
@@ -1125,11 +1951,639 @@
     </div>
   </div>
   
-  <p style="text-align: center; font-style: italic; font-family: 'Courier New', Courier, monospace; margin-top: 80px;">
-    © 2025 Emanuel Aguiar<br>Todos os direitos reservados.
+  <!-- ASSINATURA -->
+  <p class="assinatura">
+    © 2026 Emanuel Aguiar - Técnico Eletrotécnico Júnior · 
+    Todos os direitos reservados.<br> 
+    Projeto Assistido por IA..
   </p>
+</div>
+
 
 <script>
+// ============================================
+// CONTATOS RÁPIDOS - localStorage separado
+// ============================================
+const KEY_CONTATOS_RAPIDOS = 'TROCA_TURNO_CONTATOS_RAPIDOS';
+let contatosOrdenacao = { campo: null, asc: true };
+let contatoEditandoIdx = null;
+
+function carregarContatosRapidos() {
+  const salvos = localStorage.getItem(KEY_CONTATOS_RAPIDOS);
+  return salvos ? JSON.parse(salvos) : [];
+}
+
+function salvarContatosRapidos(contatos) {
+  localStorage.setItem(KEY_CONTATOS_RAPIDOS, JSON.stringify(contatos));
+}
+
+function inicializarSelectHoraContatos() {
+  const select = document.getElementById('novo-contato-hora');
+  if (!select) return;
+  select.innerHTML = '<option value="">--:--</option>';
+  for (let h = 6; h <= 23; h++) {
+    select.innerHTML += `<option value="${String(h).padStart(2,'0')}:00">${String(h).padStart(2,'0')}:00</option>`;
+  }
+  for (let h = 0; h <= 5; h++) {
+    select.innerHTML += `<option value="${String(h).padStart(2,'0')}:00">${String(h).padStart(2,'0')}:00</option>`;
+  }
+}
+
+function renderizarContatos(filtroLead = '', filtroNome = '', filtroTel = '') {
+  const lista = document.getElementById('contatos-lista');
+  const vazio = document.getElementById('contatos-vazio');
+  let contatos = carregarContatosRapidos();
+  
+  // Filtra por múltiplos campos
+  let filtrados = contatos.filter(c => {
+    const matchLead = !filtroLead || (c.lead || '').toUpperCase().includes(filtroLead.toUpperCase());
+    const matchNome = !filtroNome || (c.nome || '').toUpperCase().includes(filtroNome.toUpperCase());
+    const matchTel = !filtroTel || (c.tel || '').includes(filtroTel);
+    return matchLead && matchNome && matchTel;
+  });
+  
+  // Aplica ordenação se houver
+  if (contatosOrdenacao.campo) {
+    filtrados.sort((a, b) => {
+      const valA = (a[contatosOrdenacao.campo] || '').toUpperCase();
+      const valB = (b[contatosOrdenacao.campo] || '').toUpperCase();
+      if (valA < valB) return contatosOrdenacao.asc ? -1 : 1;
+      if (valA > valB) return contatosOrdenacao.asc ? 1 : -1;
+      return 0;
+    });
+  }
+  
+  // Limpa lista (exceto o elemento vazio)
+  lista.querySelectorAll('.contato-card').forEach(el => el.remove());
+  
+  // Atualiza classes do cabeçalho
+  document.querySelectorAll('.contatos-lista-header span').forEach(sp => sp.classList.remove('ordenado'));
+  if (contatosOrdenacao.campo) {
+    let hdClass = '.hd-lead';
+    if (contatosOrdenacao.campo === 'nome') hdClass = '.hd-nome';
+    if (contatosOrdenacao.campo === 'horario') hdClass = '.hd-hora';
+    if (contatosOrdenacao.campo === 'tel') hdClass = '.hd-tel';
+    const hd = document.querySelector(`.contatos-lista-header ${hdClass}`);
+    if (hd) hd.classList.add('ordenado');
+  }
+  
+  const temFiltro = filtroLead || filtroNome || filtroTel;
+  
+  if (filtrados.length === 0) {
+    vazio.style.display = 'block';
+    vazio.textContent = temFiltro ? 'Nenhum resultado encontrado' : 'Nenhum contato salvo';
+  } else {
+    vazio.style.display = 'none';
+    filtrados.forEach((c) => {
+      // Encontra o índice real no array original
+      const realIdx = contatos.findIndex(ct => ct.lead === c.lead && ct.horario === c.horario && ct.nome === c.nome && ct.tel === c.tel);
+      
+      // Prepara número para WhatsApp (remove tudo que não é número e adiciona 55)
+      const telLimpo = (c.tel || '').replace(/\D/g, '');
+      const telWhatsApp = telLimpo.length >= 10 ? '55' + telLimpo : '';
+      
+      const div = document.createElement('div');
+      div.className = 'contato-card';
+      div.draggable = true;
+      div.dataset.lead = c.lead || '';
+      div.dataset.horario = c.horario || '';
+      div.dataset.nome = c.nome || '';
+      div.dataset.tel = c.tel || '';
+      div.dataset.index = realIdx;
+      const nomeContato = c.nome || 'contato';
+      div.innerHTML = `
+        <span class="drag-handle" data-tooltip="Arrastar para Equipes Ativas">⋮⋮</span>
+        <span class="card-lead">${c.lead || '-'}</span>
+        <span class="card-separador">|</span>
+        <span class="card-hora">${c.horario || '-'}</span>
+        <span class="card-separador">|</span>
+        <span class="card-nome" data-tooltip="${nomeContato}">${c.nome || '-'}</span>
+        <span class="card-separador">|</span>
+        <span class="card-tel">${c.tel || '-'}</span>
+        <span class="card-acoes">
+          ${telWhatsApp ? `
+          <button class="btn-whatsapp" onclick="abrirWhatsApp('${telWhatsApp}')" data-tooltip="Iniciar conversa com ${nomeContato}">
+            <img src="icons8-whatsapp.gif" alt="WhatsApp">
+          </button>` : ''}
+
+          <button class="btn-editar" onclick="editarContato(${realIdx})" data-tooltip="Editar contato">
+            <img src="editar.gif" alt="Editar">
+          </button>
+
+          <button class="btn-remover" onclick="removerContato(${realIdx})" data-tooltip="Excluir contato">X</button>
+        </span>
+      `;
+      
+      // Eventos de drag (para arrastar para Equipes Ativas)
+      div.ondragstart = function(e) {
+        e.dataTransfer.setData('text/plain', JSON.stringify({
+          tipo: 'contato-rapido',
+          lead: c.lead || '',
+          horario: c.horario || '',
+          nome: c.nome || '',
+          tel: c.tel || ''
+        }));
+        this.style.opacity = '0.5';
+        this.style.transform = 'scale(0.95)';
+      };
+      div.ondragend = function(e) {
+        this.style.opacity = '1';
+        this.style.transform = '';
+      };
+      
+      lista.appendChild(div);
+    });
+  }
+  
+  // Atualiza contador
+  const contadorEl = document.getElementById('contagem-contatos');
+  if (contadorEl) {
+    const total = contatos.length;
+    const exibindo = filtrados.length;
+    if (temFiltro) {
+      contadorEl.textContent = `${exibindo}/${total}`;
+      contadorEl.setAttribute('data-tooltip', `${exibindo} de ${total} contatos`);
+    } else {
+      contadorEl.textContent = `${total}`;
+      contadorEl.setAttribute('data-tooltip', `${total} contato${total !== 1 ? 's' : ''} salvos`);
+    }
+  }
+}
+
+function adicionarContato() {
+  const leadInput = document.getElementById('novo-contato-lead');
+  const horaSelect = document.getElementById('novo-contato-hora');
+  const nomeInput = document.getElementById('novo-contato-nome');
+  const telInput = document.getElementById('novo-contato-tel');
+  
+  const lead = leadInput.value.trim();
+  const horario = horaSelect.value;
+  const nome = nomeInput.value.trim();
+  let tel = telInput.value.trim();
+  
+  if (!lead) {
+    mostrarNotificacao('⚠️ Informe o LEAD!');
+    leadInput.focus();
+    leadInput.classList.add('input-erro');
+    return;
+  }
+  
+  if (!nome) {
+    mostrarNotificacao('⚠️ Informe o NOME!');
+    nomeInput.focus();
+    return;
+  }
+  
+  // Remove erro do lead se passou
+  leadInput.classList.remove('input-erro');
+  
+  // Valida e normaliza telefone
+  if (tel) {
+    const numeros = tel.replace(/\D/g, '');
+    if (numeros.length === 11) {
+      // Remove o 9 e reformata
+      const normalizado = numeros.slice(0, 2) + numeros.slice(3);
+      tel = normalizado.slice(0, 2) + ' 9' + normalizado.slice(2, 6) + '-' + normalizado.slice(6);
+      telInput.value = tel;
+    } else if (numeros.length === 10) {
+      // Formata corretamente
+      tel = numeros.slice(0, 2) + ' 9' + numeros.slice(2, 6) + '-' + numeros.slice(6);
+      telInput.value = tel;
+    } else if (numeros.length > 0 && numeros.length < 10) {
+      mostrarNotificacao('⚠️ Telefone incompleto! Digite DDD (2) + número (8)');
+      telInput.classList.add('input-erro');
+      telInput.focus();
+      return;
+    }
+  }
+  
+  const contatos = carregarContatosRapidos();
+  
+  // Se está editando, atualiza; senão, adiciona
+  if (contatoEditandoIdx !== null) {
+    contatos[contatoEditandoIdx] = { lead, horario, nome, tel };
+    mostrarNotificacao('✅ Contato atualizado!');
+  } else {
+    // Verifica duplicata (4 campos iguais)
+    const duplicado = contatos.some(c => c.lead === lead && c.horario === horario && c.nome === nome && c.tel === tel);
+    if (duplicado) {
+      mostrarNotificacao('⚠️ Contato já existe!');
+      return;
+    }
+    contatos.push({ lead, horario, nome, tel });
+    mostrarNotificacao('✅ Contato adicionado!');
+  }
+  
+  salvarContatosRapidos(contatos);
+  renderizarContatos();
+  
+  // Volta ao estado inicial (campos desabilitados)
+  desabilitarModoEdicaoContato();
+}
+
+function editarContato(idx) {
+  const contatos = carregarContatosRapidos();
+  if (idx < 0 || idx >= contatos.length) return;
+  
+  const c = contatos[idx];
+  
+  // Habilita modo edição primeiro
+  habilitarModoEdicaoContato();
+  
+  // Preenche os campos
+  document.getElementById('novo-contato-lead').value = c.lead || '';
+  document.getElementById('novo-contato-hora').value = c.horario || '';
+  document.getElementById('novo-contato-nome').value = c.nome || '';
+  document.getElementById('novo-contato-tel').value = c.tel || '';
+  
+  contatoEditandoIdx = idx;
+  document.getElementById('novo-contato-nome').focus();
+}
+
+function removerContato(idx) {
+  const contatos = carregarContatosRapidos();
+  contatos.splice(idx, 1);
+  salvarContatosRapidos(contatos);
+  renderizarContatos();
+  
+  // Se estava editando esse, cancela
+  if (contatoEditandoIdx === idx) {
+    desabilitarModoEdicaoContato();
+  }
+}
+
+// Habilita modo de edição (campos e botões)
+function habilitarModoEdicaoContato() {
+  // Habilita campos
+  document.getElementById('novo-contato-lead').disabled = false;
+  document.getElementById('novo-contato-hora').disabled = false;
+  document.getElementById('novo-contato-nome').disabled = false;
+  document.getElementById('novo-contato-tel').disabled = false;
+  
+  // Habilita botões de edição, desabilita NOVO
+  document.getElementById('btn-novo-contato').disabled = true;
+  document.getElementById('btn-salvar-contato').disabled = false;
+  document.getElementById('btn-cancelar-edicao').disabled = false;
+  document.getElementById('btn-limpar-contato').disabled = false;
+}
+
+// Desabilita modo de edição (volta ao estado inicial)
+function desabilitarModoEdicaoContato() {
+  // Limpa campos
+  document.getElementById('novo-contato-lead').value = '';
+  document.getElementById('novo-contato-hora').value = '';
+  document.getElementById('novo-contato-nome').value = '';
+  document.getElementById('novo-contato-tel').value = '';
+  document.getElementById('novo-contato-tel').classList.remove('input-erro');
+  
+  // Desabilita campos
+  document.getElementById('novo-contato-lead').disabled = true;
+  document.getElementById('novo-contato-hora').disabled = true;
+  document.getElementById('novo-contato-nome').disabled = true;
+  document.getElementById('novo-contato-tel').disabled = true;
+  
+  // Habilita NOVO, desabilita outros botões
+  document.getElementById('btn-novo-contato').disabled = false;
+  document.getElementById('btn-salvar-contato').disabled = true;
+  document.getElementById('btn-cancelar-edicao').disabled = true;
+  document.getElementById('btn-limpar-contato').disabled = true;
+  
+  contatoEditandoIdx = null;
+}
+
+// Inicia modo novo contato
+function iniciarNovoContato() {
+  habilitarModoEdicaoContato();
+  document.getElementById('novo-contato-lead').focus();
+}
+
+function limparCamposContato() {
+  document.getElementById('novo-contato-lead').value = '';
+  document.getElementById('novo-contato-hora').value = '';
+  document.getElementById('novo-contato-nome').value = '';
+  document.getElementById('novo-contato-tel').value = '';
+  document.getElementById('novo-contato-tel').classList.remove('input-erro');
+  contatoEditandoIdx = null;
+}
+
+function cancelarEdicaoContato() {
+  desabilitarModoEdicaoContato();
+  mostrarNotificacao('ℹ️ Edição cancelada');
+}
+
+function verificarCamposContato() {
+  // Mantém para compatibilidade mas não faz mais nada
+  // O controle agora é via habilitarModoEdicaoContato/desabilitarModoEdicaoContato
+}
+
+function limparTodosContatos() {
+  const contatos = carregarContatosRapidos();
+  if (contatos.length === 0) {
+    mostrarNotificacao('ℹ️ Não há contatos para excluir.');
+    return;
+  }
+  document.getElementById('qtd-contatos-excluir').textContent = contatos.length;
+  document.getElementById('confirmar-limpar-contatos-popup').style.display = 'block';
+}
+
+function executarLimparTodosContatos() {
+  document.getElementById('confirmar-limpar-contatos-popup').style.display = 'none';
+  salvarContatosRapidos([]);
+  renderizarContatos();
+  desabilitarModoEdicaoContato();
+  mostrarNotificacao('🗑️ Todos os contatos foram removidos!');
+}
+
+function ordenarContatos(campo) {
+  if (contatosOrdenacao.campo === campo) {
+    contatosOrdenacao.asc = !contatosOrdenacao.asc;
+  } else {
+    contatosOrdenacao.campo = campo;
+    contatosOrdenacao.asc = true;
+  }
+  filtrarContatosMulti();
+}
+
+// Filtro multi-campo (Lead, Nome, Tel)
+function filtrarContatosMulti() {
+  const lead = document.getElementById('busca-lead')?.value || '';
+  const nome = document.getElementById('busca-nome')?.value || '';
+  const tel = document.getElementById('busca-tel')?.value || '';
+  renderizarContatos(lead, nome, tel);
+}
+
+// Verifica se algum campo de busca está preenchido
+function verificarBuscaPreenchida() {
+  const lead = document.getElementById('busca-lead')?.value || '';
+  const nome = document.getElementById('busca-nome')?.value || '';
+  const tel = document.getElementById('busca-tel')?.value || '';
+  const btn = document.getElementById('btn-limpar-busca-todos');
+  
+  if (lead || nome || tel) {
+    btn.style.display = 'block';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+// Limpa todos os campos de busca
+function limparBuscaContatos() {
+  document.getElementById('busca-lead').value = '';
+  document.getElementById('busca-nome').value = '';
+  document.getElementById('busca-tel').value = '';
+  document.getElementById('btn-limpar-busca-todos').style.display = 'none';
+  filtrarContatosMulti();
+}
+
+// Exportar contatos para JSON
+function exportarContatosJSON() {
+  const contatos = carregarContatosRapidos();
+  if (contatos.length === 0) {
+    mostrarNotificacao('⚠️ Não há contatos para exportar!');
+    return;
+  }
+  
+  const dataExport = {
+    versao: '1.0',
+    exportadoEm: new Date().toISOString(),
+    totalContatos: contatos.length,
+    contatos: contatos
+  };
+  
+  const blob = new Blob([JSON.stringify(dataExport, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'contatos_rapidos_' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  mostrarNotificacao(`📤 ${contatos.length} contatos exportados!`);
+}
+
+// Importar contatos de JSON (sem duplicados)
+function importarContatosJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      let contatosImportados = [];
+      
+      // Aceita formato com wrapper ou array direto
+      if (data.contatos && Array.isArray(data.contatos)) {
+        contatosImportados = data.contatos;
+      } else if (Array.isArray(data)) {
+        contatosImportados = data;
+      } else {
+        throw new Error('Formato inválido');
+      }
+      
+      const contatosAtuais = carregarContatosRapidos();
+      let adicionados = 0;
+      let duplicados = 0;
+      let invalidos = 0;
+      
+      contatosImportados.forEach(c => {
+        const lead = c.lead || '';
+        const horario = c.horario || '';
+        const nome = c.nome || '';
+        let tel = c.tel || '';
+        
+        // Normaliza telefone: se 11 dígitos, remove o 9
+        if (tel) {
+          const numeros = tel.replace(/\D/g, '');
+          if (numeros.length === 11) {
+            // Remove o 9 e reformata
+            const normalizado = numeros.slice(0, 2) + numeros.slice(3);
+            tel = normalizado.slice(0, 2) + ' 9' + normalizado.slice(2, 6) + '-' + normalizado.slice(6);
+          } else if (numeros.length === 10) {
+            // Formata corretamente
+            tel = numeros.slice(0, 2) + ' 9' + numeros.slice(2, 6) + '-' + numeros.slice(6);
+          } else if (numeros.length > 0) {
+            // Telefone inválido
+            invalidos++;
+            return; // Pula este contato
+          }
+        }
+        
+        // Verifica duplicata (Lead + Nome + Tel iguais)
+        const existe = contatosAtuais.some(ct => 
+          ct.lead === lead && ct.nome === nome && ct.tel === tel
+        );
+        
+        if (!existe && nome) {
+          contatosAtuais.push({ lead, horario, nome, tel });
+          adicionados++;
+        } else {
+          duplicados++;
+        }
+      });
+      
+      salvarContatosRapidos(contatosAtuais);
+      renderizarContatos();
+      
+      if (adicionados > 0) {
+        let msg = `📥 ${adicionados} contato(s) importado(s)!`;
+        if (duplicados > 0) msg += ` (${duplicados} duplicado(s))`;
+        if (invalidos > 0) msg += ` (${invalidos} com telefone inválido)`;
+        mostrarNotificacao(msg);
+      } else if (invalidos > 0) {
+        mostrarNotificacao(`⚠️ ${invalidos} contato(s) com telefone inválido!`);
+      } else {
+        mostrarNotificacao('ℹ️ Nenhum contato novo para importar (todos já existem).');
+      }
+    } catch(err) {
+      console.error('Erro ao importar:', err);
+      mostrarNotificacao('❌ Erro ao importar arquivo JSON!');
+    }
+  };
+  reader.readAsText(file);
+  
+  // Limpa o input para permitir reimportar o mesmo arquivo
+  event.target.value = '';
+}
+
+function toggleContatosRapidos() {
+  const body = document.getElementById('contatos-body');
+  const toggle = document.getElementById('contatos-toggle');
+  body.classList.toggle('collapsed');
+  toggle.classList.toggle('collapsed');
+}
+
+// Recebe drop de Equipes Ativas para Contatos Rápidos
+function receberDropDeEquipe(event) {
+  event.preventDefault();
+  try {
+    const data = JSON.parse(event.dataTransfer.getData('text/plain'));
+    if (data.tipo !== 'equipe-ativa') return;
+    
+    const lead = data.lead || '';
+    const horario = data.horario || '';
+    const nome = data.nome || '';
+    let tel = data.tel || '';
+    
+    // Precisa ter pelo menos o nome
+    if (!nome) {
+      mostrarNotificacao('⚠️ Equipe sem nome não pode ser salva!');
+      return;
+    }
+    
+    // Valida e normaliza telefone
+    if (tel) {
+      const numeros = tel.replace(/\D/g, '');
+      if (numeros.length === 11) {
+        // Remove o 9 e reformata
+        const normalizado = numeros.slice(0, 2) + numeros.slice(3);
+        tel = normalizado.slice(0, 2) + ' 9' + normalizado.slice(2, 6) + '-' + normalizado.slice(6);
+      } else if (numeros.length === 10) {
+        // Formata corretamente
+        tel = numeros.slice(0, 2) + ' 9' + numeros.slice(2, 6) + '-' + numeros.slice(6);
+      } else if (numeros.length > 0 && numeros.length < 10) {
+        mostrarNotificacao('⚠️ Telefone inválido! Deve ter DDD (2) + 8 dígitos');
+        return;
+      }
+    }
+    
+    const contatos = carregarContatosRapidos();
+    
+    // Verifica se já existe (4 campos iguais = duplicata)
+    const duplicado = contatos.some(c => c.lead === lead && c.horario === horario && c.nome === nome && c.tel === tel);
+    if (duplicado) {
+      mostrarNotificacao('ℹ️ Contato já existe nos Contatos Rápidos!');
+      return;
+    }
+    
+    contatos.push({ lead, horario, nome, tel });
+    salvarContatosRapidos(contatos);
+    renderizarContatos();
+    mostrarNotificacao('✅ Equipe copiada para Contatos Rápidos!');
+  } catch(e) {
+    console.log('Drop inválido', e);
+  }
+}
+
+// Abre WhatsApp Web em nova aba
+function abrirWhatsApp(numero) {
+  if (!numero) return;
+  window.open('https://wa.me/' + numero, '_blank');
+}
+
+function aplicarMascaraLeadContato(input) {
+  // Mesmo formato do lead das equipes: DFJ-RD-01B — 3 letras, hífen, 2 letras, hífen, 2 números, 1 letra (B/C/D)
+  let raw = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  let r = '';
+
+  for (let x = 0; x < raw.length && r.replace(/-/g,'').length < 8; x++) {
+    const c = raw[x];
+    const len = r.replace(/-/g,'').length;
+
+    if (len === 3 || len === 5) r += '-';
+
+    if (len < 3) {
+      // posições 0-2: só letras
+      if (/[A-Z]/.test(c)) r += c;
+    } else if (len < 5) {
+      // posições 3-4: só letras
+      if (/[A-Z]/.test(c)) r += c;
+    } else if (len < 7) {
+      // posições 5-6: só números
+      if (/[0-9]/.test(c)) r += c;
+    } else if (len === 7) {
+      // posição 7: só B, C ou D
+      if (/[BCD]/.test(c)) r += c;
+    }
+  }
+  input.value = r;
+}
+
+function formatarTelefoneContato(input) {
+  let v = input.value.replace(/\D/g, '');
+  
+  // Se colou 11 dígitos, normaliza (remove o 9 do 3º dígito)
+  if (v.length === 11) {
+    v = v.substring(0, 2) + v.substring(3); // Remove o 3º dígito (o 9)
+  }
+  
+  // Limita a 10 dígitos (DDD + 8)
+  if (v.length > 10) v = v.substring(0, 10);
+  
+  // Formata: XX 9XXXX-XXXX (adiciona o 9 automaticamente na exibição)
+  if (v.length === 10) {
+    input.value = v.substring(0, 2) + ' 9' + v.substring(2, 6) + '-' + v.substring(6);
+    input.classList.remove('campo-obrigatorio-erro');
+  } else if (v.length > 6) {
+    input.value = v.substring(0, 2) + ' 9' + v.substring(2, 6) + '-' + v.substring(6);
+  } else if (v.length > 2) {
+    input.value = v.substring(0, 2) + ' 9' + v.substring(2);
+  } else {
+    input.value = v;
+  }
+}
+
+// Inicializa contatos ao carregar
+document.addEventListener('DOMContentLoaded', function() {
+  inicializarSelectHoraContatos();
+  renderizarContatos();
+  desabilitarModoEdicaoContato(); // Garante que botões começam no estado correto
+  
+  // Limpa TODAS as classes drag-over quando o drag termina (previne classe "presa")
+  document.addEventListener('dragend', function() {
+    document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+  });
+  
+  // Também limpa se o mouse sair da janela durante o drag
+  document.addEventListener('dragleave', function(e) {
+    if (e.clientX === 0 && e.clientY === 0) {
+      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    }
+  });
+});
+
 // ============================================
 // SISTEMA DE LOGIN
 // ============================================
@@ -1198,16 +2652,15 @@ let DADOS_REGIOES = {
   "DEMEM": {
     "AQUIRAZ": ["AQUIRAZ","BEBERIBE","CAPONGA","CASCAVEL","EUSÉBIO","GUANACÉS","JACARECOARA","PARAJURU","PARIPUEIRA","PATACAS","PINDORETAMA","PRAINHA","SUCATINGA"],
     "BATURITÉ": ["ACARAPÉ","ANTÔNIO DIOGO","ARACOIABA","ARATUBA","BARREIRA","BATURITÉ","CAPISTRANO","CHOROZINHO","GADO DOS FERROS","GUAIÚBA","GUARAMIRANGA","ITAPIÚNA","MULUNGU","OCARA","PACOTI","PALMÁCIA","REDENÇÃO"],
-    "CAUCAIA": ["CATUANA","CAUCAIA","ICARAI","PECEM","SÃO GONÇALO DO AMARANTE","SIUPÉ","SÍTIOS NOVOS","TAIBA"],
+    "CAUCAIA": ["CATUANA","CAUCAIA","ICARAÍ","PECEM","SÃO GONÇALO DO AMARANTE","SIUPÉ","SÍTIOS NOVOS","TAIBA"],
     "HORIZONTE": ["CAMARÁ","CHOROZINHO","COLUNA","EUSÉBIO","GERERAU","HORIZONTE","ITAITINGA","MANGABEIRA","OCARA","PACAJUS","PITOMBEIRAS","SERRA DO FÉLIX"],
-    "MARACANAÚ": ["ACARAPÉ","GUAIUBA","INDUSTRIAL I","INDUSTRIAL II","INDUSTRIAL III","JEIREISSATI I","JEIREISSATI II","JEIREISSATI III","JACANAU","MARACANAÚ","MUCUNA","MARANGUAPE","PACATUBA","PENEDO"]
+    "MARACANAÚ": ["ACARAPÉ","GUAIUBA","INDUSTRIAL I","INDUSTRIAL II","INDUSTRIAL III","JEIREISSATI I","JEIREISSATI II","JEIREISSATI III","JACANAU","MARACANAÚ","MUCUNA","MARANGUAPE","PACATUBA","PREFEITO JOSÉ WALTER","PENEDO"]
   },
-
 
   "DEMEF": {
     "DF-001": ["ALDEOTA","BENFICA","CAIS DO PORTO","CENTRO","CIDADE 2000","COCÓ","DE LOURDES","DIONÍSIO TORRES","EDSON QUEIROZ","ENGENHEIRO LUCIANO CAVALCANTE","FARIAS BRITO","FÁTIMA","GUARARAPES","JACARECANGA","JOAQUIM TÁVORA","JOSÉ BONIFÁCIO","MAGUARY","MANOEL DIAS BRANCO","MEIRELES","MOURA BRASIL","MUCURIPE","PAPICU","PRAIA DE IRACEMA","PRAIA DO FUTURO","SABIAGUABA","SALINAS","SÃO GERARDO","SÃO JOÃO DO TAUAPÉ","VARJOTA","VICENTE PINZON"],
 
-    "DF-002": ["AMADEU FURTADO","ANTÔNIO BEZERRA","AUTRAN NUNES","ÁLVARO WEYNE","BARRA DO CEARÁ","BELA VISTA","CARLITO PAMPLONA","CRISTO REDENTOR","DEMÓCRITO ROCHA","DOM LUSTOSA","FLORESTA","GENIBAÚ","JACARECANGA","JARDIM CEARENSE","JARDIM GUANABARA","JARDIM IRACEMA","JOÃO XXIII","JÓQUEI CLUBE","JUREMA","MAGUARY","MONTE CASTELO","MONTESE","OLAVO OLIVEIRA","PADRE ANDRADE","PANAMERICANO","PARQUE ARAXÁ","PARQUELÂNDIA","PARREÃO","PICI","PIRAMBU","PRESIDENTE KENNEDY","QUINTINO CUNHA","RODOLFO TEÓFILO","SÃO GERARDO","VILA ELLERY","VILA VELHA"],
+    "DF-002": ["AMADEU FURTADO","ANTÔNIO BEZERRA","AUTRAN NUNES","ÁLVARO WEYNE","BARRA DO CEARÁ","BELA VISTA","CARLITO PAMPLONA","CRISTO REDENTOR","CAUCAIA","DEMÓCRITO ROCHA","DOM LUSTOSA","FLORESTA","GENIBAÚ","ICARAÍ","JACARECANGA","JARDIM CEARENSE","JARDIM GUANABARA","JARDIM IRACEMA","JOÃO XXIII","JÓQUEI CLUBE","JUREMA","MAGUARY","MONTE CASTELO","MONTESE","OLAVO OLIVEIRA","PADRE ANDRADE","PANAMERICANO","PARQUE ARAXÁ","PARQUELÂNDIA","PARREÃO","PICI","PIRAMBU","PRESIDENTE KENNEDY","QUINTINO CUNHA","RODOLFO TEÓFILO","SÃO GERARDO","VILA ELLERY","VILA VELHA","TABAPUA"],
 
     "DF-003": ["AEROPORTO","ALTO DA BALANÇA","AMADEU FURTADO","ANTÔNIO BEZERRA","AUTRAN NUNES","ÁLVARO WEYNE","BELA VISTA","BOM FUTURO","BOM JARDIM","BONSUCESSO","CANINDEZINHO","CONJUNTO CEARÁ","CONJUNTO ESPERANÇA","DAMAS","DEMÓCRITO ROCHA","DENDÊ","DIAS MACEDO","DOM LUSTOSA","GENIBAÚ","GRANJA LISBOA","GRANJA PORTUGAL","HENRIQUE JORGE","ITAOCA","ITAPERI","JARDIM AMÉRICA","JOÃO XXIII","JÓQUEI CLUBE","JUREMA","MANOEL SÁTIRO","MARAPONGA","MATA GALINHA","MONDUBIM","MONTESE","PANAMERICANO","PARANGABA","PARQUE DOIS IRMÃOS","PARREÃO","PASSARÉ","PICI","PLANALTO AYRTON SENNA","PREFEITO JOSÉ WALTER","PRESIDENTE VARGAS","RODOLFO TEÓFILO","SANTA ROSA","SERRINHA","SIQUEIRA","VILA PERI","VILA UNIÃO"],
 
@@ -1316,6 +2769,9 @@ function restaurarSessaoCache() {
   // Desabilita botão COPIAR (só habilita após exportar)
   desabilitarBotaoCopiar();
   
+  // Garante que clipboard começa no estado correto
+  desabilitarModoEdicaoContato();
+  
   const sessao = JSON.parse(localStorage.getItem(KEY_SESSAO));
   if (sessao) {
     carregarDadosCompletos(sessao);
@@ -1393,6 +2849,9 @@ function iniciarDoZero() {
   // Desabilita botão COPIAR (só habilita após exportar)
   desabilitarBotaoCopiar();
   
+  // Garante que clipboard começa no estado correto
+  desabilitarModoEdicaoContato();
+  
   document.getElementById('global-clock').style.display = 'block';
   globalTimerStart = Date.now();
   globalTimerInterval = setInterval(atualizarRelogio, 1000);
@@ -1443,6 +2902,22 @@ function resetarTodosItensParaPadrao() {
     delete detalhesPendentes[id];
     contadorItens[id] = 0;
   });
+  
+  // Limpa seção de concluídas
+  limparSecaoConcluidas();
+}
+
+// Limpa todos os cards da seção de concluídas
+function limparSecaoConcluidas() {
+  const container = document.getElementById('concluidas-container');
+  const vazio = document.getElementById('concluidas-vazio');
+  const contador = document.getElementById('concluidas-count');
+  
+  if (container) {
+    container.querySelectorAll('.card-concluido-wrapper').forEach(wrapper => wrapper.remove());
+  }
+  if (vazio) vazio.style.display = 'block';
+  if (contador) contador.textContent = '0';
 }
 
 function abrirImportacao() {
@@ -1485,6 +2960,9 @@ function confirmarImportacao() {
   // Desabilita botão COPIAR (só habilita após exportar)
   desabilitarBotaoCopiar();
   
+  // Garante que clipboard começa no estado correto
+  desabilitarModoEdicaoContato();
+  
   document.getElementById('global-clock').style.display = 'block';
   globalTimerStart = Date.now();
   globalTimerInterval = setInterval(atualizarRelogio, 1000);
@@ -1519,9 +2997,12 @@ function carregarDadosImportados(d) {
   // Reseta todos os itens primeiro
   resetarTodosItensParaPadrao();
   
+  // Define região e atualiza select de área ANTES de definir o valor da área
   document.getElementById('regiao').value = d.regiao || '';
+  atualizarAreasSelect();
   document.getElementById('area').value = d.area || '';
   areaSelecionada = d.area || '';
+  atualizarSelectsLocalidades();
   
   // F Pendentes do anterior vira F Recebidos (caixa preta somente leitura)
   const fRecebidosVal = d.fPendentes || d.fRecebidos || '0';
@@ -1553,7 +3034,27 @@ function carregarDadosImportados(d) {
   if (d.detalhesPendentes) detalhesPendentes = JSON.parse(JSON.stringify(d.detalhesPendentes));
   
   // Carregar equipes PRIMEIRO (para popular os dropdowns)
-  if (d.equipes) d.equipes.forEach(eq => adicionarEquipeComDados(eq));
+  if (d.equipes) {
+    d.equipes.forEach(eq => adicionarEquipeComDados(eq));
+    // Após adicionar todas as equipes, força atualização dos selects de localidades
+    // e restaura os valores salvos
+    setTimeout(() => {
+      atualizarSelectsLocalidades();
+      // Restaura valores das localidades de cada equipe
+      let idx = 0;
+      document.querySelectorAll('.equipe-linha').forEach(el => {
+        const id = el.id.replace('equipe-', '');
+        const eq = d.equipes[idx];
+        if (eq) {
+          if (eq.local1) document.getElementById('equipe-' + id + '-local1').value = eq.local1;
+          if (eq.local2) document.getElementById('equipe-' + id + '-local2').value = eq.local2;
+          if (eq.local3) document.getElementById('equipe-' + id + '-local3').value = eq.local3;
+          if (eq.local4) document.getElementById('equipe-' + id + '-local4').value = eq.local4;
+        }
+        idx++;
+      });
+    }, 50);
+  }
   
   // Carregar quantidades e observações (só para os que estão como SIM)
   ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
@@ -1574,6 +3075,8 @@ function carregarDadosImportados(d) {
   // Restaurar caixas dinâmicas - MARCA COMO NÃO REVISADO para forçar revisão (só para SIM)
   setTimeout(() => { 
     if (d.caixasDinamicas) restaurarCaixasImportacao(d.caixasDinamicas);
+    // Restaurar cards de concluídas
+    if (d.concluidas) restaurarConcluidas(d.concluidas);
     // Atualizar preview após mais um tempo para garantir que tudo foi renderizado
     setTimeout(() => {
       atualizarPreview();
@@ -1605,15 +3108,27 @@ function restaurarEstadosBotoesImportacao() {
   });
 }
 
-// Restaura caixas na IMPORTAÇÃO - sempre marca como NÃO REVISADO (só para itens SIM)
+// Restaura caixas na IMPORTAÇÃO - sempre marca como NÃO REVISADO (só para itens pendentes)
 function restaurarCaixasImportacao(data) {
   ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
-    // Só restaura se o estado for SIM
-    if (estados[id] !== 'sim') return;
-    
     if (data[id] && data[id].length > 0) {
       const c = document.getElementById('caixas-' + id);
       if (!c) return;
+      
+      // IMPORTANTE: Se há itens a importar, define o estado como 'sim'
+      if (!estados[id]) {
+        estados[id] = 'sim';
+      }
+      
+      // Mostra os campos e container
+      const campos = document.getElementById('campos-' + id);
+      const btns = document.getElementById('btns-' + id)?.querySelectorAll('.btn-resposta');
+      const desfazer = document.getElementById('desfazer-' + id);
+      
+      if (campos) campos.classList.add('visible');
+      c.classList.add('visible');
+      if (btns) btns.forEach(b => b.style.display = 'none');
+      if (desfazer) desfazer.classList.add('visible');
       
       c.innerHTML = '';
       contadorItens[id] = 0;
@@ -1628,16 +3143,18 @@ function restaurarCaixasImportacao(data) {
         // IMPORTAÇÃO: 
         // - PENDENTE → REVISAR (forçar revisão)
         // - RESOLVIDO → RESOLVIDO (mantém até remover manualmente)
-        let status, statusClass, statusText;
+        let status, statusClass, statusText, tooltipStatus;
         if (it.status === 'resolvido') {
           status = 'resolvido';
           statusClass = 'resolvido';
           statusText = 'RESOLVIDO';
+          tooltipStatus = '';
         } else {
           // Qualquer outro status (pendente, nao-revisado) vira REVISAR
           status = 'nao-revisado';
           statusClass = 'nao-revisado';
           statusText = 'REVISAR';
+          tooltipStatus = 'Alternar para PENDENTE';
         }
         
         const afetacaoChecked = it.afetacao ? 'checked' : '';
@@ -1690,7 +3207,7 @@ function restaurarCaixasImportacao(data) {
               <option value="" disabled selected>DEFINIR RECURSO</option>
               ${equipesOptions}
             </select>
-            <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${id}', ${num})" title="Clique para alternar status">${statusText}</button>
+            <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${id}', ${num})" data-tooltip="${tooltipStatus}">${statusText}</button>
           </div>
           <button class="btn-remover-item" onclick="removerItemCaixa('${id}', ${num})" title="Remover este item">✕</button>
         `;
@@ -1701,12 +3218,27 @@ function restaurarCaixasImportacao(data) {
           const selectEquipe = document.getElementById(`${id}-equipe-${num}`);
           if (selectEquipe) selectEquipe.value = it.equipe;
         }
+        
+        // Se status é resolvido, move para concluídas
+        if (status === 'resolvido') {
+          const item = document.getElementById(`${id}-item-${num}`);
+          if (item) {
+            setTimeout(() => {
+              moverParaConcluidasRestauracao(id, num, item);
+            }, 50);
+          }
+        }
       });
       
       c.classList.add('visible');
       atualizarContadorPendentes(id);
     }
   });
+  
+  // Atualiza contador de concluídas após importar tudo
+  setTimeout(() => {
+    atualizarContadorConcluidas();
+  }, 300);
 }
 
 function carregarDadosCompletos(d) {
@@ -1717,9 +3249,13 @@ function carregarDadosCompletos(d) {
   document.getElementById('turno-entrada').value = d.turnoEntrada || '';
   // NÃO sobrescrever operador - ele é preenchido automaticamente pelo login
   // document.getElementById('operador').value = d.operador || '';
+  
+  // Define região e atualiza select de área ANTES de definir o valor da área
   document.getElementById('regiao').value = d.regiao || '';
+  atualizarAreasSelect();
   document.getElementById('area').value = d.area || '';
   areaSelecionada = d.area || '';
+  atualizarSelectsLocalidades();
   
   // Atualizar valores e displays das caixas pretas
   const fRecVal = d.fRecebidos || '0';
@@ -1745,7 +3281,27 @@ function carregarDadosCompletos(d) {
   if (d.detalhesPendentes) detalhesPendentes = JSON.parse(JSON.stringify(d.detalhesPendentes));
   
   // Carregar equipes
-  if (d.equipes) d.equipes.forEach(eq => adicionarEquipeComDados(eq));
+  if (d.equipes) {
+    d.equipes.forEach(eq => adicionarEquipeComDados(eq));
+    // Após adicionar todas as equipes, força atualização dos selects de localidades
+    // e restaura os valores salvos
+    setTimeout(() => {
+      atualizarSelectsLocalidades();
+      // Restaura valores das localidades de cada equipe
+      let idx = 0;
+      document.querySelectorAll('.equipe-linha').forEach(el => {
+        const id = el.id.replace('equipe-', '');
+        const eq = d.equipes[idx];
+        if (eq) {
+          if (eq.local1) document.getElementById('equipe-' + id + '-local1').value = eq.local1;
+          if (eq.local2) document.getElementById('equipe-' + id + '-local2').value = eq.local2;
+          if (eq.local3) document.getElementById('equipe-' + id + '-local3').value = eq.local3;
+          if (eq.local4) document.getElementById('equipe-' + id + '-local4').value = eq.local4;
+        }
+        idx++;
+      });
+    }, 50);
+  }
   
   // Carregar quantidades e observações
   ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
@@ -1765,6 +3321,8 @@ function carregarDadosCompletos(d) {
   // Restaurar caixas dinâmicas e depois atualizar preview
   setTimeout(() => { 
     if (d.caixasDinamicas) restaurarCaixas(d.caixasDinamicas);
+    // Restaurar cards de concluídas
+    if (d.concluidas) restaurarConcluidas(d.concluidas);
     // Atualizar preview após mais um tempo para garantir que tudo foi renderizado
     setTimeout(() => {
       atualizarPreview();
@@ -1864,7 +3422,35 @@ function getLocalidadesDisponiveis() {
 function gerarOptionsLocalidades() {
   const localidades = getLocalidadesDisponiveis();
   if (localidades.length === 0) return '';
-  return localidades.map(loc => `<option value="${loc}">${loc}</option>`).join('');
+  
+  // Opções de APOIO no topo - destacadas em laranja, itálico, negrito, monospace
+  const regiao = document.getElementById('regiao').value;
+  const area = areaSelecionada || document.getElementById('area').value;
+  let apoioOptions = '';
+  const estiloApoio = 'background:#fff3e0;color:#e65100;font-weight:bold;font-style:italic;font-family:Consolas,Monaco,monospace;';
+  
+  if (regiao === 'DEMEM') {
+    // DEMEM: áreas do metropolitano + FORTALEZA - exclui a própria área
+    const areasDEMEM = ['FORTALEZA', 'AQUIRAZ', 'BATURITÉ', 'CAUCAIA', 'HORIZONTE', 'MARACANAÚ'];
+    areasDEMEM.forEach(ap => {
+      if (ap !== area) {
+        apoioOptions += `<option value="AP: ${ap}" style="${estiloApoio}">⚠️ AP: ${ap}</option>`;
+      }
+    });
+    apoioOptions += `<option disabled>───────────────</option>`;
+  } else if (regiao === 'DEMEF') {
+    // DEMEF: DFs de Fortaleza - exclui o próprio DF
+    const dfs = ['DF-001', 'DF-002', 'DF-003', 'DF-004'];
+    dfs.forEach(df => {
+      if (df !== area) {
+        apoioOptions += `<option value="AP: ${df}" style="${estiloApoio}">⚠️ AP: ${df}</option>`;
+      }
+    });
+    apoioOptions += `<option disabled>───────────────</option>`;
+  }
+  
+  const localOptions = localidades.map(loc => `<option value="${loc}">${loc}</option>`).join('');
+  return apoioOptions + localOptions;
 }
 
 // Atualiza todas as selects de localidades quando área muda
@@ -1874,10 +3460,22 @@ function atualizarSelectsLocalidades() {
     const valorAtual = select.value;
     const placeholder = select.options[0]?.text || 'Local';
     select.innerHTML = `<option value="">${placeholder}</option>${localOptions}`;
-    // Tenta restaurar valor anterior se ainda existir nas opções
+    // SEMPRE restaura valor anterior - se não existir nas opções, adiciona
     if (valorAtual) {
       const optionExists = Array.from(select.options).some(opt => opt.value === valorAtual);
-      if (optionExists) select.value = valorAtual;
+      if (optionExists) {
+        select.value = valorAtual;
+      } else {
+        // Adiciona opção customizada para preservar valor
+        const opt = document.createElement('option');
+        opt.value = valorAtual;
+        opt.textContent = valorAtual;
+        if (valorAtual.startsWith('AP:')) {
+          opt.style.cssText = 'background:#fff3e0;color:#e65100;font-weight:bold;font-style:italic;font-family:Consolas,Monaco,monospace;';
+        }
+        select.appendChild(opt);
+        select.value = valorAtual;
+      }
     }
   });
 }
@@ -2011,9 +3609,257 @@ function aplicarMascaraLead(i) {
 function formatarTelefone(i) { 
   let v = i.value.replace(/\D/g, ''); 
   if (v.length > 11) v = v.slice(0, 11);
+  
+  // Se tem mais de 2 dígitos, força o 3º dígito como 9
+  if (v.length > 2) {
+    const ddd = v.slice(0, 2);
+    let resto = v.slice(2);
+    // Se o 3º dígito não é 9, insere o 9
+    if (resto.length > 0 && resto[0] !== '9') {
+      // Se o usuário digitou outro número no lugar do 9, avisa
+      mostrarNotificacao('⚠️ O 3º dígito deve ser 9 (padrão celular)');
+      resto = '9' + resto.slice(0, 8); // Insere 9 e limita a 8 dígitos após
+    }
+    v = ddd + resto;
+    if (v.length > 11) v = v.slice(0, 11);
+  }
+  
+  // Formata: XX 9XXXX-XXXX
   if (v.length > 7) v = v.slice(0, 2) + ' ' + v.slice(2, 7) + '-' + v.slice(7);
   else if (v.length > 2) v = v.slice(0, 2) + ' ' + v.slice(2);
   i.value = v; 
+}
+
+// Funções para telefone dividido (DDD | 9 vermelho | resto)
+function formatarTelDDD(input, equipeId, isParceiro = false) {
+  let v = input.value.replace(/\D/g, '');
+  // Limita a 2 dígitos na digitação normal
+  input.value = v.slice(0, 2);
+  sincronizarTelefone(equipeId, isParceiro);
+  validarTelefoneWrapper(equipeId, isParceiro);
+}
+
+function formatarTelResto(input, equipeId, isParceiro = false) {
+  let v = input.value.replace(/\D/g, '');
+  // Limita a 8 dígitos na digitação normal
+  if (v.length > 8) v = v.slice(0, 8);
+  // Formata: XXXX-XXXX
+  if (v.length > 4) v = v.slice(0, 4) + '-' + v.slice(4);
+  input.value = v;
+  sincronizarTelefone(equipeId, isParceiro);
+  validarTelefoneWrapper(equipeId, isParceiro);
+}
+
+// Captura evento de colar no DDD (esquerda → direita)
+function onPasteTelDDD(event, equipeId, isParceiro = false) {
+  event.preventDefault();
+  const texto = (event.clipboardData || window.clipboardData).getData('text');
+  let numeros = texto.replace(/\D/g, '');
+  
+  // WhatsApp: +55 DD XXXX-XXXX = 12 dígitos (55 + DD + 8)
+  // Remove o 55 do início se tiver 12 dígitos
+  if (numeros.length === 12 && numeros.startsWith('55')) {
+    numeros = numeros.slice(2); // Remove 55 → fica 10 dígitos
+  }
+  
+  // Aceita APENAS 10 ou 11 dígitos (esquerda → direita)
+  if (numeros.length !== 10 && numeros.length !== 11) {
+    mostrarNotificacao('⚠️ Colar no DDD: apenas 10 ou 11 dígitos');
+    return;
+  }
+  
+  const prefix = isParceiro ? 'equipe-' + equipeId + '-parceiro-tel' : 'equipe-' + equipeId + '-tel';
+  const dddInput = document.getElementById(prefix + '-ddd');
+  const restoInput = document.getElementById(prefix + '-resto');
+  
+  let ddd, resto;
+  if (numeros.length === 11) {
+    ddd = numeros.slice(0, 2);           // primeiros 2
+    resto = numeros.slice(3, 11);        // ignora posição 2 (o 9), pega 8 seguintes
+  } else {
+    ddd = numeros.slice(0, 2);           // primeiros 2
+    resto = numeros.slice(2, 10);        // próximos 8
+  }
+  
+  if (dddInput) dddInput.value = ddd;
+  if (restoInput) restoInput.value = resto.slice(0, 4) + '-' + resto.slice(4);
+  
+  sincronizarTelefone(equipeId, isParceiro);
+  validarTelefoneWrapper(equipeId, isParceiro);
+}
+
+// Captura evento de colar no Resto (direita → esquerda)
+function onPasteTelResto(event, equipeId, isParceiro = false) {
+  event.preventDefault();
+  const texto = (event.clipboardData || window.clipboardData).getData('text');
+  let numeros = texto.replace(/\D/g, '');
+  
+  // WhatsApp: +55 DD XXXX-XXXX = 12 dígitos (55 + DD + 8)
+  // Remove o 55 do início se tiver 12 dígitos
+  if (numeros.length === 12 && numeros.startsWith('55')) {
+    numeros = numeros.slice(2); // Remove 55 → fica 10 dígitos
+  }
+  
+  // Aceita APENAS 8, 9, 10 ou 11 dígitos (direita ← esquerda)
+  if (numeros.length < 8 || numeros.length > 11) {
+    mostrarNotificacao('⚠️ Colar no Resto: apenas 8, 9, 10 ou 11 dígitos');
+    return;
+  }
+  
+  const prefix = isParceiro ? 'equipe-' + equipeId + '-parceiro-tel' : 'equipe-' + equipeId + '-tel';
+  const dddInput = document.getElementById(prefix + '-ddd');
+  const restoInput = document.getElementById(prefix + '-resto');
+  
+  let ddd, resto;
+  if (numeros.length === 8) {
+    // Só resto, mantém DDD atual
+    resto = numeros;
+  } else if (numeros.length === 9) {
+    // Ignora o primeiro (o 9), resto = pos 1-8, mantém DDD
+    resto = numeros.slice(1, 9);
+  } else if (numeros.length === 10) {
+    // DDD + Resto
+    ddd = numeros.slice(0, 2);
+    resto = numeros.slice(2, 10);
+  } else {
+    // 11 dígitos: DDD + ignora 9 + Resto
+    ddd = numeros.slice(0, 2);
+    resto = numeros.slice(3, 11);
+  }
+  
+  if (ddd && dddInput) dddInput.value = ddd;
+  if (restoInput) restoInput.value = resto.slice(0, 4) + '-' + resto.slice(4);
+  
+  sincronizarTelefone(equipeId, isParceiro);
+  validarTelefoneWrapper(equipeId, isParceiro);
+}
+
+function sincronizarTelefone(equipeId, isParceiro = false) {
+  const prefix = isParceiro ? 'equipe-' + equipeId + '-parceiro-tel' : 'equipe-' + equipeId + '-tel';
+  const dddInput = document.getElementById(prefix + '-ddd');
+  const restoInput = document.getElementById(prefix + '-resto');
+  const hiddenInput = document.getElementById(isParceiro ? 'equipe-' + equipeId + '-parceiro-tel' : 'equipe-' + equipeId + '-telefone');
+  
+  if (dddInput && restoInput && hiddenInput) {
+    const ddd = dddInput.value.replace(/\D/g, '');
+    const resto = restoInput.value.replace(/\D/g, '');
+    // Formato final: XX 9XXXX-XXXX
+    if (ddd.length === 2 && resto.length === 8) {
+      hiddenInput.value = ddd + ' 9' + resto.slice(0, 4) + '-' + resto.slice(4);
+    } else if (ddd || resto) {
+      hiddenInput.value = ddd + (resto ? ' 9' + resto : '');
+    } else {
+      hiddenInput.value = '';
+    }
+  }
+}
+
+// Normaliza telefone: se 11 dígitos, remove o 9 (3º dígito)
+function normalizarTelefone(telefone) {
+  const numeros = telefone.replace(/\D/g, '');
+  if (numeros.length === 11) {
+    // Remove o 3º dígito (o 9)
+    return numeros.slice(0, 2) + numeros.slice(3);
+  } else if (numeros.length === 10) {
+    // Já está no formato correto (DDD + 8 dígitos)
+    return numeros;
+  }
+  return numeros; // Retorna como está (será validado depois)
+}
+
+// Valida se telefone tem 10 dígitos (DDD 2 + resto 8)
+function validarTelefoneCompleto(telefone) {
+  const numeros = telefone.replace(/\D/g, '');
+  return numeros.length === 10 || numeros.length === 11;
+}
+
+// Valida e aplica estilo de erro no wrapper
+function validarTelefoneWrapper(equipeId, isParceiro = false) {
+  const prefix = isParceiro ? 'equipe-' + equipeId + '-parceiro-tel' : 'equipe-' + equipeId + '-tel';
+  const wrapper = document.getElementById(prefix + '-ddd')?.parentElement;
+  const dddInput = document.getElementById(prefix + '-ddd');
+  const restoInput = document.getElementById(prefix + '-resto');
+  
+  if (wrapper && dddInput && restoInput) {
+    const ddd = dddInput.value.replace(/\D/g, '');
+    const resto = restoInput.value.replace(/\D/g, '');
+    
+    // Só remove erro quando telefone está COMPLETO (DDD=2 e Resto=8)
+    if (ddd.length === 2 && resto.length === 8) {
+      wrapper.classList.remove('equipe-campo-erro');
+    }
+    // Se está incompleto, mantém o erro (não adiciona novamente para não reiniciar animação)
+  }
+}
+
+// Aplica erro no telefone wrapper
+function marcarErroTelefone(equipeId, isParceiro = false) {
+  const prefix = isParceiro ? 'equipe-' + equipeId + '-parceiro-tel' : 'equipe-' + equipeId + '-tel';
+  const wrapper = document.getElementById(prefix + '-ddd')?.parentElement;
+  if (wrapper) {
+    wrapper.classList.add('equipe-campo-erro');
+  }
+}
+
+// Remove erro do telefone wrapper
+function removerErroTelefone(equipeId, isParceiro = false) {
+  const prefix = isParceiro ? 'equipe-' + equipeId + '-parceiro-tel' : 'equipe-' + equipeId + '-tel';
+  const wrapper = document.getElementById(prefix + '-ddd')?.parentElement;
+  if (wrapper) {
+    wrapper.classList.remove('equipe-campo-erro');
+  }
+}
+
+// Preenche telefone dividido a partir de string (normaliza automaticamente)
+function preencherTelefoneDividido(equipeId, telefone, isParceiro = false) {
+  const prefix = isParceiro ? 'equipe-' + equipeId + '-parceiro-tel' : 'equipe-' + equipeId + '-tel';
+  const dddInput = document.getElementById(prefix + '-ddd');
+  const restoInput = document.getElementById(prefix + '-resto');
+  const hiddenInput = document.getElementById(isParceiro ? 'equipe-' + equipeId + '-parceiro-tel' : 'equipe-' + equipeId + '-telefone');
+  
+  if (dddInput && restoInput && telefone) {
+    // Normaliza: remove o 9 se tiver 11 dígitos
+    const numeros = normalizarTelefone(telefone);
+    
+    if (numeros.length >= 10) {
+      // DDD = 2 primeiros
+      dddInput.value = numeros.slice(0, 2);
+      // Resto = 8 últimos, formatado como XXXX-XXXX
+      const resto = numeros.slice(2, 10);
+      restoInput.value = resto.slice(0, 4) + '-' + resto.slice(4);
+      // Atualiza hidden
+      if (hiddenInput) {
+        hiddenInput.value = numeros.slice(0, 2) + ' 9' + resto.slice(0, 4) + '-' + resto.slice(4);
+      }
+      removerErroTelefone(equipeId, isParceiro);
+      return true;
+    } else if (numeros.length > 0) {
+      // Telefone incompleto
+      marcarErroTelefone(equipeId, isParceiro);
+      return false;
+    }
+  }
+  return false;
+}
+
+function formatarNome(i) {
+  // Pega o valor atual
+  const valorOriginal = i.value;
+  // Converte para maiúscula e remove TODOS os espaços
+  let v = valorOriginal.toUpperCase().replace(/\s+/g, '');
+  // Se o primeiro caractere não for letra, remove
+  if (v.length > 0 && !/^[A-ZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸ]/.test(v[0])) {
+    v = v.substring(1);
+  }
+  // Se tinha espaço no valor original, mostra aviso
+  if (valorOriginal.includes(' ')) {
+    mostrarNotificacao('⚠️ Digite apenas o PRIMEIRO nome (sem espaços)');
+  }
+  i.value = v;
+  // Remove erro se preenchido, mantém se vazio
+  if (v.length > 0) {
+    i.classList.remove('equipe-campo-erro');
+  }
 }
 
 function formatarCodigo(i) { 
@@ -2197,6 +4043,7 @@ function selecionarNao(id, btn) {
   d.classList.add('visible');
   
   c.classList.remove('visible');
+  // Limpa o container - os cards de concluídas são independentes e permanecem
   if (cx) { cx.innerHTML = ''; cx.classList.remove('visible'); }
   
   estados[id] = 'nao';
@@ -2300,7 +4147,7 @@ function adicionarItemCaixa(id, container) {
         <option value="" disabled selected>DEFINIR RECURSO</option>
         ${equipesOptions}
       </select>
-      <button class="btn-toggle-status pendente" onclick="toggleStatusItem('${id}', ${num})" title="Clique para alternar status">PENDENTE</button>
+      <button class="btn-toggle-status pendente" onclick="toggleStatusItem('${id}', ${num})" data-tooltip="Marcar como CONCLUÍDO">PENDENTE</button>
     </div>
     <button class="btn-remover-item" onclick="removerItemCaixa('${id}', ${num})" title="Remover este item">✕</button>
   `;
@@ -2489,6 +4336,7 @@ function moverItemParaDestino(destinoId, dados) {
   
   const statusClass = dados.status === 'resolvido' ? 'resolvido' : 'pendente';
   const statusText = dados.status === 'resolvido' ? 'RESOLVIDO' : 'PENDENTE';
+  const tooltipStatus = dados.status === 'resolvido' ? '' : 'Marcar como CONCLUÍDO';
   const itemClass = dados.status === 'resolvido' ? 'caixa-item resolvido' : 'caixa-item pendente';
   
   wrapper.innerHTML = `
@@ -2511,7 +4359,7 @@ function moverItemParaDestino(destinoId, dados) {
         <option value="" disabled ${!dados.equipe ? 'selected' : ''}>DEFINIR RECURSO</option>
         ${equipesOptions}
       </select>
-      <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${destinoId}', ${num})" title="Clique para alternar status">${statusText}</button>
+      <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${destinoId}', ${num})" data-tooltip="${tooltipStatus}">${statusText}</button>
     </div>
     <button class="btn-remover-item" onclick="removerItemCaixa('${destinoId}', ${num})" title="Remover este item">✕</button>
   `;
@@ -2638,6 +4486,13 @@ function removerItemCaixa(id, num) {
   const wrapper = document.getElementById(`${id}-wrapper-${num}`);
   if (wrapper) wrapper.remove();
   
+  // Remove também o card de concluídas se existir
+  const cardConcluido = document.getElementById(`card-concluido-${id}-${num}`);
+  if (cardConcluido) {
+    cardConcluido.remove();
+    atualizarContadorConcluidas();
+  }
+  
   // Verifica se ficou vazio - se sim, reseta para mostrar SIM/NÃO
   const container = document.getElementById('caixas-' + id);
   if (container && container.querySelectorAll('.caixa-item-wrapper').length === 0) {
@@ -2688,26 +4543,452 @@ function toggleStatusItem(id, num) {
   const statusAtual = item.dataset.status;
   
   // Se for NÃO REVISADO, primeiro clique vai para PENDENTE
-  // Se for PENDENTE, vai para RESOLVIDO
+  // Se for PENDENTE, vai para RESOLVIDO (move para concluídas)
   // Se for RESOLVIDO, volta para PENDENTE
-  if (statusAtual === 'nao-revisado' || statusAtual === 'resolvido') {
+  if (statusAtual === 'nao-revisado') {
     item.dataset.status = 'pendente';
     item.classList.remove('resolvido', 'nao-revisado');
     item.classList.add('pendente');
     btn.textContent = 'PENDENTE';
     btn.classList.remove('resolvido', 'nao-revisado');
     btn.classList.add('pendente');
-  } else {
-    item.dataset.status = 'resolvido';
-    item.classList.remove('pendente', 'nao-revisado');
-    item.classList.add('resolvido');
-    btn.textContent = 'RESOLVIDO';
-    btn.classList.remove('pendente', 'nao-revisado');
-    btn.classList.add('resolvido');
+    btn.setAttribute('data-tooltip', 'Marcar como CONCLUÍDO');
+    atualizarContadorPendentes(id);
+  } else if (statusAtual === 'pendente') {
+    // Mover para seção de concluídas
+    moverParaConcluidas(id, num, item);
   }
   
+  onCampoAlterado();
+}
+
+// Mover item para a seção de concluídas
+function moverParaConcluidas(id, num, item) {
+  const container = document.getElementById('concluidas-container');
+  const vazio = document.getElementById('concluidas-vazio');
+  const wrapper = document.getElementById(`${id}-wrapper-${num}`);
+  
+  // Coleta dados do item (todos os dados para ser autossuficiente)
+  const codigo = item.querySelector('.codigo-input')?.value || '';
+  const btmt = item.querySelector('.tipo-btmt-select')?.value || '';
+  const equipe = item.querySelector('.equipe-select')?.value || '';
+  const obs = item.querySelector('.descricao-input')?.value || '';
+  const afetacaoCheckbox = document.getElementById(`${id}-afetacao-${num}`);
+  const afetacao = afetacaoCheckbox ? afetacaoCheckbox.checked : false;
+  const afetacaoQtd = document.getElementById(`${id}-afetacao-qtd-${num}`)?.value || '0';
+  
+  // Mapeia o ID para nome completo (para aba e tooltip)
+  const tiposCompletos = {
+    'cabo-partido': 'CABO PARTIDO',
+    'clientes-m1': 'CLIENTES M+1',
+    'clientes-vitais': 'CLIENTES VITAIS',
+    'condutores-furtados': 'CONDUTORES FURTADOS',
+    'falta-varios': 'FALTA VÁRIOS',
+    'incidencias-antigas': 'INCIDÊNCIAS ANTIGAS',
+    'linha-viva': 'LINHA VIVA',
+    'manobra': 'MANOBRA',
+    'ocorrencias-pesadas': 'OCORRÊNCIAS PESADAS',
+    'prioridade-zero': 'PRIORIDADE ZERO',
+    'religador': 'RELIGADOR',
+    'segundo-recurso': '2º RECURSO'
+  };
+  const tipoCompleto = tiposCompletos[id] || id.toUpperCase();
+  
+  // Cria o card compacto com abas
+  const cardWrapper = document.createElement('div');
+  cardWrapper.className = 'card-concluido-wrapper';
+  cardWrapper.id = `card-concluido-${id}-${num}`;
+  cardWrapper.dataset.secaoOriginal = id;
+  cardWrapper.dataset.numOriginal = num;
+  cardWrapper.dataset.codigo = codigo;
+  cardWrapper.dataset.btmt = btmt;
+  cardWrapper.dataset.equipe = equipe;
+  cardWrapper.dataset.obs = obs;
+  cardWrapper.dataset.afetacao = afetacao;
+  cardWrapper.dataset.afetacaoQtd = afetacaoQtd;
+  cardWrapper.dataset.tipoCompleto = tipoCompleto;
+  
+  const btmtClass = btmt === 'MT' ? 'mt' : '';
+  const equipeDisplay = equipe || '-';
+  const codigoDisplay = codigo || '-';
+  
+  cardWrapper.innerHTML = `
+    <div class="card-abas">
+      <button class="card-aba card-aba-restaurar" onclick="retornarDeConcluidas('${id}', ${num})" title="Retornar para pendências">RETORNAR OCORRÊNCIA ↩️</button>
+      <button class="card-aba card-aba-fechar" onclick="excluirConcluida('${id}', ${num})" title="Excluir definitivamente">❌</button>
+    </div>
+    <div class="card-concluido" data-tipo-completo="${tipoCompleto}" ${obs ? `data-obs="${obs}"` : ''}>
+      <div class="card-linha1">
+        <span class="card-numero" title="${codigoDisplay}">${codigoDisplay}</span>
+        ${btmt ? `<span class="card-btmt ${btmtClass}">${btmt}</span>` : '<span></span>'}
+      </div>
+      <div class="card-linha2">
+        <span class="card-tipo" title="${tipoCompleto}">${tipoCompleto}</span>
+        <span class="card-equipe" title="${equipeDisplay}">${equipeDisplay}</span>
+      </div>
+    </div>
+  `;
+  
+  // Remove o wrapper original
+  if (wrapper) {
+    wrapper.remove();
+  }
+  
+  // Adiciona card
+  vazio.style.display = 'none';
+  container.appendChild(cardWrapper);
+  
+  // Verifica se a seção original ficou vazia (todos os itens movidos ou ocultos)
+  verificarSecaoVazia(id);
+  
+  // Atualiza contadores
+  atualizarContadorConcluidas();
+  atualizarContadorPendentes(id);
+}
+
+// Excluir item concluído definitivamente
+function excluirConcluida(id, num) {
+  const card = document.getElementById(`card-concluido-${id}-${num}`);
+  const wrapper = document.getElementById(`${id}-wrapper-${num}`);
+  
+  if (!card) return;
+  
+  // Remove o card
+  card.remove();
+  
+  // Remove o wrapper original também (exclui definitivamente)
+  if (wrapper) {
+    wrapper.remove();
+  }
+  
+  // Atualiza contadores
+  atualizarContadorConcluidas();
   atualizarContadorPendentes(id);
   onCampoAlterado();
+}
+
+// Verifica se seção ficou vazia e reseta botões SIM/NÃO
+function verificarSecaoVazia(id) {
+  const containerCaixas = document.getElementById('caixas-' + id);
+  if (!containerCaixas) return;
+  
+  // Conta wrappers visíveis (não movidos para concluídas)
+  const wrappers = containerCaixas.querySelectorAll('.caixa-item-wrapper');
+  let temItemVisivel = false;
+  
+  wrappers.forEach(wrapper => {
+    if (wrapper.style.display !== 'none') {
+      temItemVisivel = true;
+    }
+  });
+  
+  // Se não tem itens visíveis, reseta a seção
+  if (!temItemVisivel) {
+    const campos = document.getElementById('campos-' + id);
+    const bs = document.getElementById('btns-' + id)?.querySelectorAll('.btn-resposta');
+    const d = document.getElementById('desfazer-' + id);
+    const contadorSpan = document.getElementById('contador-' + id);
+    
+    // Oculta os campos (REMOVER TODAS, +ADD)
+    if (campos) campos.classList.remove('visible');
+    
+    // Oculta container de caixas
+    containerCaixas.classList.remove('visible');
+    
+    // Volta a mostrar SIM e NÃO
+    if (bs) bs.forEach(x => { 
+      x.style.display = ''; 
+      x.classList.remove('selecionado'); 
+    });
+    
+    // Oculta o X
+    if (d) d.classList.remove('visible');
+    
+    // Esconde o contador visual
+    if (contadorSpan) {
+      contadorSpan.textContent = '';
+      contadorSpan.classList.remove('visivel', 'destaque');
+    }
+    
+    // Limpa estado
+    delete estados[id];
+  }
+}
+
+// Retornar item da seção de concluídas para a original
+function retornarDeConcluidas(id, num) {
+  const card = document.getElementById(`card-concluido-${id}-${num}`);
+  if (!card) return;
+  
+  // Coleta dados do card
+  const codigo = card.dataset.codigo || '';
+  const btmt = card.dataset.btmt || '';
+  const equipe = card.dataset.equipe || '';
+  const obs = card.dataset.obs || '';
+  const afetacao = card.dataset.afetacao === 'true';
+  const afetacaoQtd = card.dataset.afetacaoQtd || '0';
+  
+  // Garante que a seção está aberta
+  const campos = document.getElementById('campos-' + id);
+  const containerCaixas = document.getElementById('caixas-' + id);
+  const bs = document.getElementById('btns-' + id)?.querySelectorAll('.btn-resposta');
+  const d = document.getElementById('desfazer-' + id);
+  
+  // Mostra campos e caixas
+  if (campos) campos.classList.add('visible');
+  if (containerCaixas) containerCaixas.classList.add('visible');
+  
+  // Oculta botões SIM/NÃO
+  if (bs) bs.forEach(x => x.style.display = 'none');
+  
+  // Garante que o estado SIM está definido
+  estados[id] = 'sim';
+  
+  // Incrementa contador e cria novo número
+  contadorItens[id] = (contadorItens[id] || 0) + 1;
+  const novoNum = contadorItens[id];
+  
+  // Gera options das equipes
+  const equipesOptions = gerarOptionsEquipes();
+  
+  // Verifica classe de seleção para equipe
+  let selectClass = '';
+  if (equipe) {
+    if (equipe.startsWith('NEC.')) selectClass = 'nec-selecionado';
+    else if (equipe === 'SEM RECURSO') selectClass = 'sem-recurso-selecionado';
+    else if (equipe === 'PRIOR. VENCIDA') selectClass = 'prior-vencida-selecionado';
+  }
+  
+  // Cria novo wrapper
+  const wrapper = document.createElement('div');
+  wrapper.className = 'caixa-item-wrapper';
+  wrapper.id = `${id}-wrapper-${novoNum}`;
+  wrapper.draggable = true;
+  wrapper.dataset.origemId = id;
+  wrapper.dataset.itemNum = novoNum;
+  
+  wrapper.ondragstart = function(e) { iniciarDrag(e, this); };
+  wrapper.ondragend = function(e) { finalizarDrag(e, this); };
+  
+  wrapper.innerHTML = `
+    <div class="caixa-item pendente" id="${id}-item-${novoNum}" data-status="pendente">
+      <span class="drag-handle" title="Arraste para mover">⋮⋮</span>
+      <label>#${novoNum}:</label>
+      <select class="tipo-btmt-select" id="${id}-tipo-${novoNum}" onchange="this.classList.remove('input-erro'); onCampoAlterado()">
+        <option value="" ${!btmt ? 'selected' : ''}>-</option>
+        <option value="BT" ${btmt === 'BT' ? 'selected' : ''}>BT</option>
+        <option value="MT" ${btmt === 'MT' ? 'selected' : ''}>MT</option>
+      </select>
+      <input type="text" class="codigo-input" id="${id}-codigo-${novoNum}" value="${codigo}" placeholder="OCORRÊNCIA" maxlength="10" oninput="formatarCodigo(this); this.classList.remove('input-erro');" onchange="onCampoAlterado()">
+      <div class="afetacao-container">
+        <input type="checkbox" id="${id}-afetacao-${novoNum}" ${afetacao ? 'checked' : ''} onchange="onCampoAlterado();">
+        <label for="${id}-afetacao-${novoNum}">Afet.</label>
+        <input type="number" class="afetacao-qtd" id="${id}-afetacao-qtd-${novoNum}" value="${afetacaoQtd}" min="0" onchange="onCampoAlterado()">
+      </div>
+      <input type="text" class="descricao-input" id="${id}-desc-${novoNum}" value="${obs}" placeholder="OBSERVAÇÃO" oninput="this.classList.remove('input-erro');" onchange="onCampoAlterado()">
+      <select class="equipe-select ${selectClass}" id="${id}-equipe-${novoNum}" onchange="this.classList.remove('input-erro'); destacarSelectNecessidade(this); onCampoAlterado()">
+        <option value="" disabled ${!equipe ? 'selected' : ''}>DEFINIR RECURSO</option>
+        ${equipesOptions}
+      </select>
+      <button class="btn-toggle-status pendente" onclick="toggleStatusItem('${id}', ${novoNum})" data-tooltip="Marcar como CONCLUÍDO">PENDENTE</button>
+    </div>
+    <button class="btn-remover-item" onclick="removerItemCaixa('${id}', ${novoNum})" title="Remover este item">✕</button>
+  `;
+  
+  containerCaixas.appendChild(wrapper);
+  
+  // Define valor da equipe após adicionar ao DOM
+  if (equipe) {
+    const selectEquipe = document.getElementById(`${id}-equipe-${novoNum}`);
+    if (selectEquipe) selectEquipe.value = equipe;
+  }
+  
+  // Remove card
+  card.remove();
+  
+  // Atualiza contadores
+  atualizarContadorConcluidas();
+  atualizarContadorPendentes(id);
+  onCampoAlterado();
+}
+
+// Atualiza contador de concluídas
+function atualizarContadorConcluidas() {
+  const container = document.getElementById('concluidas-container');
+  const vazio = document.getElementById('concluidas-vazio');
+  const contador = document.getElementById('concluidas-count');
+  
+  const wrappers = container.querySelectorAll('.card-concluido-wrapper');
+  const total = wrappers.length;
+  
+  contador.textContent = total;
+  vazio.style.display = total === 0 ? 'block' : 'none';
+  
+  // Adiciona eventos de tooltip para todos os cards (tipo completo + observação)
+  wrappers.forEach(wrapper => {
+    const card = wrapper.querySelector('.card-concluido');
+    if (card && !card.dataset.tooltipInit) {
+      card.dataset.tooltipInit = 'true';
+      card.addEventListener('mouseenter', posicionarTooltipCard);
+      card.addEventListener('mouseleave', ocultarTooltipCard);
+    }
+  });
+}
+
+// Tooltip flutuante para cards concluídos
+let tooltipCard = null;
+function posicionarTooltipCard(e) {
+  const card = e.currentTarget;
+  const obs = card.dataset.obs;
+  const tipoCompleto = card.dataset.tipoCompleto;
+  
+  // Se não tem nenhuma informação, sai
+  if (!obs && !tipoCompleto) return;
+  
+  // Cria tooltip se não existe
+  if (!tooltipCard) {
+    tooltipCard = document.createElement('div');
+    tooltipCard.id = 'tooltip-card-concluido';
+    tooltipCard.style.cssText = `
+      position: fixed;
+      z-index: 999999999;
+      background: rgba(0,0,0,0.95);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.5;
+      min-width: 200px;
+      max-width: 350px;
+      text-align: left;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+      pointer-events: none;
+      font-family: 'Segoe UI', sans-serif;
+    `;
+    document.body.appendChild(tooltipCard);
+  }
+  
+  // Monta conteúdo do tooltip
+  let conteudo = '';
+  if (tipoCompleto) {
+    conteudo += `<div style="font-weight:bold; color:#90caf9; margin-bottom:6px; font-size:12px;">📋 ${tipoCompleto}</div>`;
+  }
+  if (obs) {
+    conteudo += `<div style="color:#fff;">${obs}</div>`;
+  }
+  
+  tooltipCard.innerHTML = conteudo;
+  tooltipCard.style.display = 'block';
+  
+  // Posição do card
+  const rect = card.getBoundingClientRect();
+  const tooltipRect = tooltipCard.getBoundingClientRect();
+  
+  // Calcula posição: acima do card, centralizado
+  let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+  let top = rect.top - tooltipRect.height - 10;
+  
+  // Ajusta se sair da tela pela esquerda
+  if (left < 10) left = 10;
+  
+  // Ajusta se sair da tela pela direita
+  if (left + tooltipRect.width > window.innerWidth - 10) {
+    left = window.innerWidth - tooltipRect.width - 10;
+  }
+  
+  // Se não couber acima, coloca abaixo
+  if (top < 10) {
+    top = rect.bottom + 10;
+  }
+  
+  tooltipCard.style.left = left + 'px';
+  tooltipCard.style.top = top + 'px';
+}
+
+function ocultarTooltipCard() {
+  if (tooltipCard) {
+    tooltipCard.style.display = 'none';
+  }
+}
+
+// Mover item para concluídas durante restauração (sem disparar onCampoAlterado)
+function moverParaConcluidasRestauracao(id, num, item) {
+  const container = document.getElementById('concluidas-container');
+  const vazio = document.getElementById('concluidas-vazio');
+  const wrapper = document.getElementById(`${id}-wrapper-${num}`);
+  
+  // Coleta dados do item (todos os dados para ser autossuficiente)
+  const codigo = item.querySelector('.codigo-input')?.value || '';
+  const btmt = item.querySelector('.tipo-btmt-select')?.value || '';
+  const equipe = item.querySelector('.equipe-select')?.value || '';
+  const obs = item.querySelector('.descricao-input')?.value || '';
+  const afetacaoCheckbox = document.getElementById(`${id}-afetacao-${num}`);
+  const afetacao = afetacaoCheckbox ? afetacaoCheckbox.checked : false;
+  const afetacaoQtd = document.getElementById(`${id}-afetacao-qtd-${num}`)?.value || '0';
+  
+  // Mapeia o ID para nome completo (para aba e tooltip)
+  const tiposCompletos = {
+    'cabo-partido': 'CABO PARTIDO',
+    'clientes-m1': 'CLIENTES M+1',
+    'clientes-vitais': 'CLIENTES VITAIS',
+    'condutores-furtados': 'CONDUTORES FURTADOS',
+    'falta-varios': 'FALTA VÁRIOS',
+    'incidencias-antigas': 'INCIDÊNCIAS ANTIGAS',
+    'linha-viva': 'LINHA VIVA',
+    'manobra': 'MANOBRA',
+    'ocorrencias-pesadas': 'OCORRÊNCIAS PESADAS',
+    'prioridade-zero': 'PRIORIDADE ZERO',
+    'religador': 'RELIGADOR',
+    'segundo-recurso': '2º RECURSO'
+  };
+  const tipoCompleto = tiposCompletos[id] || id.toUpperCase();
+  
+  // Cria o card compacto com abas
+  const cardWrapper = document.createElement('div');
+  cardWrapper.className = 'card-concluido-wrapper';
+  cardWrapper.id = `card-concluido-${id}-${num}`;
+  cardWrapper.dataset.secaoOriginal = id;
+  cardWrapper.dataset.numOriginal = num;
+  cardWrapper.dataset.codigo = codigo;
+  cardWrapper.dataset.btmt = btmt;
+  cardWrapper.dataset.equipe = equipe;
+  cardWrapper.dataset.obs = obs;
+  cardWrapper.dataset.afetacao = afetacao;
+  cardWrapper.dataset.afetacaoQtd = afetacaoQtd;
+  cardWrapper.dataset.tipoCompleto = tipoCompleto;
+  
+  const btmtClass = btmt === 'MT' ? 'mt' : '';
+  const equipeDisplay = equipe || '-';
+  const codigoDisplay = codigo || '-';
+  
+  cardWrapper.innerHTML = `
+    <div class="card-abas">
+      <button class="card-aba card-aba-restaurar" onclick="retornarDeConcluidas('${id}', ${num})" title="Retornar para pendências">RETORNAR OCORRÊNCIA</button>
+      <button class="card-aba card-aba-fechar" onclick="excluirConcluida('${id}', ${num})" title="Excluir definitivamente">✕</button>
+    </div>
+    <div class="card-concluido" data-tipo-completo="${tipoCompleto}" ${obs ? `data-obs="${obs}"` : ''}>
+      <div class="card-linha1">
+        <span class="card-numero" title="${codigoDisplay}">${codigoDisplay}</span>
+        ${btmt ? `<span class="card-btmt ${btmtClass}">${btmt}</span>` : '<span></span>'}
+      </div>
+      <div class="card-linha2">
+        <span class="card-tipo" title="${tipoCompleto}">${tipoCompleto}</span>
+        <span class="card-equipe" title="${equipeDisplay}">${equipeDisplay}</span>
+      </div>
+    </div>
+  `;
+  
+  // Remove o wrapper original
+  if (wrapper) {
+    wrapper.remove();
+  }
+  
+  // Adiciona card
+  vazio.style.display = 'none';
+  container.appendChild(cardWrapper);
+  
+  // Verifica se a seção original ficou vazia
+  verificarSecaoVazia(id);
 }
 
 function marcarStatusItem(id, num, status) {
@@ -2773,10 +5054,14 @@ function desfazerItem(id) {
   const c = document.getElementById('campos-' + id);
   const d = document.getElementById('desfazer-' + id);
   const cx = document.getElementById('caixas-' + id);
+  
+  // Volta para estado inicial (SIM/NÃO visíveis)
   bs.forEach(x => { x.style.display = ''; x.classList.remove('selecionado'); });
   d.classList.remove('visible');
   c.classList.remove('visible');
+  // Limpa o container - os cards de concluídas são independentes e permanecem
   if (cx) { cx.innerHTML = ''; cx.classList.remove('visible'); }
+  
   const q = document.getElementById(id + '-qtd'), o = document.getElementById(id + '-obs');
   if (q) q.value = '0';
   if (o) o.value = '';
@@ -2843,6 +5128,21 @@ function restaurarCaixas(data, marcarNaoRevisado = false) {
       const c = document.getElementById('caixas-' + id);
       if (!c) return;
       
+      // IMPORTANTE: Garante que o estado 'sim' existe para esta seção
+      if (!estados[id]) {
+        estados[id] = 'sim';
+      }
+      
+      // Mostra os campos e container
+      const campos = document.getElementById('campos-' + id);
+      const btns = document.getElementById('btns-' + id)?.querySelectorAll('.btn-resposta');
+      const desfazer = document.getElementById('desfazer-' + id);
+      
+      if (campos) campos.classList.add('visible');
+      c.classList.add('visible');
+      if (btns) btns.forEach(b => b.style.display = 'none');
+      if (desfazer) desfazer.classList.add('visible');
+      
       c.innerHTML = '';
       contadorItens[id] = 0;
       
@@ -2895,6 +5195,8 @@ function restaurarCaixas(data, marcarNaoRevisado = false) {
           else if (it.equipe === 'PRIOR. VENCIDA') selectClass = 'prior-vencida-selecionado';
         }
         
+        // Tooltip baseado no status
+        const tooltipStatus = statusClass === 'nao-revisado' ? 'Alternar para PENDENTE' : 'Marcar como CONCLUÍDO';
         // NOVA ORDEM: BT/MT → Ocorrência → Afetação → Observação → Equipe → Status
         wrapper.innerHTML = `
           <div class="caixa-item ${statusClass}" id="${id}-item-${num}" data-status="${status}">
@@ -2916,7 +5218,7 @@ function restaurarCaixas(data, marcarNaoRevisado = false) {
               <option value="" disabled selected>DEFINIR RECURSO</option>
               ${equipesOptions}
             </select>
-            <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${id}', ${num})" title="Clique para alternar status">${statusText}</button>
+            <button class="btn-toggle-status ${statusClass}" onclick="toggleStatusItem('${id}', ${num})" data-tooltip="${tooltipStatus}">${statusText}</button>
           </div>
           <button class="btn-remover-item" onclick="removerItemCaixa('${id}', ${num})" title="Remover este item">✕</button>
         `;
@@ -2927,12 +5229,27 @@ function restaurarCaixas(data, marcarNaoRevisado = false) {
           const selectEquipe = document.getElementById(`${id}-equipe-${num}`);
           if (selectEquipe) selectEquipe.value = it.equipe;
         }
+        
+        // Se status é resolvido, move para concluídas
+        if (status === 'resolvido' && !marcarNaoRevisado) {
+          const item = document.getElementById(`${id}-item-${num}`);
+          if (item) {
+            setTimeout(() => {
+              moverParaConcluidasRestauracao(id, num, item);
+            }, 50);
+          }
+        }
       });
       
       c.classList.add('visible');
       atualizarContadorPendentes(id);
     }
   });
+  
+  // Atualiza contador de concluídas após restaurar tudo
+  setTimeout(() => {
+    atualizarContadorConcluidas();
+  }, 300);
 }
 
 // ============================================
@@ -2972,44 +5289,79 @@ function adicionarEquipe() {
   const d = document.createElement('div');
   d.className = 'equipe-linha';
   d.id = 'equipe-' + equipeCount;
+  d.draggable = true;
   const horariosOptions = gerarOptionsHorarios();
   const localOptions = gerarOptionsLocalidades();
   d.innerHTML = `
-    <input type="text"
-       class="lead-input"
-       id="equipe-${equipeCount}-lead"
-       placeholder="XXX-XX-XXX"
-       minlength="10"
-       maxlength="10"
-       oninput="aplicarMascaraLead(this)"
-       onchange="onCampoAlterado(); atualizarDropdownsEquipes();">
-    <select class="horario-select" id="equipe-${equipeCount}-horario" onchange="onCampoAlterado()">
-      <option value="">--:--</option>
-      ${horariosOptions}
-    </select>
-    <input type="text" class="nome-input" id="equipe-${equipeCount}-nome" placeholder="Nome" oninput="this.value = this.value.toUpperCase();" onchange="onCampoAlterado()">
-    <input type="tel" class="tel-input" id="equipe-${equipeCount}-telefone" placeholder="85 00000-0000" maxlength="13" oninput="formatarTelefone(this)" onchange="onCampoAlterado()">
-    <select class="local-select" id="equipe-${equipeCount}-local1" onchange="onCampoAlterado()">
-      <option value="">Local 1</option>
-      ${localOptions}
-    </select>
-    <select class="local-select" id="equipe-${equipeCount}-local2" onchange="onCampoAlterado()">
-      <option value="">Local 2</option>
-      ${localOptions}
-    </select>
-    <select class="local-select" id="equipe-${equipeCount}-local3" onchange="onCampoAlterado()">
-      <option value="">Local 3</option>
-      ${localOptions}
-    </select>
-    <select class="local-select" id="equipe-${equipeCount}-local4" onchange="onCampoAlterado()">
-      <option value="">Local 4</option>
-      ${localOptions}
-    </select>
-    <button class="equipe-remove" onclick="removerEquipe(${equipeCount})">✕</button>
+    <div class="equipe-principal">
+      <span class="drag-handle" data-tooltip="Arrastar para Contatos Rápidos">⋮⋮</span>
+      <input type="text"
+         class="lead-input"
+         id="equipe-${equipeCount}-lead"
+         placeholder="XXX-XX-XXX"
+         minlength="10"
+         maxlength="10"
+         oninput="aplicarMascaraLead(this)"
+         onchange="onCampoAlterado(); atualizarDropdownsEquipes();">
+      <select class="horario-select" id="equipe-${equipeCount}-horario" onchange="onCampoAlterado()">
+        <option value="">--:--</option>
+        ${horariosOptions}
+      </select>
+      <input type="text" class="nome-input" id="equipe-${equipeCount}-nome" placeholder="NOME LÍDER" oninput="formatarNome(this)" onchange="onCampoAlterado()">
+      <div class="tel-wrapper">
+        <input type="tel" class="tel-ddd" id="equipe-${equipeCount}-tel-ddd" value="85" placeholder="85" maxlength="2" oninput="formatarTelDDD(this, ${equipeCount})" onpaste="onPasteTelDDD(event, ${equipeCount})" onchange="onCampoAlterado()">
+        <span class="tel-nove">9</span>
+        <input type="tel" class="tel-resto" id="equipe-${equipeCount}-tel-resto" placeholder="XXXX-XXXX" maxlength="9" oninput="formatarTelResto(this, ${equipeCount})" onpaste="onPasteTelResto(event, ${equipeCount})" onchange="onCampoAlterado()">
+      </div>
+      <input type="hidden" id="equipe-${equipeCount}-telefone">
+      <select class="local-select" id="equipe-${equipeCount}-local1" onchange="onCampoAlterado()">
+        <option value="">Local 1</option>
+        ${localOptions}
+      </select>
+      <select class="local-select" id="equipe-${equipeCount}-local2" onchange="onCampoAlterado()">
+        <option value="">Local 2</option>
+        ${localOptions}
+      </select>
+      <select class="local-select" id="equipe-${equipeCount}-local3" onchange="onCampoAlterado()">
+        <option value="">Local 3</option>
+        ${localOptions}
+      </select>
+      <select class="local-select" id="equipe-${equipeCount}-local4" onchange="onCampoAlterado()">
+        <option value="">Local 4</option>
+        ${localOptions}
+      </select>
+      <button class="equipe-add-parceiro" id="equipe-${equipeCount}-btn-parceiro" onclick="toggleParceiro(${equipeCount})" data-tooltip="Adicionar parceiro">+</button>
+      <button class="equipe-remove" onclick="removerEquipe(${equipeCount})">✕</button>
+    </div>
+    <div class="parceiro-linha" id="equipe-${equipeCount}-parceiro" style="display: none;"
+         ondragover="event.preventDefault(); this.classList.add('drag-over');"
+         ondragleave="this.classList.remove('drag-over');"
+         ondrop="receberDropParceiro(event, ${equipeCount}); this.classList.remove('drag-over');">
+      <span class="parceiro-spacer-drag"></span>
+      <span class="parceiro-spacer-lead"></span>
+      <span class="parceiro-spacer-hora"></span>
+      <input type="text" class="nome-input parceiro-nome" id="equipe-${equipeCount}-parceiro-nome" placeholder="NOME PARCEIRO" oninput="formatarNome(this)" onchange="onCampoAlterado()">
+      <div class="tel-wrapper">
+        <input type="tel" class="tel-ddd" id="equipe-${equipeCount}-parceiro-tel-ddd" placeholder="85" maxlength="2" oninput="formatarTelDDD(this, ${equipeCount}, true)" onpaste="onPasteTelDDD(event, ${equipeCount}, true)" onchange="onCampoAlterado()">
+        <span class="tel-nove">9</span>
+        <input type="tel" class="tel-resto" id="equipe-${equipeCount}-parceiro-tel-resto" placeholder="XXXX-XXXX" maxlength="9" oninput="formatarTelResto(this, ${equipeCount}, true)" onpaste="onPasteTelResto(event, ${equipeCount}, true)" onchange="onCampoAlterado()">
+      </div>
+      <input type="hidden" id="equipe-${equipeCount}-parceiro-tel">
+      <span class="parceiro-spacer-local"></span>
+      <span class="parceiro-spacer-local"></span>
+      <span class="parceiro-spacer-local"></span>
+      <span class="parceiro-spacer-local"></span>
+      <span class="parceiro-spacer-btn"></span>
+      <span class="parceiro-spacer-x"></span>
+    </div>
   `;
   c.appendChild(d);
+  configurarDragDropEquipe(d, equipeCount);
   atualizarContadorEquipes();
   atualizarDropdownsEquipes();
+  // Marca campos obrigatórios (piscam até preencher)
+  document.getElementById(`equipe-${equipeCount}-nome`)?.classList.add('equipe-campo-erro');
+  marcarErroTelefone(equipeCount, false);
   onCampoAlterado();
 }
 
@@ -3019,61 +5371,81 @@ function adicionarEquipeComDados(dados) {
   const d = document.createElement('div');
   d.className = 'equipe-linha';
   d.id = 'equipe-' + equipeCount;
+  d.draggable = true;
   const horariosOptions = gerarOptionsHorarios();
   const localOptions = gerarOptionsLocalidades();
   d.innerHTML = `
-    <input type="text"
-           class="lead-input"
-           id="equipe-${equipeCount}-lead"
-           value="${dados.lead || ''}"
-           placeholder="XXX-XX-XXX"
-           minlength="10"
-           maxlength="10"
-           oninput="aplicarMascaraLead(this)"
-           onchange="onCampoAlterado(); atualizarDropdownsEquipes();">
-
-    <select class="horario-select" id="equipe-${equipeCount}-horario" onchange="onCampoAlterado()">
-      <option value="">--:--</option>
-      ${horariosOptions}
-    </select>
-    
-    <input type="text"
-           class="nome-input"
-           id="equipe-${equipeCount}-nome"
-           value="${dados.nome || ''}"
-           placeholder="Nome"
-           oninput="this.value = this.value.toUpperCase();"
-           onchange="onCampoAlterado()">
-           
-    <input type="tel"
-           class="tel-input"
-           id="equipe-${equipeCount}-telefone"
-           value="${dados.telefone || ''}"
-           placeholder="85 00000-0000"
-           maxlength="13"
-           oninput="formatarTelefone(this)"
-           onchange="onCampoAlterado()">
-
-    <select class="local-select" id="equipe-${equipeCount}-local1" onchange="onCampoAlterado()">
-      <option value="">Local 1</option>
-      ${localOptions}
-    </select>
-    <select class="local-select" id="equipe-${equipeCount}-local2" onchange="onCampoAlterado()">
-      <option value="">Local 2</option>
-      ${localOptions}
-    </select>
-    <select class="local-select" id="equipe-${equipeCount}-local3" onchange="onCampoAlterado()">
-      <option value="">Local 3</option>
-      ${localOptions}
-    </select>
-    <select class="local-select" id="equipe-${equipeCount}-local4" onchange="onCampoAlterado()">
-      <option value="">Local 4</option>
-      ${localOptions}
-    </select>
-
-    <button class="equipe-remove" onclick="removerEquipe(${equipeCount})">✕</button>
+    <div class="equipe-principal">
+      <span class="drag-handle" data-tooltip="Arrastar para Contatos Rápidos">⋮⋮</span>
+      <input type="text"
+             class="lead-input"
+             id="equipe-${equipeCount}-lead"
+             value="${dados.lead || ''}"
+             placeholder="XXX-XX-XXX"
+             minlength="10"
+             maxlength="10"
+             oninput="aplicarMascaraLead(this)"
+             onchange="onCampoAlterado(); atualizarDropdownsEquipes();">
+      <select class="horario-select" id="equipe-${equipeCount}-horario" onchange="onCampoAlterado()">
+        <option value="">--:--</option>
+        ${horariosOptions}
+      </select>
+      <input type="text"
+             class="nome-input"
+             id="equipe-${equipeCount}-nome"
+             value="${dados.nome || ''}"
+             placeholder="NOME LÍDER"
+             oninput="formatarNome(this)"
+             onchange="onCampoAlterado()">
+      <div class="tel-wrapper">
+        <input type="tel" class="tel-ddd" id="equipe-${equipeCount}-tel-ddd" value="85" placeholder="85" maxlength="2" oninput="formatarTelDDD(this, ${equipeCount})" onpaste="onPasteTelDDD(event, ${equipeCount})" onchange="onCampoAlterado()">
+        <span class="tel-nove">9</span>
+        <input type="tel" class="tel-resto" id="equipe-${equipeCount}-tel-resto" placeholder="XXXX-XXXX" maxlength="9" oninput="formatarTelResto(this, ${equipeCount})" onpaste="onPasteTelResto(event, ${equipeCount})" onchange="onCampoAlterado()">
+      </div>
+      <input type="hidden" id="equipe-${equipeCount}-telefone" value="${dados.telefone || ''}">
+      <select class="local-select" id="equipe-${equipeCount}-local1" onchange="onCampoAlterado()">
+        <option value="">Local 1</option>
+        ${localOptions}
+      </select>
+      <select class="local-select" id="equipe-${equipeCount}-local2" onchange="onCampoAlterado()">
+        <option value="">Local 2</option>
+        ${localOptions}
+      </select>
+      <select class="local-select" id="equipe-${equipeCount}-local3" onchange="onCampoAlterado()">
+        <option value="">Local 3</option>
+        ${localOptions}
+      </select>
+      <select class="local-select" id="equipe-${equipeCount}-local4" onchange="onCampoAlterado()">
+        <option value="">Local 4</option>
+        ${localOptions}
+      </select>
+      <button class="equipe-add-parceiro" id="equipe-${equipeCount}-btn-parceiro" onclick="toggleParceiro(${equipeCount})" data-tooltip="Adicionar parceiro">+</button>
+      <button class="equipe-remove" onclick="removerEquipe(${equipeCount})">✕</button>
+    </div>
+    <div class="parceiro-linha" id="equipe-${equipeCount}-parceiro" style="display: none;"
+         ondragover="event.preventDefault(); this.classList.add('drag-over');"
+         ondragleave="this.classList.remove('drag-over');"
+         ondrop="receberDropParceiro(event, ${equipeCount}); this.classList.remove('drag-over');">
+      <span class="parceiro-spacer-drag"></span>
+      <span class="parceiro-spacer-lead"></span>
+      <span class="parceiro-spacer-hora"></span>
+      <input type="text" class="nome-input parceiro-nome" id="equipe-${equipeCount}-parceiro-nome" placeholder="NOME PARCEIRO" oninput="formatarNome(this)" onchange="onCampoAlterado()">
+      <div class="tel-wrapper">
+        <input type="tel" class="tel-ddd" id="equipe-${equipeCount}-parceiro-tel-ddd" placeholder="85" maxlength="2" oninput="formatarTelDDD(this, ${equipeCount}, true)" onpaste="onPasteTelDDD(event, ${equipeCount}, true)" onchange="onCampoAlterado()">
+        <span class="tel-nove">9</span>
+        <input type="tel" class="tel-resto" id="equipe-${equipeCount}-parceiro-tel-resto" placeholder="XXXX-XXXX" maxlength="9" oninput="formatarTelResto(this, ${equipeCount}, true)" onpaste="onPasteTelResto(event, ${equipeCount}, true)" onchange="onCampoAlterado()">
+      </div>
+      <input type="hidden" id="equipe-${equipeCount}-parceiro-tel">
+      <span class="parceiro-spacer-local"></span>
+      <span class="parceiro-spacer-local"></span>
+      <span class="parceiro-spacer-local"></span>
+      <span class="parceiro-spacer-local"></span>
+      <span class="parceiro-spacer-btn"></span>
+      <span class="parceiro-spacer-x"></span>
+    </div>
   `;
   c.appendChild(d);
+  configurarDragDropEquipe(d, equipeCount);
   atualizarContadorEquipes();
   atualizarDropdownsEquipes();
   // Restaura horário selecionado
@@ -3090,12 +5462,295 @@ function adicionarEquipeComDados(dados) {
   if (local2) document.getElementById(`equipe-${equipeCount}-local2`).value = local2;
   if (local3) document.getElementById(`equipe-${equipeCount}-local3`).value = local3;
   if (local4) document.getElementById(`equipe-${equipeCount}-local4`).value = local4;
+  // Restaura telefone dividido do líder
+  if (dados.telefone) {
+    preencherTelefoneDividido(equipeCount, dados.telefone, false);
+  }
+  // Restaura dados do parceiro se existir
+  if (dados.parceiroNome || dados.parceiroTel) {
+    const parceiroDiv = document.getElementById(`equipe-${equipeCount}-parceiro`);
+    const btnAdd = document.getElementById(`equipe-${equipeCount}-btn-parceiro`);
+    if (parceiroDiv && btnAdd) {
+      parceiroDiv.style.display = 'flex';
+      btnAdd.textContent = '−';
+      btnAdd.setAttribute('data-tooltip', 'Remover parceiro');
+      btnAdd.classList.add('parceiro-ativo');
+      if (dados.parceiroNome) document.getElementById(`equipe-${equipeCount}-parceiro-nome`).value = dados.parceiroNome;
+      if (dados.parceiroTel) preencherTelefoneDividido(equipeCount, dados.parceiroTel, true);
+    }
+  }
 }
 
 
 function removerEquipe(id) { const e = document.getElementById('equipe-' + id); if (e) { e.remove(); atualizarContadorEquipes(); atualizarDropdownsEquipes(); onCampoAlterado(); } }
 function removerUltimaEquipe() { const c = document.getElementById('equipes-container'); if (c.lastChild) { c.removeChild(c.lastChild); atualizarContadorEquipes(); atualizarDropdownsEquipes(); onCampoAlterado(); } }
 function atualizarContadorEquipes() { document.getElementById('equipes-count').textContent = document.getElementById('equipes-container').children.length; }
+
+// Funções para gerenciar parceiro
+function toggleParceiro(id) {
+  const parceiroDiv = document.getElementById(`equipe-${id}-parceiro`);
+  const btnAdd = document.getElementById(`equipe-${id}-btn-parceiro`);
+  const nomeInput = document.getElementById(`equipe-${id}-parceiro-nome`);
+  const telInput = document.getElementById(`equipe-${id}-parceiro-tel`);
+  const telDddInput = document.getElementById(`equipe-${id}-parceiro-tel-ddd`);
+  const telRestoInput = document.getElementById(`equipe-${id}-parceiro-tel-resto`);
+  
+  if (!parceiroDiv || !btnAdd) return;
+  
+  const isOpen = parceiroDiv.style.display === 'flex';
+  
+  if (isOpen) {
+    // Fechar/remover parceiro
+    parceiroDiv.style.display = 'none';
+    btnAdd.textContent = '+';
+    btnAdd.setAttribute('data-tooltip', 'Adicionar parceiro');
+    btnAdd.classList.remove('parceiro-ativo');
+    // Limpa os campos
+    if (nomeInput) nomeInput.value = '';
+    if (telInput) telInput.value = '';
+    if (telDddInput) telDddInput.value = '';
+    if (telRestoInput) telRestoInput.value = '';
+    // Remove erros
+    nomeInput?.classList.remove('equipe-campo-erro');
+    removerErroTelefone(id, true);
+  } else {
+    // Abrir/adicionar parceiro
+    parceiroDiv.style.display = 'flex';
+    btnAdd.textContent = '−';
+    btnAdd.setAttribute('data-tooltip', 'Remover parceiro');
+    btnAdd.classList.add('parceiro-ativo');
+    // Marca campos obrigatórios (piscam até preencher)
+    nomeInput?.classList.add('equipe-campo-erro');
+    marcarErroTelefone(id, true);
+  }
+  onCampoAlterado();
+}
+
+// Mantém compatibilidade com código legado
+function adicionarParceiro(id) { toggleParceiro(id); }
+function removerParceiro(id) { toggleParceiro(id); }
+
+// Recebe drop do Clipboard na linha do parceiro
+function receberDropParceiro(event, equipeId) {
+  event.preventDefault();
+  event.stopPropagation(); // Impede que o drop propague para a linha do líder
+  try {
+    const data = JSON.parse(event.dataTransfer.getData('text/plain'));
+    if (data.tipo === 'contato-rapido') {
+      // Valida telefone antes de aceitar
+      if (data.tel && !validarTelefoneCompleto(data.tel)) {
+        mostrarNotificacao('⚠️ Telefone inválido! Deve ter 11 dígitos (DDD + 9 + 8 dígitos)');
+        return;
+      }
+      
+      // Preenche SOMENTE nome e telefone do parceiro (NÃO mexe no líder)
+      const nomeInput = document.getElementById(`equipe-${equipeId}-parceiro-nome`);
+      if (nomeInput && data.nome) nomeInput.value = data.nome;
+      nomeInput?.classList.remove('equipe-campo-erro');
+      
+      // Preenche telefone dividido visualmente
+      if (data.tel) {
+        preencherTelefoneDividido(equipeId, data.tel, true);
+      }
+      
+      onCampoAlterado();
+      mostrarNotificacao(`✅ Parceiro ${data.nome || ''} adicionado!`);
+    }
+  } catch (e) {
+    console.log('Drop inválido para parceiro');
+  }
+}
+
+// Configura eventos de drag e drop para uma linha de equipe
+function configurarDragDropEquipe(elemento, id) {
+  // DRAG - Arrastar equipe para Contatos Rápidos
+  elemento.ondragstart = function(e) {
+    const lead = document.getElementById('equipe-' + id + '-lead')?.value || '';
+    const horario = document.getElementById('equipe-' + id + '-horario')?.value || '';
+    const nome = document.getElementById('equipe-' + id + '-nome')?.value || '';
+    const tel = document.getElementById('equipe-' + id + '-telefone')?.value || '';
+    
+    e.dataTransfer.setData('text/plain', JSON.stringify({
+      tipo: 'equipe-ativa',
+      lead: lead,
+      horario: horario,
+      nome: nome,
+      tel: tel
+    }));
+    this.classList.add('dragging');
+  };
+  
+  elemento.ondragend = function(e) {
+    this.classList.remove('dragging');
+  };
+  
+  // DROP - Receber contato de Contatos Rápidos
+  elemento.ondragover = function(e) {
+    e.preventDefault();
+    this.classList.add('drag-over');
+  };
+  
+  elemento.ondragleave = function(e) {
+    this.classList.remove('drag-over');
+  };
+  
+  elemento.ondrop = function(e) {
+    e.preventDefault();
+    this.classList.remove('drag-over');
+    
+    try {
+      const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+      if (data.tipo !== 'contato-rapido') return;
+      
+      // Valida telefone antes de aceitar
+      if (data.tel && !validarTelefoneCompleto(data.tel)) {
+        mostrarNotificacao('⚠️ Telefone inválido! Deve ter 11 dígitos (DDD + 9 + 8 dígitos)');
+        return;
+      }
+      
+      // Preenche os campos do líder
+      const leadInput = document.getElementById('equipe-' + id + '-lead');
+      const horarioSelect = document.getElementById('equipe-' + id + '-horario');
+      const nomeInput = document.getElementById('equipe-' + id + '-nome');
+      
+      if (leadInput) leadInput.value = data.lead || '';
+      if (horarioSelect) horarioSelect.value = data.horario || '';
+      if (nomeInput) nomeInput.value = data.nome || '';
+      
+      // Preenche telefone dividido visualmente
+      if (data.tel) {
+        preencherTelefoneDividido(id, data.tel, false);
+      }
+      
+      onCampoAlterado();
+      atualizarDropdownsEquipes();
+      mostrarNotificacao('✅ Contato aplicado à equipe!');
+    } catch(err) {
+      console.log('Drop inválido', err);
+    }
+  };
+}
+
+// Exporta TODAS as equipes para Contatos Rápidos
+function exportarEquipesParaContatos() {
+  const container = document.getElementById('equipes-container');
+  const equipes = container.querySelectorAll('.equipe-linha');
+  
+  if (equipes.length === 0) {
+    mostrarNotificacao('⚠️ Não há equipes para exportar!');
+    return;
+  }
+  
+  // VERIFICAÇÃO COMPLETA ANTES DE COPIAR
+  let lideresIncompletos = [];
+  let parceirosIncompletos = [];
+  
+  equipes.forEach(eq => {
+    const id = eq.id.replace('equipe-', '');
+    
+    // Dados do líder
+    const lead = document.getElementById('equipe-' + id + '-lead')?.value || '';
+    const horario = document.getElementById('equipe-' + id + '-horario')?.value || '';
+    const nome = document.getElementById('equipe-' + id + '-nome')?.value || '';
+    const tel = document.getElementById('equipe-' + id + '-telefone')?.value || '';
+    
+    const leadInput = document.getElementById('equipe-' + id + '-lead');
+    const horarioSelect = document.getElementById('equipe-' + id + '-horario');
+    const nomeInput = document.getElementById('equipe-' + id + '-nome');
+    
+    // Dados do parceiro
+    const parceiroDiv = document.getElementById('equipe-' + id + '-parceiro');
+    const parceiroNomeInput = document.getElementById('equipe-' + id + '-parceiro-nome');
+    const parceiroTel = document.getElementById('equipe-' + id + '-parceiro-tel')?.value || '';
+    const parceiroNome = parceiroNomeInput?.value || '';
+    const temParceiroAberto = parceiroDiv && parceiroDiv.style.display === 'flex';
+    
+    // Verifica se telefone do líder é válido
+    const telValido = tel && validarTelefoneCompleto(tel);
+    
+    // Verifica se LÍDER está incompleto
+    const liderCompleto = lead && horario && nome && telValido;
+    if (!liderCompleto) {
+      lideresIncompletos.push(id);
+      // Realça campos vazios do líder
+      if (!lead) leadInput?.classList.add('equipe-campo-erro');
+      if (!horario) horarioSelect?.classList.add('equipe-campo-erro');
+      if (!nome) nomeInput?.classList.add('equipe-campo-erro');
+      if (!telValido) marcarErroTelefone(id, false);
+    }
+    
+    // Verifica se telefone do parceiro é válido
+    const parceiroTelValido = parceiroTel && validarTelefoneCompleto(parceiroTel);
+    
+    // Verifica se PARCEIRO está aberto mas incompleto
+    if (temParceiroAberto && (!parceiroNome || !parceiroTelValido)) {
+      parceirosIncompletos.push(id);
+      // Realça campos vazios do parceiro
+      if (!parceiroNome) parceiroNomeInput?.classList.add('equipe-campo-erro');
+      if (!parceiroTelValido) marcarErroTelefone(id, true);
+    }
+  });
+  
+  // BLOQUEIA se houver QUALQUER problema
+  if (lideresIncompletos.length > 0 || parceirosIncompletos.length > 0) {
+    let msg = '⚠️ Não é possível copiar!<br><br>';
+    if (lideresIncompletos.length > 0) {
+      msg += `• ${lideresIncompletos.length} equipe(s) com líder incompleto<br>(LEAD, HORA, NOME, TELEFONE)<br><br>`;
+    }
+    if (parceirosIncompletos.length > 0) {
+      msg += `• ${parceirosIncompletos.length} equipe(s) com parceiro aberto mas incompleto<br>(preencha NOME e TELEFONE ou remova)`;
+    }
+    mostrarNotificacaoComBotao(msg);
+    return; // BLOQUEIA TUDO
+  }
+  
+  // TODAS AS EQUIPES ESTÃO VÁLIDAS - AGORA COPIA
+  const contatos = carregarContatosRapidos();
+  let adicionados = 0;
+  let duplicados = 0;
+  
+  equipes.forEach(eq => {
+    const id = eq.id.replace('equipe-', '');
+    const lead = document.getElementById('equipe-' + id + '-lead')?.value || '';
+    const horario = document.getElementById('equipe-' + id + '-horario')?.value || '';
+    const nome = document.getElementById('equipe-' + id + '-nome')?.value || '';
+    const tel = document.getElementById('equipe-' + id + '-telefone')?.value || '';
+    
+    // Dados do parceiro
+    const parceiroDiv = document.getElementById('equipe-' + id + '-parceiro');
+    const parceiroNome = document.getElementById('equipe-' + id + '-parceiro-nome')?.value || '';
+    const parceiroTel = document.getElementById('equipe-' + id + '-parceiro-tel')?.value || '';
+    const temParceiroAberto = parceiroDiv && parceiroDiv.style.display === 'flex';
+    
+    // Adiciona líder
+    const duplicadoLider = contatos.some(c => c.lead === lead && c.horario === horario && c.nome === nome && c.tel === tel);
+    if (!duplicadoLider) {
+      contatos.push({ lead, horario, nome, tel });
+      adicionados++;
+    } else {
+      duplicados++;
+    }
+    
+    // Adiciona parceiro (se aberto e completo)
+    if (temParceiroAberto && parceiroNome && parceiroTel) {
+      const duplicadoParceiro = contatos.some(c => c.lead === lead && c.horario === horario && c.nome === parceiroNome && c.tel === parceiroTel);
+      if (!duplicadoParceiro) {
+        contatos.push({ lead, horario, nome: parceiroNome, tel: parceiroTel });
+        adicionados++;
+      } else {
+        duplicados++;
+      }
+    }
+  });
+  
+  if (adicionados > 0) {
+    salvarContatosRapidos(contatos);
+    renderizarContatos();
+    mostrarNotificacao(`✅ ${adicionados} contato(s) copiado(s) para Clipboard!`);
+  } else if (duplicados > 0) {
+    mostrarNotificacao('ℹ️ Todos os contatos já existem no Clipboard.');
+  }
+}
 
 // Variável para controlar direção da ordenação
 let ordenacaoEquipesAsc = {};
@@ -3184,6 +5839,8 @@ function coletarEquipes() {
   const e = [];
   document.querySelectorAll('.equipe-linha').forEach(el => {
     const id = el.id.replace('equipe-', '');
+    const parceiroDiv = document.getElementById('equipe-' + id + '-parceiro');
+    const temParceiro = parceiroDiv && parceiroDiv.style.display === 'flex';
     e.push({
       lead: document.getElementById('equipe-' + id + '-lead')?.value || '',
       nome: document.getElementById('equipe-' + id + '-nome')?.value || '',
@@ -3192,7 +5849,9 @@ function coletarEquipes() {
       local2: document.getElementById('equipe-' + id + '-local2')?.value || '',
       local3: document.getElementById('equipe-' + id + '-local3')?.value || '',
       local4: document.getElementById('equipe-' + id + '-local4')?.value || '',
-      horario: document.getElementById('equipe-' + id + '-horario')?.value || ''
+      horario: document.getElementById('equipe-' + id + '-horario')?.value || '',
+      parceiroNome: temParceiro ? (document.getElementById('equipe-' + id + '-parceiro-nome')?.value || '') : '',
+      parceiroTel: temParceiro ? (document.getElementById('equipe-' + id + '-parceiro-tel')?.value || '') : ''
     });
   });
   return e;
@@ -3218,6 +5877,19 @@ function salvarSessaoAuto() {
 }
 
 function coletarTodosDados() {
+  // Reconstruir estados baseados nos itens existentes (para não perder seções com todos resolvidos)
+  const estadosReconstruidos = JSON.parse(JSON.stringify(estados));
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
+    const container = document.getElementById('caixas-' + id);
+    // Verifica se há itens no container OU cards concluídos desta seção
+    const temItensNoContainer = container && container.querySelectorAll('.caixa-item').length > 0;
+    const temCardsConcluidos = document.querySelectorAll(`.card-concluido-wrapper[data-secao-original="${id}"]`).length > 0;
+    
+    if ((temItensNoContainer || temCardsConcluidos) && !estadosReconstruidos[id]) {
+      estadosReconstruidos[id] = 'sim';
+    }
+  });
+  
   const d = {
     turnoData: document.getElementById('turno-data').value,
     turnoEntrada: document.getElementById('turno-entrada').value,
@@ -3232,7 +5904,8 @@ function coletarTodosDados() {
     observacoesTurno: document.getElementById('observacoes-turno')?.value || '',
     equipes: coletarEquipes(),
     caixasDinamicas: coletarCaixas(),
-    estados: JSON.parse(JSON.stringify(estados)),
+    concluidas: coletarConcluidas(), // Salva cards de concluídas
+    estados: estadosReconstruidos,
     detalhesPendentes: JSON.parse(JSON.stringify(detalhesPendentes)),
     operadorAnterior: operadorAnterior
   };
@@ -3246,8 +5919,21 @@ function coletarTodosDados() {
   return d;
 }
 
-// Coleta dados para exportação - SÓ PENDENTES vão para o próximo turno
+// Coleta dados para exportação - PENDENTES e RESOLVIDOS vão para o próximo turno
 function coletarDadosParaExportacao() {
+  // Reconstruir estados baseados nos itens existentes
+  const estadosExportacao = JSON.parse(JSON.stringify(estados));
+  ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
+    const container = document.getElementById('caixas-' + id);
+    // Verifica se há itens no container OU cards concluídos desta seção
+    const temItensNoContainer = container && container.querySelectorAll('.caixa-item').length > 0;
+    const temCardsConcluidos = document.querySelectorAll(`.card-concluido-wrapper[data-secao-original="${id}"]`).length > 0;
+    
+    if ((temItensNoContainer || temCardsConcluidos) && !estadosExportacao[id]) {
+      estadosExportacao[id] = 'sim';
+    }
+  });
+  
   const d = {
     turnoData: document.getElementById('turno-data').value,
     turnoEntrada: document.getElementById('turno-entrada').value,
@@ -3261,8 +5947,9 @@ function coletarDadosParaExportacao() {
     incidenciasantigasQtd: document.getElementById('incidencias-antigas-qtd')?.value || '',
     observacoesTurno: document.getElementById('observacoes-turno')?.value || '',
     equipes: coletarEquipes(),
-    caixasDinamicas: coletarCaixasPendentes(), // SÓ PENDENTES!
-    estados: JSON.parse(JSON.stringify(estados)),
+    caixasDinamicas: coletarCaixasPendentes(), // PENDENTES e RESOLVIDOS
+    concluidas: coletarConcluidas(), // Salva cards de concluídas
+    estados: estadosExportacao,
     detalhesPendentes: JSON.parse(JSON.stringify(detalhesPendentes)),
     operadorAnterior: operadorAnterior
   };
@@ -3287,6 +5974,103 @@ function contarPendentes(id) {
   return count.toString();
 }
 
+// Coleta dados dos cards de concluídas
+function coletarConcluidas() {
+  const wrappers = document.querySelectorAll('.card-concluido-wrapper');
+  const concluidas = [];
+  wrappers.forEach(wrapper => {
+    concluidas.push({
+      secaoOriginal: wrapper.dataset.secaoOriginal,
+      codigo: wrapper.dataset.codigo || '',
+      btmt: wrapper.dataset.btmt || '',
+      equipe: wrapper.dataset.equipe || '',
+      obs: wrapper.dataset.obs || '',
+      afetacao: wrapper.dataset.afetacao === 'true',
+      afetacaoQtd: wrapper.dataset.afetacaoQtd || '0'
+    });
+  });
+  return concluidas;
+}
+
+// Restaura cards de concluídas
+function restaurarConcluidas(concluidas) {
+  if (!concluidas || concluidas.length === 0) return;
+  
+  const container = document.getElementById('concluidas-container');
+  const vazio = document.getElementById('concluidas-vazio');
+  if (!container) return;
+  
+  // Limpa cards existentes primeiro
+  container.querySelectorAll('.card-concluido-wrapper').forEach(c => c.remove());
+  
+  // Mapeia o ID para nome completo (para aba e tooltip)
+  const tiposCompletos = {
+    'cabo-partido': 'CABO PARTIDO',
+    'clientes-m1': 'CLIENTES M+1',
+    'clientes-vitais': 'CLIENTES VITAIS',
+    'condutores-furtados': 'CONDUTORES FURTADOS',
+    'falta-varios': 'FALTA VÁRIOS',
+    'incidencias-antigas': 'INCIDÊNCIAS ANTIGAS',
+    'linha-viva': 'LINHA VIVA',
+    'manobra': 'MANOBRA',
+    'ocorrencias-pesadas': 'OCORRÊNCIAS PESADAS',
+    'prioridade-zero': 'PRIORIDADE ZERO',
+    'religador': 'RELIGADOR',
+    'segundo-recurso': '2º RECURSO'
+  };
+  
+  // Contador para gerar IDs únicos
+  let cardCounter = 0;
+  
+  concluidas.forEach(item => {
+    cardCounter++;
+    const id = item.secaoOriginal;
+    const num = cardCounter;
+    const tipoCompleto = tiposCompletos[id] || id.toUpperCase();
+    
+    const cardWrapper = document.createElement('div');
+    cardWrapper.className = 'card-concluido-wrapper';
+    cardWrapper.id = `card-concluido-${id}-${num}`;
+    cardWrapper.dataset.secaoOriginal = id;
+    cardWrapper.dataset.numOriginal = num;
+    cardWrapper.dataset.codigo = item.codigo;
+    cardWrapper.dataset.btmt = item.btmt;
+    cardWrapper.dataset.equipe = item.equipe;
+    cardWrapper.dataset.obs = item.obs;
+    cardWrapper.dataset.afetacao = item.afetacao;
+    cardWrapper.dataset.afetacaoQtd = item.afetacaoQtd;
+    cardWrapper.dataset.tipoCompleto = tipoCompleto;
+    
+    const btmtClass = item.btmt === 'MT' ? 'mt' : '';
+    const equipeDisplay = item.equipe || '-';
+    const codigoDisplay = item.codigo || '-';
+    
+    cardWrapper.innerHTML = `
+      <div class="card-abas">
+        <button class="card-aba card-aba-restaurar" onclick="retornarDeConcluidas('${id}', ${num})" title="Retornar para pendências">RETORNAR OCORRÊNCIA</button>
+        <button class="card-aba card-aba-fechar" onclick="excluirConcluida('${id}', ${num})" title="Excluir definitivamente">✕</button>
+      </div>
+      <div class="card-concluido" data-tipo-completo="${tipoCompleto}" ${item.obs ? `data-obs="${item.obs}"` : ''}>
+        <div class="card-linha1">
+          <span class="card-numero" title="${codigoDisplay}">${codigoDisplay}</span>
+          ${item.btmt ? `<span class="card-btmt ${btmtClass}">${item.btmt}</span>` : '<span></span>'}
+        </div>
+        <div class="card-linha2">
+          <span class="card-tipo" title="${tipoCompleto}">${tipoCompleto}</span>
+          <span class="card-equipe" title="${equipeDisplay}">${equipeDisplay}</span>
+        </div>
+      </div>
+    `;
+    
+    container.appendChild(cardWrapper);
+  });
+  
+  // Atualiza contador e eventos
+  setTimeout(() => {
+    atualizarContadorConcluidas();
+  }, 100);
+}
+
 function coletarCaixas() {
   const r = {};
   ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
@@ -3302,19 +6086,20 @@ function coletarCaixas() {
         const desc = item.querySelector('.descricao-input')?.value || '';
         const status = item.dataset.status || 'pendente';
         const equipe = item.querySelector('.equipe-select')?.value || '';
+        const tipoBtMt = item.querySelector('.tipo-btmt-select')?.value || '';
         const afetacaoCheckbox = document.getElementById(`${id}-afetacao-${num}`);
         const afetacao = afetacaoCheckbox ? afetacaoCheckbox.checked : false;
         const afetacaoQtd = document.getElementById(`${id}-afetacao-qtd-${num}`)?.value || '';
         
         // Salva sempre — mesmo vazio, para restaurar caixas abertas sem preenchimento
-        r[id].push({ codigo: cod, desc: desc, status: status, equipe: equipe, afetacao: afetacao, afetacaoQtd: afetacaoQtd });
+        r[id].push({ codigo: cod, desc: desc, status: status, equipe: equipe, tipoBtMt: tipoBtMt, afetacao: afetacao, afetacaoQtd: afetacaoQtd });
       });
     }
   });
   return r;
 }
 
-// Coleta só os PENDENTES para exportação
+// Coleta PENDENTES e RESOLVIDOS para exportação (não exporta REVISAR)
 function coletarCaixasPendentes() {
   const r = {};
   ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
@@ -3403,7 +6188,6 @@ function verificarCamposObrigatorios() {
 
       const leadInput   = document.getElementById(`equipe-${id}-lead`);
       const nomeInput   = document.getElementById(`equipe-${id}-nome`);
-      const telInput    = document.getElementById(`equipe-${id}-telefone`);
       const local1Input = document.getElementById(`equipe-${id}-local1`);
       const horarioSel  = document.getElementById(`equipe-${id}-horario`);
 
@@ -3412,16 +6196,33 @@ function verificarCamposObrigatorios() {
       else                   { leadInput?.classList.remove('equipe-campo-erro'); }
       if (!nome)             { nomeInput?.classList.add('equipe-campo-erro');    temErroEquipe = true; }
       else                   { nomeInput?.classList.remove('equipe-campo-erro'); }
-      if (!tel)              { telInput?.classList.add('equipe-campo-erro');     temErroEquipe = true; }
-      else                   { telInput?.classList.remove('equipe-campo-erro');  }
+      // Valida telefone com a nova função
+      if (!tel || !validarTelefoneCompleto(tel)) { marcarErroTelefone(id, false); temErroEquipe = true; }
+      else                   { removerErroTelefone(id, false); }
       if (!local1)           { local1Input?.classList.add('equipe-campo-erro');  temErroEquipe = true; }
       else                   { local1Input?.classList.remove('equipe-campo-erro'); }
       if (!horario)          { horarioSel?.classList.add('equipe-campo-erro');   temErroEquipe = true; }
       else                   { horarioSel?.classList.remove('equipe-campo-erro'); }
 
+      // Validação do parceiro (só se aba estiver aberta)
+      const parceiroDiv = document.getElementById(`equipe-${id}-parceiro`);
+      const parceiroNomeInput = document.getElementById(`equipe-${id}-parceiro-nome`);
+      const parceiroTel = document.getElementById(`equipe-${id}-parceiro-tel`)?.value || '';
+      if (parceiroDiv && parceiroDiv.style.display === 'flex') {
+        const parceiroNome = parceiroNomeInput?.value || '';
+        if (!parceiroNome) { parceiroNomeInput?.classList.add('equipe-campo-erro'); temErroEquipe = true; }
+        else { parceiroNomeInput?.classList.remove('equipe-campo-erro'); }
+        // Valida telefone do parceiro
+        if (!parceiroTel || !validarTelefoneCompleto(parceiroTel)) { marcarErroTelefone(id, true); temErroEquipe = true; }
+        else { removerErroTelefone(id, true); }
+      } else {
+        parceiroNomeInput?.classList.remove('equipe-campo-erro');
+        removerErroTelefone(id, true);
+      }
+
       if (temErroEquipe) equipeComErro = true;
     });
-    if (equipeComErro) m.push('🚗 Preencha todos os campos obrigatórios das equipes ativas (Lead, Nome, Telefone, Localidade 1, Horário)');
+    if (equipeComErro) m.push('🚗 Preencha todos os campos obrigatórios das equipes ativas (Lead, Nome, Telefone, Localidade 1, Horário, e Parceiro se aberto)');
   }
   
   // Lista de TODOS os itens que precisam ter SIM ou NÃO marcado
@@ -3678,6 +6479,19 @@ function gerarMensagem(validar = true) {
         const carga = turnoLetra === 'D' ? 8.8 : 9.8;
         const saida = e.horario ? calcularHorarioSaida(e.horario, carga) : null;
         const saidaStr = saida ? `SAÍDA ${saida}` : '';
+        
+        // Monta info do líder (nome + telefone sem parênteses)
+        let infoLider = '';
+        if (e.nome) {
+          infoLider = `👤 ${e.nome}`;
+          if (e.telefone) infoLider += ` ${e.telefone}`;
+        }
+        // Monta info do parceiro separadamente (com emoji próprio)
+        let infoParceiro = '';
+        if (e.parceiroNome) {
+          infoParceiro = `👤 ${e.parceiroNome}`;
+          if (e.parceiroTel) infoParceiro += ` ${e.parceiroTel}`;
+        }
 
         if (formatoEquipeCompacto) {
           // FORMATO 2 LINHAS (botão ON)
@@ -3686,22 +6500,21 @@ function gerarMensagem(validar = true) {
           const partesLoc = [...ls];
           if (partesLoc.length > 0) linha1 += ` - ${partesLoc.join(' | ')}`;
           msg += linha1 + '\n';
-          if (e.nome || e.telefone) {
-            let linha2 = '';
-            if (e.nome) linha2 += `(${e.nome})`;
-            if (e.telefone) linha2 += (linha2 ? ' ' : '') + `+55 ${e.telefone}`;
-            msg += linha2 + '\n';
+          if (infoLider) {
+            msg += infoLider;
+            if (infoParceiro) msg += ` | ${infoParceiro}`;
+            msg += '\n';
           }
           msg += '\n';
         } else {
           // FORMATO 1 LINHA (padrão OFF)
-          let partes = [e.lead];
+          // 🚗 DFD-SG-04B | SAÍDA 15:48 | 👤 CRISTIANO 85 99240-2657 | 👤 JOÃO 85 99111-2222 | 📍 Loc1, Loc2
+          let partes = [];
+          partes.push(`🚗 ${e.lead}`);
           if (saidaStr) partes.push(saidaStr);
-          let info = '';
-          if (e.nome) info += `(${e.nome})`;
-          if (e.telefone) info += (info ? ' ' : '') + `+55 ${e.telefone}`;
-          if (info) partes.push(info);
-          ls.forEach(l => partes.push(l));
+          if (infoLider) partes.push(infoLider);
+          if (infoParceiro) partes.push(infoParceiro);
+          if (ls.length > 0) partes.push(`📍 ${ls.join(', ')}`);
           msg += partes.join(' | ') + '\n';
         }
       });
@@ -3713,8 +6526,7 @@ function gerarMensagem(validar = true) {
   ['cabo-partido','clientes-m1','clientes-vitais','condutores-furtados','falta-varios','incidencias-antigas','linha-viva','manobra','ocorrencias-pesadas','prioridade-zero','religador','segundo-recurso'].forEach(id => {
     if (estados[id] === 'sim') {
       const caixas = document.getElementById('caixas-' + id);
-      let pendentesCount = 0;
-      let pendentesTexto = '';
+      let pendentesLinhas = [];
       if (caixas) {
         caixas.querySelectorAll('.caixa-item').forEach(item => {
           const status = item.dataset.status;
@@ -3738,17 +6550,21 @@ function gerarMensagem(validar = true) {
               linha += ` ⚠️ AFETAÇÃO: ${afetacaoQtd} CLIENTES`;
               if (desc) linha += ` - ${desc}`;
               if (equipe) linha += ` [${equipe}]`;
-              pendentesTexto += linha + '\n';
-              pendentesCount++;
+              pendentesLinhas.push(linha);
             }
           }
         });
       }
-      if (pendentesCount > 0) {
+      if (pendentesLinhas.length > 0) {
         const titleEl = document.querySelector(`#box-${id} .item-title`);
         const nome = titleEl ? titleEl.textContent.toUpperCase() : id.toUpperCase();
-        pn += `_${nome}: (${pendentesCount})_\n`;
-        pn += pendentesTexto;
+        pn += `_${nome}: (${pendentesLinhas.length})_\n`;
+        // Se 2+ itens, adiciona quebra de linha entre eles
+        if (pendentesLinhas.length >= 2) {
+          pn += pendentesLinhas.join('\n\n') + '\n';
+        } else {
+          pn += pendentesLinhas.join('\n') + '\n';
+        }
         if (quebraPendencias) pn += '\n'; // quebra entre categorias
       }
     }
@@ -4048,7 +6864,7 @@ function finalizarTurno() {
   });
   
   // Oculta botões que não devem aparecer no PDF
-  const botoesOcultar = document.querySelectorAll('.btn-remover-todas, .btn-adicionar-item, .btn-remover-item, .btn-remove-item-ext, .desfazer-btn, #barra-topo-botoes');
+  const botoesOcultar = document.querySelectorAll('.btn-remover-todas, .btn-adicionar-item, .btn-remover-item, .btn-remove-item-ext, .desfazer-btn, #barra-topo-botoes, .equipes-acoes-container, #btn-formato-equipe, #btn-quebra-pendencias, .btn-finalizar, .btn-modo, .btn-copiar, .card-desfazer, .card-excluir');
   const botoesDisplay = [];
   botoesOcultar.forEach((btn, i) => {
     botoesDisplay[i] = btn.style.display;
@@ -4118,7 +6934,7 @@ function finalizarTurno() {
   
   // Captura como IMAGEM (print)
   html2canvas(c, {
-    scale: 2,
+    scale: 1.5,
     useCORS: true,
     allowTaint: true,
     scrollY: -window.scrollY,
@@ -4128,8 +6944,8 @@ function finalizarTurno() {
     // Restaura elementos
     restaurarElementos();
     
-    // Converte canvas para imagem
-    const imgData = canvas.toDataURL('image/png');
+    // Converte canvas para imagem JPEG (muito mais compacto que PNG)
+    const imgData = canvas.toDataURL('image/jpeg', 0.85);
     
     // Cria PDF com a imagem
     const imgWidth = canvas.width;
@@ -4139,11 +6955,12 @@ function finalizarTurno() {
     const pdf = new jspdf.jsPDF({
       orientation: imgHeight > imgWidth ? 'portrait' : 'landscape',
       unit: 'px',
-      format: [imgWidth / 2 + 20, imgHeight / 2 + 20]
+      format: [imgWidth / 1.5 + 20, imgHeight / 1.5 + 20],
+      compress: true
     });
     
     // Adiciona imagem centralizada
-    pdf.addImage(imgData, 'PNG', 10, 10, imgWidth / 2, imgHeight / 2);
+    pdf.addImage(imgData, 'JPEG', 10, 10, imgWidth / 1.5, imgHeight / 1.5, undefined, 'FAST');
     pdf.save(bn + '.pdf');
     
     // Gera JSON
@@ -4204,9 +7021,26 @@ function confirmarReset() {
 }
 
 function mostrarNotificacao(t) {
+  const popup = document.getElementById('notification-popup');
+  const btn = popup.querySelector('.close-button');
   document.getElementById('notification-text').innerHTML = t;
-  document.getElementById('notification-popup').style.display = 'block';
-  setTimeout(() => document.getElementById('notification-popup').style.display = 'none', 3500);
+  btn.style.display = 'none'; // Esconde botão
+  popup.style.display = 'block';
+  setTimeout(() => popup.style.display = 'none', 3500);
+}
+
+function mostrarNotificacaoComBotao(t) {
+  const popup = document.getElementById('notification-popup');
+  const btn = popup.querySelector('.close-button');
+  document.getElementById('notification-text').innerHTML = t;
+  btn.style.display = 'block'; // Mostra botão
+  btn.textContent = 'Fechar';
+  popup.style.display = 'block';
+  // Não fecha automaticamente
+}
+
+function fecharNotificacao() {
+  document.getElementById('notification-popup').style.display = 'none';
 }
 
 function fecharPopup(id) { document.getElementById(id).style.display = 'none'; }
