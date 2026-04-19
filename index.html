@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TROCA DE TURNO v10.0</title>
+  <title>TROCA DE TURNO v12.0</title>
   <link rel="icon" href="turno.png" type="image/png">
   <script src="usuarios.js"></script>
   <script src="horarios.js"></script>
@@ -336,9 +336,91 @@
       border-color: #c62828;
     }
     
+    /* Fonte customizada para títulos de observações */
+    @font-face {
+      font-family: 'Bricolage Grotesque';
+      src: url('Bricolage Grotesque 96pt ExtraBold Regular.TTF') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    
     .section-observacoes { border-color: #607d8b; }
     .section-observacoes .section-header { background: #607d8b; }
-    .obs-turno-textarea { width: 100%; min-height: 100px; padding: 12px; font-size: 14px; border: 2px solid #607d8b; border-radius: 6px; resize: vertical; box-sizing: border-box; font-family: inherit; }
+    
+    /* Layout de carta - duas colunas */
+    .obs-turno-container {
+      display: flex;
+      gap: 15px;
+      width: 100%;
+      align-items: stretch;
+    }
+    .obs-turno-coluna {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
+      border: 2px solid #607d8b;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+    .obs-turno-coluna.recebido {
+      background: #f5f5f5;
+      border-color: #9e9e9e;
+    }
+    .obs-turno-coluna.repassar {
+      background: #fff;
+      border-color: #607d8b;
+    }
+    .obs-coluna-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    .obs-coluna-titulo.recebido { background: #9e9e9e; }
+    .obs-coluna-titulo.repassar { background: #607d8b; }
+    
+    .obs-campo-grupo {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+    .obs-campo-label {
+      font-family: 'Bricolage Grotesque', 'Arial Black', sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      color: #455a64;
+      padding: 4px 8px;
+      background: #eceff1;
+      border-radius: 4px;
+      border-left: 3px solid #607d8b;
+    }
+    .obs-turno-textarea {
+      width: 100%;
+      min-height: 60px;
+      padding: 8px;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+      box-sizing: border-box;
+      font-family: inherit;
+      overflow: hidden;
+      flex: 1;
+    }
+    .obs-turno-textarea.leitura {
+      background: #f0f0f0;
+      color: #666;
+      cursor: not-allowed;
+    }
+    .obs-turno-textarea.editavel {
+      background: #fff;
+    }
     .section-equipes { border-color: var(--cor-equipes); }
     .section-equipes .section-header { background: var(--cor-equipes); }
     .section-equipes .section-header:hover { z-index: 99999; }
@@ -696,11 +778,23 @@
     .contatos-adicionar .btn-limpar-campo[data-tooltip]:hover::after { top: 50%; bottom: auto; left: auto; right: 100%; transform: translateY(-50%); margin-right: 8px; margin-top: 0; }
     /* Tooltip contador de contatos - à ESQUERDA */
     .contatos-lista-header .hd-contagem[data-tooltip]:hover::after { top: 50%; bottom: auto; left: auto; right: 100%; transform: translateY(-50%); margin-right: 8px; margin-top: 0; }
-    
+    /* Tooltip botão duplicados - à DIREITA (mesmo estilo da contagem) */
+    .contatos-lista-header .btn-duplicados-contatos[data-tooltip]:hover::after {
+    /* POSIÇÃO (igual aos outros, à direita) */
+    top: 120%;
+    left: 0%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+    /* TAMANHO */
+    font-size: 10px;   /* 🔽 diminui aqui */
+    font-weight: 900;  /* opcional */
+    font-family: 'Consolas', 'Monaco', monospace;  
+    /* OPCIONAL (visual) */
+    border-radius: 4px; /* deixa igual aos outros */
+    }
     .highlight-section { animation: highlightPulse 1.5s ease; }
     @keyframes highlightPulse { 0%, 100% { box-shadow: 0 3px 10px rgba(0,0,0,0.12); } 50% { box-shadow: 0 0 25px rgba(33, 150, 243, 0.8); } }
     
-    /* Painel de Contatos Rápidos - Flutuante */
     /* Painel de Contatos Rápidos - Flutuante */
     .contatos-rapidos-painel {
       position: fixed;
@@ -716,6 +810,11 @@
       display: flex;
       flex-direction: column;
       font-family: 'Segoe UI', sans-serif;
+      transition: all 0.3s ease;
+    }
+    .contatos-rapidos-painel.minimizado {
+      bottom: auto;
+      height: auto;
     }
     .contatos-rapidos-header {
       background: #607d8b;
@@ -729,6 +828,9 @@
       align-items: center;
       cursor: pointer;
       user-select: none;
+    }
+    .contatos-rapidos-painel.minimizado .contatos-rapidos-header {
+      border-radius: 8px;
     }
     .contatos-rapidos-header:hover { filter: brightness(1.15); }
     .contatos-rapidos-toggle { font-size: 14px; transition: transform 0.3s; }
@@ -746,10 +848,7 @@
       min-height: 0;
     }
     .contatos-rapidos-body.collapsed {
-      max-height: 0 !important;
-      padding: 0 12px;
-      overflow: hidden;
-      opacity: 0;
+      display: none;
     }
     
     /* Seções do clipboard */
@@ -989,9 +1088,33 @@
       display: flex;
       gap: 6px;
       padding: 0 6px 0 39px;
+      overflow: visible;
       margin-bottom: 5px;
       align-items: center;
+      position: relative;
     }
+    .contatos-lista-header .btn-duplicados-contatos {
+      position: absolute;
+      left: 7px;
+      top: 73%;
+      transform: translateY(-50%) scale(1.1);
+      width: 27px;
+      height: 32px;
+      font-size: 18px;
+      padding: 0;
+      z-index: 10;
+      border-radius: 100%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      line-height: 22px;
+      text-align: center;
+      color: #4caf50;
+      transition: transform 0.2s ease;
+    }
+    .contatos-lista-header .btn-duplicados-contatos:hover { transform: translateY(-50%) scale(1.1); }
+    .contatos-lista-header .btn-duplicados-contatos.desligado { color: #f44336; }
+    .contato-telefone-duplicado { background: #ffcdd2 !important; border-radius: 4px; }
     .contatos-lista-header span {
       font-size: 12px;
       font-weight: bold;
@@ -1243,7 +1366,13 @@
         <div class="clipboard-secao-titulo">📋 LISTA DE CONTATOS SALVOS</div>
         <!-- Cabeçalho da lista (mesmos ícones das Equipes Ativas) -->
         <div class="contatos-lista-header">
-          <span class="hd-lead" onclick="ordenarContatos('lead')" data-tooltip="Ordenar por Lead">🚗LEAD</span>
+          <span id="btn-duplicados-contatos"
+                class="btn-duplicados-contatos"
+                onclick="toggleDuplicadosContatos()"
+                data-tooltip="Duplicados: LIGADO (clique p/ desligar)">
+              🟢
+          </span>
+          <span class="hd-lead" onclick="ordenarContatos('lead')" data-tooltip="Ordenar por Lead (Turno → Nº → Viatura)">🚗LEAD</span>
           <span class="hd-hora" onclick="ordenarContatos('horario')" data-tooltip="Ordenar por Hora">🕐HORA</span>
           <span class="hd-nome" onclick="ordenarContatos('nome')" data-tooltip="Ordenar por Nome">👤NOME</span>
           <span class="hd-tel" onclick="ordenarContatos('tel')" data-tooltip="Ordenar por Telefone">📞TELEFONE</span>
@@ -1492,7 +1621,7 @@
     </div>
     
     <h2 style="text-align: center; color: #1a73e8; margin: 5px 0; font-size: 20px;">🔄 RELATÓRIO DE TROCA DE TURNO</h2>
-    <p style="text-align: center; color: #666; margin: 0 0 10px 0; font-size: 11px;">(Versão 10.0)</p>
+    <p style="text-align: center; color: #666; margin: 0 0 10px 0; font-size: 11px;">(Versão 12.0)</p>
     
     <div id="sessao-info" class="sessao-info" style="display: none;"><strong>📍 Sessão Atual:</strong> <span id="sessao-operador-info"></span></div>
     
@@ -1673,7 +1802,7 @@
         <!-- CABEÇALHO DAS COLUNAS (clicável para ordenar) -->
         <div class="equipe-header">
           <span class="hd-drag" style="width:20px; visibility:hidden;">⋮⋮</span>
-          <span id="hd-col-lead" class="hd-lead" onclick="ordenarEquipes('lead')" data-tooltip="Ordenar por Lead">🚗 LEAD</span>
+          <span id="hd-col-lead" class="hd-lead" onclick="ordenarEquipes('lead')" data-tooltip="Ordenar por Lead (Turno → Nº → Viatura)">🚗 LEAD</span>
           <span id="hd-col-horario" class="hd-horario" onclick="ordenarEquipes('horario')" data-tooltip="Ordenar por Horário">🕐 HORA</span>
           <span id="hd-col-nome" class="hd-nome" onclick="ordenarEquipes('nome')" data-tooltip="Ordenar por Nome">👤 NOME</span>
           <span id="hd-col-telefone" class="hd-tel" onclick="ordenarEquipes('telefone')" data-tooltip="Ordenar por Telefone">📞 TELEFONE</span>
@@ -1918,9 +2047,52 @@
     
     <!-- OBSERVAÇÕES DO TURNO -->
     <div class="section section-observacoes" id="section-observacoes">
-      <div class="section-header" onclick="toggleSection(this)" data-tooltip="Clique para ocultar/mostrar"><span>📝 OBSERVAÇÕES DO TURNO</span><span class="section-toggle">▼</span></div>
+      <div class="section-header" onclick="toggleSection(this)" data-tooltip="Clique para ocultar/mostrar">
+        <span>📝 OBSERVAÇÕES DO TURNO</span>
+        <span class="section-toggle">▼</span>
+      </div>
       <div class="section-content">
-        <textarea id="observacoes-turno" class="obs-turno-textarea" placeholder="Digite aqui observações gerais do turno..." onchange="onCampoAlterado()"></textarea>
+        <div class="obs-turno-container">
+          <!-- Coluna RECEBIDO (somente leitura) -->
+          <div class="obs-turno-coluna recebido">
+            <div class="obs-coluna-titulo recebido">📥 RECEBIDO</div>
+            
+            <div class="obs-campo-grupo">
+              <label class="obs-campo-label">OBSERVAÇÕES</label>
+              <textarea id="obs-recebido-observacoes" class="obs-turno-textarea leitura" placeholder="(importado)" readonly></textarea>
+            </div>
+            
+            <div class="obs-campo-grupo">
+              <label class="obs-campo-label">PROBLEMAS ENCONTRADOS</label>
+              <textarea id="obs-recebido-problemas" class="obs-turno-textarea leitura" placeholder="(importado)" readonly></textarea>
+            </div>
+            
+            <div class="obs-campo-grupo">
+              <label class="obs-campo-label">SUGESTÕES</label>
+              <textarea id="obs-recebido-sugestoes" class="obs-turno-textarea leitura" placeholder="(importado)" readonly></textarea>
+            </div>
+          </div>
+          
+          <!-- Coluna REPASSAR (editável) -->
+          <div class="obs-turno-coluna repassar">
+            <div class="obs-coluna-titulo repassar">📤 REPASSAR</div>
+            
+            <div class="obs-campo-grupo">
+              <label class="obs-campo-label">OBSERVAÇÕES</label>
+              <textarea id="obs-repassar-observacoes" class="obs-turno-textarea editavel" placeholder="Digite observações para repassar..." oninput="autoGrowTextarea(this)" onchange="onCampoAlterado()"></textarea>
+            </div>
+            
+            <div class="obs-campo-grupo">
+              <label class="obs-campo-label">PROBLEMAS ENCONTRADOS</label>
+              <textarea id="obs-repassar-problemas" class="obs-turno-textarea editavel" placeholder="Digite problemas encontrados..." oninput="autoGrowTextarea(this)" onchange="onCampoAlterado()"></textarea>
+            </div>
+            
+            <div class="obs-campo-grupo">
+              <label class="obs-campo-label">SUGESTÕES</label>
+              <textarea id="obs-repassar-sugestoes" class="obs-turno-textarea editavel" placeholder="Digite sugestões..." oninput="autoGrowTextarea(this)" onchange="onCampoAlterado()"></textarea>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -2007,6 +2179,30 @@ function renderizarContatos(filtroLead = '', filtroNome = '', filtroTel = '') {
     filtrados.sort((a, b) => {
       const valA = (a[contatosOrdenacao.campo] || '').toUpperCase();
       const valB = (b[contatosOrdenacao.campo] || '').toUpperCase();
+      
+      // Para LEAD: ordena de trás pra frente (letra → número → viatura → prefixo)
+      // Formato: XXX-YY-NNL (ex: DMA-SG-01B)
+      if (contatosOrdenacao.campo === 'lead') {
+        const parseLeadParaOrdenacao = (lead) => {
+          if (!lead || lead.length < 10) return { letra: 'Z', numero: '99', viatura: 'ZZ', prefixo: 'ZZZ' };
+          const letra = lead.charAt(9) || 'Z';
+          const numero = lead.substring(7, 9) || '99';
+          const viatura = lead.substring(4, 6) || 'ZZ';
+          const prefixo = lead.substring(0, 3) || 'ZZZ';
+          return { letra, numero, viatura, prefixo };
+        };
+        
+        const leadA = parseLeadParaOrdenacao(valA);
+        const leadB = parseLeadParaOrdenacao(valB);
+        
+        let cmp = leadA.letra.localeCompare(leadB.letra);
+        if (cmp === 0) cmp = leadA.numero.localeCompare(leadB.numero);
+        if (cmp === 0) cmp = leadA.viatura.localeCompare(leadB.viatura);
+        if (cmp === 0) cmp = leadA.prefixo.localeCompare(leadB.prefixo);
+        
+        return contatosOrdenacao.asc ? cmp : -cmp;
+      }
+      
       if (valA < valB) return contatosOrdenacao.asc ? -1 : 1;
       if (valA > valB) return contatosOrdenacao.asc ? 1 : -1;
       return 0;
@@ -2108,6 +2304,9 @@ function renderizarContatos(filtroLead = '', filtroNome = '', filtroTel = '') {
       contadorEl.setAttribute('data-tooltip', `${total} contato${total !== 1 ? 's' : ''} salvos`);
     }
   }
+  
+  // Atualiza destaque de duplicados
+  setTimeout(() => atualizarDestaqueDuplicadosContatos(), 50);
 }
 
 function adicionarContato() {
@@ -2294,6 +2493,61 @@ function executarLimparTodosContatos() {
   mostrarNotificacao('🗑️ Todos os contatos foram removidos!');
 }
 
+// Variável para controlar destaque de telefones duplicados (ligado por padrão)
+let destacarDuplicadosContatosAtivo = true;
+
+// Toggle para destacar telefones duplicados nos CONTATOS RÁPIDOS
+function toggleDuplicadosContatos() {
+  console.log("clicou"); // 👈 testa isso
+
+  destacarDuplicadosContatosAtivo = !destacarDuplicadosContatosAtivo;
+  
+  const btn = document.getElementById('btn-duplicados-contatos');
+  if (btn) {
+    btn.classList.toggle('desligado', !destacarDuplicadosContatosAtivo);
+
+    // 👇 ESSA LINHA É A MAIS IMPORTANTE
+    btn.textContent = destacarDuplicadosContatosAtivo ? '🟢' : '🔴';
+
+    btn.setAttribute(
+      'data-tooltip',
+      destacarDuplicadosContatosAtivo
+        ? 'Duplicados: LIGADO (clique p/ desligar)'
+        : 'Duplicados: DESLIGADO (clique p/ ligar)'
+    );
+  }
+
+  atualizarDestaqueDuplicadosContatos();
+}
+
+// Atualiza destaque de telefones duplicados nos CONTATOS RÁPIDOS
+function atualizarDestaqueDuplicadosContatos() {
+  // Remove destaques primeiro
+  document.querySelectorAll('.contato-telefone-duplicado').forEach(el => {
+    el.classList.remove('contato-telefone-duplicado');
+  });
+  
+  if (!destacarDuplicadosContatosAtivo) return;
+  
+  // Coleta todos os telefones dos contatos
+  const telefones = {};
+  document.querySelectorAll('.contato-card').forEach(el => {
+    const telSpan = el.querySelector('.card-tel');
+    if (telSpan && telSpan.textContent.trim() && telSpan.textContent.trim() !== '-') {
+      const tel = telSpan.textContent.trim();
+      if (!telefones[tel]) telefones[tel] = [];
+      telefones[tel].push(telSpan);
+    }
+  });
+  
+  // Destaca duplicados (telefones que aparecem mais de uma vez)
+  Object.values(telefones).forEach(spans => {
+    if (spans.length > 1) {
+      spans.forEach(span => span.classList.add('contato-telefone-duplicado'));
+    }
+  });
+}
+
 function ordenarContatos(campo) {
   if (contatosOrdenacao.campo === campo) {
     contatosOrdenacao.asc = !contatosOrdenacao.asc;
@@ -2449,8 +2703,10 @@ function importarContatosJSON(event) {
 }
 
 function toggleContatosRapidos() {
+  const painel = document.getElementById('contatos-rapidos-painel');
   const body = document.getElementById('contatos-body');
   const toggle = document.getElementById('contatos-toggle');
+  painel.classList.toggle('minimizado');
   body.classList.toggle('collapsed');
   toggle.classList.toggle('collapsed');
 }
@@ -2570,6 +2826,7 @@ document.addEventListener('DOMContentLoaded', function() {
   inicializarSelectHoraContatos();
   renderizarContatos();
   desabilitarModoEdicaoContato(); // Garante que botões começam no estado correto
+  initAutoGrowTextareas(); // Inicializa auto-grow dos textareas de observações
   
   // Limpa TODAS as classes drag-over quando o drag termina (previne classe "presa")
   document.addEventListener('dragend', function() {
@@ -2652,15 +2909,15 @@ let DADOS_REGIOES = {
   "DEMEM": {
     "AQUIRAZ": ["AQUIRAZ","BEBERIBE","CAPONGA","CASCAVEL","EUSÉBIO","GUANACÉS","JACARECOARA","PARAJURU","PARIPUEIRA","PATACAS","PINDORETAMA","PRAINHA","SUCATINGA"],
     "BATURITÉ": ["ACARAPÉ","ANTÔNIO DIOGO","ARACOIABA","ARATUBA","BARREIRA","BATURITÉ","CAPISTRANO","CHOROZINHO","GADO DOS FERROS","GUAIÚBA","GUARAMIRANGA","ITAPIÚNA","MULUNGU","OCARA","PACOTI","PALMÁCIA","REDENÇÃO"],
-    "CAUCAIA": ["CATUANA","CAUCAIA","ICARAÍ","PECEM","SÃO GONÇALO DO AMARANTE","SIUPÉ","SÍTIOS NOVOS","TAIBA"],
+    "CAUCAIA": ["CATUANA","CAUCAIA","ICARAI","PECEM","SÃO GONÇALO DO AMARANTE","SIUPÉ","SÍTIOS NOVOS","TAIBA"],
     "HORIZONTE": ["CAMARÁ","CHOROZINHO","COLUNA","EUSÉBIO","GERERAU","HORIZONTE","ITAITINGA","MANGABEIRA","OCARA","PACAJUS","PITOMBEIRAS","SERRA DO FÉLIX"],
-    "MARACANAÚ": ["ACARAPÉ","GUAIUBA","INDUSTRIAL I","INDUSTRIAL II","INDUSTRIAL III","JEIREISSATI I","JEIREISSATI II","JEIREISSATI III","JACANAU","MARACANAÚ","MUCUNA","MARANGUAPE","PACATUBA","PREFEITO JOSÉ WALTER","PENEDO"]
+    "MARACANAÚ": ["ACARAPÉ","GUAIUBA","INDUSTRIAL I","INDUSTRIAL II","INDUSTRIAL III","JEIREISSATI I","JEIREISSATI II","JEIREISSATI III","JACANAU","MARACANAÚ","MUCUNA","MARANGUAPE","PACATUBA","PENEDO"]
   },
 
   "DEMEF": {
     "DF-001": ["ALDEOTA","BENFICA","CAIS DO PORTO","CENTRO","CIDADE 2000","COCÓ","DE LOURDES","DIONÍSIO TORRES","EDSON QUEIROZ","ENGENHEIRO LUCIANO CAVALCANTE","FARIAS BRITO","FÁTIMA","GUARARAPES","JACARECANGA","JOAQUIM TÁVORA","JOSÉ BONIFÁCIO","MAGUARY","MANOEL DIAS BRANCO","MEIRELES","MOURA BRASIL","MUCURIPE","PAPICU","PRAIA DE IRACEMA","PRAIA DO FUTURO","SABIAGUABA","SALINAS","SÃO GERARDO","SÃO JOÃO DO TAUAPÉ","VARJOTA","VICENTE PINZON"],
 
-    "DF-002": ["AMADEU FURTADO","ANTÔNIO BEZERRA","AUTRAN NUNES","ÁLVARO WEYNE","BARRA DO CEARÁ","BELA VISTA","CARLITO PAMPLONA","CRISTO REDENTOR","CAUCAIA","DEMÓCRITO ROCHA","DOM LUSTOSA","FLORESTA","GENIBAÚ","ICARAÍ","JACARECANGA","JARDIM CEARENSE","JARDIM GUANABARA","JARDIM IRACEMA","JOÃO XXIII","JÓQUEI CLUBE","JUREMA","MAGUARY","MONTE CASTELO","MONTESE","OLAVO OLIVEIRA","PADRE ANDRADE","PANAMERICANO","PARQUE ARAXÁ","PARQUELÂNDIA","PARREÃO","PICI","PIRAMBU","PRESIDENTE KENNEDY","QUINTINO CUNHA","RODOLFO TEÓFILO","SÃO GERARDO","VILA ELLERY","VILA VELHA","TABAPUA"],
+    "DF-002": ["AMADEU FURTADO","ANTÔNIO BEZERRA","AUTRAN NUNES","ÁLVARO WEYNE","BARRA DO CEARÁ","BELA VISTA","CARLITO PAMPLONA","CRISTO REDENTOR","DEMÓCRITO ROCHA","DOM LUSTOSA","FLORESTA","GENIBAÚ","JACARECANGA","JARDIM CEARENSE","JARDIM GUANABARA","JARDIM IRACEMA","JOÃO XXIII","JÓQUEI CLUBE","JUREMA","MAGUARY","MONTE CASTELO","MONTESE","OLAVO OLIVEIRA","PADRE ANDRADE","PANAMERICANO","PARQUE ARAXÁ","PARQUELÂNDIA","PARREÃO","PICI","PIRAMBU","PRESIDENTE KENNEDY","QUINTINO CUNHA","RODOLFO TEÓFILO","SÃO GERARDO","VILA ELLERY","VILA VELHA"],
 
     "DF-003": ["AEROPORTO","ALTO DA BALANÇA","AMADEU FURTADO","ANTÔNIO BEZERRA","AUTRAN NUNES","ÁLVARO WEYNE","BELA VISTA","BOM FUTURO","BOM JARDIM","BONSUCESSO","CANINDEZINHO","CONJUNTO CEARÁ","CONJUNTO ESPERANÇA","DAMAS","DEMÓCRITO ROCHA","DENDÊ","DIAS MACEDO","DOM LUSTOSA","GENIBAÚ","GRANJA LISBOA","GRANJA PORTUGAL","HENRIQUE JORGE","ITAOCA","ITAPERI","JARDIM AMÉRICA","JOÃO XXIII","JÓQUEI CLUBE","JUREMA","MANOEL SÁTIRO","MARAPONGA","MATA GALINHA","MONDUBIM","MONTESE","PANAMERICANO","PARANGABA","PARQUE DOIS IRMÃOS","PARREÃO","PASSARÉ","PICI","PLANALTO AYRTON SENNA","PREFEITO JOSÉ WALTER","PRESIDENTE VARGAS","RODOLFO TEÓFILO","SANTA ROSA","SERRINHA","SIQUEIRA","VILA PERI","VILA UNIÃO"],
 
@@ -3070,7 +3327,13 @@ function carregarDadosImportados(d) {
       if (q && d[id.replace(/-/g, '') + 'Qtd']) q.value = d[id.replace(/-/g, '') + 'Qtd'];
     }
   });
-  if (d.observacoesTurno) document.getElementById('observacoes-turno').value = d.observacoesTurno;
+  // Novos campos de observações - importa REPASSAR do anterior para RECEBIDO
+  // Compatibilidade com formato antigo
+  if (d.observacoesTurno) document.getElementById('obs-recebido-observacoes').value = d.observacoesTurno;
+  // Formato novo
+  if (d.obsRepassarObservacoes) document.getElementById('obs-recebido-observacoes').value = d.obsRepassarObservacoes;
+  if (d.obsRepassarProblemas) document.getElementById('obs-recebido-problemas').value = d.obsRepassarProblemas;
+  if (d.obsRepassarSugestoes) document.getElementById('obs-recebido-sugestoes').value = d.obsRepassarSugestoes;
   
   // Restaurar caixas dinâmicas - MARCA COMO NÃO REVISADO para forçar revisão (só para SIM)
   setTimeout(() => { 
@@ -3314,7 +3577,17 @@ function carregarDadosCompletos(d) {
     const key = id.replace(/-/g, '') + 'Qtd';
     if (q && d[key]) q.value = d[key];
   });
-  if (d.observacoesTurno) document.getElementById('observacoes-turno').value = d.observacoesTurno;
+  // Restaurar observações do turno
+  // Compatibilidade com formato antigo
+  if (d.observacoesTurno) document.getElementById('obs-recebido-observacoes').value = d.observacoesTurno;
+  // Campos RECEBIDO (importados)
+  if (d.obsRecebidoObservacoes) document.getElementById('obs-recebido-observacoes').value = d.obsRecebidoObservacoes;
+  if (d.obsRecebidoProblemas) document.getElementById('obs-recebido-problemas').value = d.obsRecebidoProblemas;
+  if (d.obsRecebidoSugestoes) document.getElementById('obs-recebido-sugestoes').value = d.obsRecebidoSugestoes;
+  // Campos REPASSAR (editáveis)
+  if (d.obsRepassarObservacoes) document.getElementById('obs-repassar-observacoes').value = d.obsRepassarObservacoes;
+  if (d.obsRepassarProblemas) document.getElementById('obs-repassar-problemas').value = d.obsRepassarProblemas;
+  if (d.obsRepassarSugestoes) document.getElementById('obs-repassar-sugestoes').value = d.obsRepassarSugestoes;
   
   equipeCount = d.equipeCount || 0;
   
@@ -3908,6 +4181,24 @@ function onCampoAlterado() {
   verificarImportacao(); 
   salvarSessaoAuto(); 
   atualizarPreview(); 
+}
+
+// Auto-grow para textareas de observações
+function autoGrowTextarea(textarea) {
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+function initAutoGrowTextareas() {
+  document.querySelectorAll('.obs-turno-textarea').forEach(textarea => {
+    textarea.addEventListener('input', function() {
+      autoGrowTextarea(this);
+    });
+    // Aplica ao carregar se já tiver conteúdo
+    if (textarea.value) {
+      autoGrowTextarea(textarea);
+    }
+  });
 }
 
 function toggleModoNoturno() { modoNoturno = !modoNoturno; document.getElementById('previewBox').classList.toggle('modo-noturno', modoNoturno); }
@@ -5786,6 +6077,29 @@ function ordenarEquipes(campo) {
     let valA = a[campo] || '';
     let valB = b[campo] || '';
     
+    // Para LEAD: ordena de trás pra frente (letra → número → viatura → prefixo)
+    // Formato: XXX-YY-NNL (ex: DMA-SG-01B)
+    if (campo === 'lead') {
+      const parseLeadParaOrdenacao = (lead) => {
+        if (!lead || lead.length < 10) return { letra: 'Z', numero: '99', viatura: 'ZZ', prefixo: 'ZZZ' };
+        const letra = lead.charAt(9) || 'Z';
+        const numero = lead.substring(7, 9) || '99';
+        const viatura = lead.substring(4, 6) || 'ZZ';
+        const prefixo = lead.substring(0, 3) || 'ZZZ';
+        return { letra, numero, viatura, prefixo };
+      };
+      
+      const leadA = parseLeadParaOrdenacao(valA.toUpperCase());
+      const leadB = parseLeadParaOrdenacao(valB.toUpperCase());
+      
+      let cmp = leadA.letra.localeCompare(leadB.letra);
+      if (cmp === 0) cmp = leadA.numero.localeCompare(leadB.numero);
+      if (cmp === 0) cmp = leadA.viatura.localeCompare(leadB.viatura);
+      if (cmp === 0) cmp = leadA.prefixo.localeCompare(leadB.prefixo);
+      
+      return asc ? cmp : -cmp;
+    }
+    
     // Para horário, ordena numericamente
     if (campo === 'horario') {
       valA = valA.replace(':', '') || '9999';
@@ -5832,7 +6146,8 @@ function ordenarEquipes(campo) {
   // Atualiza preview
   atualizarPreview();
   const direcao = asc ? '↑' : '↓';
-  mostrarNotificacao(`📊 Ordenado por ${campo.toUpperCase()} ${direcao}`);
+  const msgExtra = campo === 'lead' ? ' (Turno → Nº → Viatura)' : '';
+  mostrarNotificacao(`📊 Ordenado por ${campo.toUpperCase()} ${direcao}${msgExtra}`);
 }
 
 function coletarEquipes() {
@@ -5901,7 +6216,14 @@ function coletarTodosDados() {
     incidenciasRecebidas: document.getElementById('incidencias-recebidas').value,
     incidenciasTelaQtd: document.getElementById('incidencias-tela-qtd').value,
     incidenciasantigasQtd: document.getElementById('incidencias-antigas-qtd')?.value || '',
-    observacoesTurno: document.getElementById('observacoes-turno')?.value || '',
+    // Observações do turno - campos RECEBIDO (somente leitura, para restauração de sessão)
+    obsRecebidoObservacoes: document.getElementById('obs-recebido-observacoes')?.value || '',
+    obsRecebidoProblemas: document.getElementById('obs-recebido-problemas')?.value || '',
+    obsRecebidoSugestoes: document.getElementById('obs-recebido-sugestoes')?.value || '',
+    // Observações do turno - campos REPASSAR (editáveis)
+    obsRepassarObservacoes: document.getElementById('obs-repassar-observacoes')?.value || '',
+    obsRepassarProblemas: document.getElementById('obs-repassar-problemas')?.value || '',
+    obsRepassarSugestoes: document.getElementById('obs-repassar-sugestoes')?.value || '',
     equipes: coletarEquipes(),
     caixasDinamicas: coletarCaixas(),
     concluidas: coletarConcluidas(), // Salva cards de concluídas
@@ -5945,7 +6267,10 @@ function coletarDadosParaExportacao() {
     incidenciasRecebidas: document.getElementById('incidencias-recebidas').value,
     incidenciasTelaQtd: document.getElementById('incidencias-tela-qtd').value,
     incidenciasantigasQtd: document.getElementById('incidencias-antigas-qtd')?.value || '',
-    observacoesTurno: document.getElementById('observacoes-turno')?.value || '',
+    // Observações do turno - novos campos (REPASSAR)
+    obsRepassarObservacoes: document.getElementById('obs-repassar-observacoes')?.value || '',
+    obsRepassarProblemas: document.getElementById('obs-repassar-problemas')?.value || '',
+    obsRepassarSugestoes: document.getElementById('obs-repassar-sugestoes')?.value || '',
     equipes: coletarEquipes(),
     caixasDinamicas: coletarCaixasPendentes(), // PENDENTES e RESOLVIDOS
     concluidas: coletarConcluidas(), // Salva cards de concluídas
@@ -6571,10 +6896,19 @@ function gerarMensagem(validar = true) {
   });
   msg += `---- *PENDÊNCIAS* ----\n${pn}\n`;
 
-  const obsTurno = document.getElementById('observacoes-turno')?.value?.trim();
-  if (obsTurno) {
-    msg += `---- *OBSERVAÇÕES DO TURNO* ----\n`;
-    msg += `${obsTurno}\n\n`;
+  // Observações do turno - novos campos (REPASSAR) - sem forçar uppercase
+  const obsRepassarObs = document.getElementById('obs-repassar-observacoes')?.value?.trim();
+  const obsRepassarProb = document.getElementById('obs-repassar-problemas')?.value?.trim();
+  const obsRepassarSug = document.getElementById('obs-repassar-sugestoes')?.value?.trim();
+  
+  // Guarda conteúdo das observações para preservar case
+  let observacoesOriginal = '';
+  if (obsRepassarObs || obsRepassarProb || obsRepassarSug) {
+    observacoesOriginal = `---- *OBSERVAÇÕES DO TURNO* ----\n`;
+    if (obsRepassarObs) observacoesOriginal += `*OBSERVAÇÕES:*\n${obsRepassarObs}\n\n`;
+    if (obsRepassarProb) observacoesOriginal += `*PROBLEMAS ENCONTRADOS:*\n${obsRepassarProb}\n\n`;
+    if (obsRepassarSug) observacoesOriginal += `*SUGESTÕES:*\n${obsRepassarSug}\n\n`;
+    msg += '{{OBS_PLACEHOLDER}}';
   }
 
   if (operadorAnterior) {
@@ -6590,7 +6924,12 @@ function gerarMensagem(validar = true) {
   
   const linhas = msg.split('\n');
   const ultimasLinhas = linhas.slice(-3);
-  const resto = linhas.slice(0, -3).join('\n').toUpperCase();
+  let resto = linhas.slice(0, -3).join('\n').toUpperCase();
+  
+  // Restaura observações com case original (apenas títulos em uppercase)
+  if (observacoesOriginal) {
+    resto = resto.replace('{{OBS_PLACEHOLDER}}', observacoesOriginal);
+  }
   
   // Salva mensagem completa (com símbolos) para copiar
   mensagemCompleta = resto + '\n' + ultimasLinhas.join('\n');
@@ -6686,7 +7025,7 @@ function navegarPorClique(event) {
       } else if (t.includes('2° RECURSO') || t.includes('2 RECURSO') || t.includes('SEGUNDO RECURSO')) {
         boxId = 'box-segundo-recurso';
       } else if (t.includes('OBSERVAÇÕES DO TURNO') || t.includes('OBSERVACOES DO TURNO')) {
-        section = 'section-observacoes'; inputId = 'observacoes-turno';
+        section = 'section-observacoes'; inputId = 'obs-repassar-observacoes';
       } else if (t.includes('DATA:')) {
         section = 'section-dados'; inputId = 'turno-data';
       } else if (t.includes('TURNO DO DIA')) {
